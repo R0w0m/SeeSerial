@@ -6,52 +6,60 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>597</width>
-    <height>110</height>
+    <width>504</width>
+    <height>62</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>0</width>
-    <height>3</height>
+    <height>62</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(218, 228, 237);
+background-color: white;
+border: 2px;
+border-color: red;
+border-radius: 10px;</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
-    <widget class="QWidget" name="widget_2" native="true">
-     <property name="minimumSize">
+    <widget class="QWidget" name="widget" native="true">
+     <property name="maximumSize">
       <size>
-       <width>0</width>
-       <height>75</height>
+       <width>16777215</width>
+       <height>50</height>
       </size>
      </property>
-     <property name="styleSheet">
-      <string notr="true">QWidget {
-	background-color: white;
-	border-radius: 10;
-	padding: 0;
-}</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="leftMargin">
+       <number>18</number>
+      </property>
+      <property name="rightMargin">
+       <number>18</number>
+      </property>
       <item>
-       <widget class="QWidget" name="widget" native="true">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>50</height>
-         </size>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QPushButton" name="pushButton">
-           <property name="styleSheet">
-            <string notr="true">QPushButton {
+       <widget class="QPushButton" name="pushButton">
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
   background-color: #2CDE85;
   border: none;
-  border-radius: 10px;
   font-size: 16px;
   padding: 7 2 7 6;
   text-align: left;
@@ -64,77 +72,73 @@ QPushButton:hover {
 QPushButton:pressed {
   background-color: #eeeeee;
 }</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>../media/play.svg</normaloff>../media/play.svg</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>media/play.svg</normaloff>media/play.svg</iconset>
+        </property>
        </widget>
       </item>
       <item>
-       <widget class="QProgressBar" name="progressBar">
-        <property name="maximumSize">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
          <size>
-          <width>16777215</width>
+          <width>40</width>
           <height>20</height>
          </size>
         </property>
-        <property name="styleSheet">
-         <string notr="true">QProgressBar {
-	background-color: #ddd;
-	border-radius: 10px;
-	color: white;
-	margin: 0 0 0 0;
-	border-color: green;
-}
-QProgressBar::chunk {
-	background-color: red;
-	border-radius: 10px;
-	color: red;
-}</string>
-        </property>
-        <property name="value">
-         <number>24</number>
-        </property>
-        <property name="format">
-         <string/>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>TextLabel</string>
         </property>
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QProgressBar" name="progressBar">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>4</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QProgressBar {
+	background-color: #ddd;
+	color: white;
+	margin: 0 0 0 0;
+	border-color: green;
+	border-rudius: 0 4 4 0;
+}
+QProgressBar::chunk {
+	background-color: red;
+	color: red;
+}</string>
+     </property>
+     <property name="value">
+      <number>24</number>
+     </property>
+     <property name="format">
+      <string/>
+     </property>
     </widget>
    </item>
   </layout>

@@ -23,31 +23,28 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(597, 110)
-        Form.setMinimumSize(QSize(0, 3))
+        Form.resize(504, 62)
+        Form.setMinimumSize(QSize(0, 62))
+        Form.setStyleSheet(u"background-color: rgb(218, 228, 237);\n"
+"background-color: white;\n"
+"border: 2px;\n"
+"border-color: red;\n"
+"border-radius: 10px;")
         self.verticalLayout = QVBoxLayout(Form)
+        self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.widget_2 = QWidget(Form)
-        self.widget_2.setObjectName(u"widget_2")
-        self.widget_2.setMinimumSize(QSize(0, 75))
-        self.widget_2.setStyleSheet(u"QWidget {\n"
-"	background-color: white;\n"
-"	border-radius: 10;\n"
-"	padding: 0;\n"
-"}")
-        self.verticalLayout_3 = QVBoxLayout(self.widget_2)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.widget = QWidget(self.widget_2)
+        self.verticalLayout.setContentsMargins(0, -1, 0, 0)
+        self.widget = QWidget(Form)
         self.widget.setObjectName(u"widget")
         self.widget.setMaximumSize(QSize(16777215, 50))
         self.horizontalLayout_3 = QHBoxLayout(self.widget)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(18, -1, 18, -1)
         self.pushButton = QPushButton(self.widget)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setStyleSheet(u"QPushButton {\n"
 "  background-color: #2CDE85;\n"
 "  border: none;\n"
-"  border-radius: 10px;\n"
 "  font-size: 16px;\n"
 "  padding: 7 2 7 6;\n"
 "  text-align: left;\n"
@@ -61,7 +58,7 @@ class Ui_Form(object):
 "  background-color: #eeeeee;\n"
 "}")
         icon = QIcon()
-        icon.addFile(u"../media/play.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"media/play.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.pushButton.setIcon(icon)
 
         self.horizontalLayout_3.addWidget(self.pushButton)
@@ -81,29 +78,26 @@ class Ui_Form(object):
         self.horizontalLayout_3.addWidget(self.label_2)
 
 
-        self.verticalLayout_3.addWidget(self.widget)
+        self.verticalLayout.addWidget(self.widget)
 
-        self.progressBar = QProgressBar(self.widget_2)
+        self.progressBar = QProgressBar(Form)
         self.progressBar.setObjectName(u"progressBar")
-        self.progressBar.setMaximumSize(QSize(16777215, 20))
+        self.progressBar.setMaximumSize(QSize(16777215, 4))
         self.progressBar.setStyleSheet(u"QProgressBar {\n"
 "	background-color: #ddd;\n"
-"	border-radius: 10px;\n"
 "	color: white;\n"
 "	margin: 0 0 0 0;\n"
 "	border-color: green;\n"
 "}\n"
 "QProgressBar::chunk {\n"
 "	background-color: red;\n"
-"	border-radius: 10px;\n"
 "	color: red;\n"
-"}")
+"}\n"
+"\n"
+"")
         self.progressBar.setValue(24)
 
-        self.verticalLayout_3.addWidget(self.progressBar)
-
-
-        self.verticalLayout.addWidget(self.widget_2)
+        self.verticalLayout.addWidget(self.progressBar)
 
 
         self.retranslateUi(Form)

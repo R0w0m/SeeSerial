@@ -24,7 +24,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(645, 417)
+        MainWindow.resize(760, 580)
         MainWindow.setStyleSheet(u"\n"
 "  background-color: rgb(221, 231, 239);\n"
 "")
@@ -152,7 +152,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addLayout(self.verticalLayout_3)
 
         self.verticalLayout_4 = QVBoxLayout()
-        self.verticalLayout_4.setSpacing(12)
+        self.verticalLayout_4.setSpacing(9)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.verticalLayout_4.setContentsMargins(-1, 0, -1, -1)
         self.horizontalLayout_3 = QHBoxLayout()
@@ -236,6 +236,7 @@ class Ui_MainWindow(object):
         self.page.setObjectName(u"page")
         self.gridLayout = QGridLayout(self.page)
         self.gridLayout.setObjectName(u"gridLayout")
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.scrollArea = QScrollArea(self.page)
         self.scrollArea.setObjectName(u"scrollArea")
         self.scrollArea.setStyleSheet(u"border: none;\n"
@@ -243,7 +244,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 433, 298))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 566, 482))
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
         self.gridLayout.addWidget(self.scrollArea, 0, 0, 1, 1)
@@ -253,12 +254,15 @@ class Ui_MainWindow(object):
         self.page_2.setObjectName(u"page_2")
         self.gridLayout_2 = QGridLayout(self.page_2)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.scrollArea_2 = QScrollArea(self.page_2)
         self.scrollArea_2.setObjectName(u"scrollArea_2")
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 82, 16))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 566, 482))
+        self.verticalLayout_5 = QVBoxLayout(self.scrollAreaWidgetContents_2)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
 
         self.gridLayout_2.addWidget(self.scrollArea_2, 0, 0, 1, 1)
@@ -276,7 +280,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 645, 24))
+        self.menubar.setGeometry(QRect(0, 0, 760, 24))
         MainWindow.setMenuBar(self.menubar)
         QWidget.setTabOrder(self.HomeBtn, self.AddBtn)
         QWidget.setTabOrder(self.AddBtn, self.pushButton)

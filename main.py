@@ -8,6 +8,7 @@ from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
 from ui.LaunchUi import Ui_MainWindow
+from ui.episode import Ui_Form as EpisodeUi
 from components.StyleSheets import style
 from components.FlowLay import FlowLayout
 from components.DBControl import DBControl as DB
@@ -20,40 +21,47 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        # setting up DB
-        self.db = DB("Main.db")
-        self.db.print_db()
-        # adding flow layout
-        self.ui.flowLayout = FlowLayout(self.ui.scrollAreaWidgetContents)
-        self.ui.scrollAreaWidgetContents.setLayout(self.ui.flowLayout)
-        # styleing SCROLL BAR
-        self.ui.scrollArea.setStyleSheet(style["scrollBar"])
-        self.ui.scrollArea.setFrameShape(QFrame.NoFrame)
-        # theme detection
-        self.t = threading.Thread(target=self.detect_theme)
-        self.t.daemon = True
-        # self.t.start()
-        # buttons actions
-        self.ui.BackBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(0))
-        self.ui.AddBtn.clicked.connect(self.add)
-        # restore from DB
-        self.restore()
-
-
+        
         # add shadow to buttons
         for component in self.findChildren(QPushButton) + \
         [self.ui.label, self.ui.lineEdit]:
             shadow = OutNeoEffect(self)
             component.setGraphicsEffect(shadow)
-        shadow = OutNeoEffect(self)
-        self.ui.stackedWidget.setGraphicsEffect(shadow)
+        # self.ui.stackedWidget.setGraphicsEffect(InNeoEffect(self))
+        # self.ui.label.setGraphicsEffect(InNeoEffect(self))
+        
+        # adding flow layout
+        self.ui.flowLayout = FlowLayout(self.ui.scrollAreaWidgetContents)
+        self.ui.scrollAreaWidgetContents.setLayout(self.ui.flowLayout)
+        self.ui.stackedWidget.setCurrentIndex(0)
+        
+        # add vertical layout to scroll area 2
+        # self.ui.scrollAreaWidgetContents_2.setLayout(QVBoxLayout())
+        
+        # styling SCROLL BAR
+        self.ui.scrollArea.setStyleSheet(style["scrollBar"])
+        # self.ui.scrollArea.setFrameShape(QFrame.NoFrame)
+        self.ui.scrollArea_2.setStyleSheet(style["scrollBar"])
+        
+        # theme detection
+        self.t = threading.Thread(target=self.detect_theme)
+        self.t.daemon = True
+        # self.t.start()
+        
+        # buttons actions
+        self.ui.BackBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(0))
+        self.ui.AddBtn.clicked.connect(self.add)
+
+        # setting up DB
+        self.db = DB("Main.db")
+        self.restore()
 
 
         # add test cards
-        # for i in range(50):
-        #     self.add_card(f"Serial {i}", i)
-            # card = Card("Some_serial")
-            # self.ui.flowLayout.addWidget(card.widget)
+        for i in range(50):
+            self.add_card(f"Serial {i}", i)
+        #     card = Card("Some_serial")
+        #     self.ui.flowLayout.addWidget(card.widget)
             # card.runBtn.clicked.connect(lambda: self.serial_clicked(card.serial_id))
             # shadow = QGraphicsDropShadowEffect(self)
             # shadow.setBlurRadius(20)
@@ -65,21 +73,53 @@ class MainWindow(QMainWindow):
 
 
     def serial_clicked(self, serial_id):
-        self.ui.stackedWidget.setCurrentIndex(1)
+        # clear vertical layout
+        for i in reversed(range(self.ui.scrollAreaWidgetContents_2.layout().count())):
+            self.ui.scrollAreaWidgetContents_2.layout().itemAt(i).widget().setParent(None)
+            # self.ui.scrollAreaWidgetContents_2.layout().itemAt(i).widget().deleteLater()
         print("Serial id:", serial_id)
         # get serial info
-        serial_info = self.db.select("serial", "name, path", f"id = {serial_id}")[0]
+        serial_info = self.db.select("serial", "name, path", f"id = {serial_id}")
+        season_info = self.db.select("season", "name, path", f"serial_id = {serial_id}")
+        episode_info = self.db.select("episode", "name, path", f"parent_id = {serial_id}")
         print(serial_info)
+        print(episode_info)
+        # sort episodes by name
+        episode_info.sort(key=lambda x: x[0])
+        if not episode_info:
+            # add label "No episodes" to scroll area
+            label = QLabel("No episodes")
+            label.setAlignment(Qt.AlignCenter)
+            self.ui.scrollAreaWidgetContents_2.layout().addWidget(label)
+        else:
+            # add episodes to vertical layout
+            for episode in episode_info:
+                # create form for EpisodeUi
+                widget = QWidget()
+                episode_ui = EpisodeUi()
+                episode_ui.setupUi(widget)
+                episode_ui.label.setText(episode[0])
+                # episode_ui.pushButton.setGraphicsEffect(OutNeoEffect(self, lightColor = QColor("#3CEE95")))
+                episode_ui.pushButton.clicked.connect(lambda: self.play(episode[1]))
+                self.ui.scrollAreaWidgetContents_2.layout().addWidget(widget)
+        # change page
+        self.ui.stackedWidget.setCurrentIndex(1)
+
+
+    def play(self, path):
+        print(path)
+        # do command mpv path
+        os.system(f"mpv '{path}'")
 
 
     def detect_theme(self):
         while True:
-            if darkdetect.isDark():
-                for component in self.findChildren(QPushButton):
-                    component.setStyleSheet("background-color: rgb(0, 0, 0);")
-            elif darkdetect.isLight():
-                for component in self.findChildren(QPushButton):
-                    component.setStyleSheet("background-color: rgb(255, 255, 255);")
+            # if darkdetect.isDark():
+            #     for component in self.findChildren(QPushButton):
+            #         component.setStyleSheet("background-color: rgb(0, 0, 0);")
+            # elif darkdetect.isLight():
+            #     for component in self.findChildren(QPushButton):
+            #         component.setStyleSheet("background-color: rgb(255, 255, 255);")
             print(darkdetect.theme())
             sleep(1)
 
@@ -115,7 +155,8 @@ class MainWindow(QMainWindow):
         card = Card(serial_name, serial_id)
         self.ui.flowLayout.addWidget(card.widget)
         card.runBtn.clicked.connect(lambda: self.serial_clicked(card.serial_id))
-        card.runBtn.dropShadowEffect = InNeoEffect(card.runBtn)
+        effect = OutNeoEffect(self)
+        card.runBtn.setGraphicsEffect(effect)
 
 
     def restore(self):
@@ -124,7 +165,9 @@ class MainWindow(QMainWindow):
             self.add_card(serial[1], serial[0])
             print(serial)
 
-class Card(QWidget):
+
+
+class Card():
     def __init__(self, serial_name, serial_id = 0):
         super().__init__()
 
@@ -132,8 +175,11 @@ class Card(QWidget):
         self.serial_id = serial_id
 
         self.widget = QWidget()
-        self.widget.setFixedHeight(150)
-        self.widget.setFixedWidth(100)
+        self.widget.setFixedHeight(200)
+        self.widget.setFixedWidth(130)
+        # self.widget.setStyleSheet("""
+        #     background-color: rgb(218, 228, 237);
+        #     border-radius: 10px;""")
         self.widget.setStyleSheet("""
             background-color: rgb(255, 255, 255);
             border-radius: 10px;""")
@@ -148,8 +194,13 @@ class Card(QWidget):
         # add run button
         self.runBtn = QPushButton(self.widget)
         self.runBtn.setGeometry(QRect(0, 0, 50, 50))
+        # set min size
+        self.runBtn.setMinimumSize(QSize(100, 28))
         self.runBtn.setStyleSheet("background-color: rgb(150, 255, 200);")
-        self.runBtn.setText("Смотерть")
+        self.runBtn.setText("Смотреть")
+        font = QFont()
+        font.setPointSize(12)
+        self.runBtn.setFont(font)
         self.runBtn.setObjectName("runBtn")
 
 
