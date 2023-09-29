@@ -88,13 +88,12 @@ class Ui_Form(object):
 "	color: white;\n"
 "	margin: 0 0 0 0;\n"
 "	border-color: green;\n"
+"	border-rudius: 0 4 4 0;\n"
 "}\n"
 "QProgressBar::chunk {\n"
 "	background-color: red;\n"
 "	color: red;\n"
-"}\n"
-"\n"
-"")
+"}")
         self.progressBar.setValue(24)
 
         self.verticalLayout.addWidget(self.progressBar)

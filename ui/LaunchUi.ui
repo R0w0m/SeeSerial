@@ -38,7 +38,7 @@
        <number>5</number>
       </property>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0">
+       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0,0">
         <property name="spacing">
          <number>12</number>
         </property>
@@ -121,6 +121,92 @@ QPushButton:pressed {
          </widget>
         </item>
         <item>
+         <widget class="QPushButton" name="MyListBtn">
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: rgb(218, 228, 237);
+  border: none;
+  border-radius: 5px;
+  color: black;
+  font-size: 16px;
+  padding: 8px 16px;
+
+  text-align: left;
+}
+
+QPushButton:hover {
+  background-color: #fafafa;
+}
+
+QPushButton:pressed {
+  background-color: #eeeeee;
+}:w</string>
+          </property>
+          <property name="text">
+           <string>My list</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>media/home.svg</normaloff>media/home.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="FavorsBtn">
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: rgb(218, 228, 237);
+  border: none;
+  border-radius: 5px;
+  color: black;
+  font-size: 16px;
+  padding: 8px 16px;
+
+  text-align: left;
+}
+
+QPushButton:hover {
+  background-color: #fafafa;
+}
+
+QPushButton:pressed {
+  background-color: #eeeeee;
+}:w</string>
+          </property>
+          <property name="text">
+           <string>Favorites</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>media/home.svg</normaloff>media/home.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="AddBtn">
           <property name="enabled">
            <bool>true</bool>
@@ -179,7 +265,7 @@ QPushButton:pressed {
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="SettingsBtn">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -350,7 +436,7 @@ border-color: rgb(222, 221, 218);</string>
           <property name="currentIndex">
            <number>0</number>
           </property>
-          <widget class="QWidget" name="page">
+          <widget class="QWidget" name="main_page">
            <layout class="QGridLayout" name="gridLayout">
             <property name="leftMargin">
              <number>0</number>
@@ -373,7 +459,7 @@ border-color: rgb(222, 221, 218);</string>
               <property name="widgetResizable">
                <bool>true</bool>
               </property>
-              <widget class="QWidget" name="scrollAreaWidgetContents">
+              <widget class="QWidget" name="mainContents">
                <property name="geometry">
                 <rect>
                  <x>0</x>
@@ -387,7 +473,29 @@ border-color: rgb(222, 221, 218);</string>
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="page_2">
+          <widget class="QWidget" name="season_page">
+           <layout class="QGridLayout" name="gridLayout_3">
+            <item row="0" column="0">
+             <widget class="QScrollArea" name="scrollArea_3">
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="seasonContents">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>548</width>
+                 <height>464</height>
+                </rect>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_2"/>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="episode_page">
            <layout class="QGridLayout" name="gridLayout_2">
             <property name="leftMargin">
              <number>0</number>
@@ -403,19 +511,76 @@ border-color: rgb(222, 221, 218);</string>
             </property>
             <item row="0" column="0">
              <widget class="QScrollArea" name="scrollArea_2">
+              <property name="horizontalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOff</enum>
+              </property>
+              <property name="sizeAdjustPolicy">
+               <enum>QAbstractScrollArea::AdjustToContents</enum>
+              </property>
               <property name="widgetResizable">
                <bool>true</bool>
               </property>
-              <widget class="QWidget" name="scrollAreaWidgetContents_2">
+              <widget class="QWidget" name="episodeContents">
                <property name="geometry">
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>566</width>
-                 <height>482</height>
+                 <width>100</width>
+                 <height>30</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_5"/>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="settings_page">
+           <layout class="QGridLayout" name="gridLayout_4">
+            <item row="0" column="0">
+             <widget class="QScrollArea" name="scrollArea_4">
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="settingsContents">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>169</width>
+                 <height>62</height>
+                </rect>
+               </property>
+               <layout class="QFormLayout" name="formLayout">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_2">
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QPushButton" name="pushButton_2">
+                  <property name="text">
+                   <string>PushButton</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QPushButton" name="pushButton_4">
+                  <property name="text">
+                   <string>PushButton</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_3">
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </widget>
             </item>
@@ -441,9 +606,8 @@ border-color: rgb(222, 221, 218);</string>
   </widget>
  </widget>
  <tabstops>
-  <tabstop>HomeBtn</tabstop>
   <tabstop>AddBtn</tabstop>
-  <tabstop>pushButton</tabstop>
+  <tabstop>SettingsBtn</tabstop>
  </tabstops>
  <resources/>
  <connections/>
