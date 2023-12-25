@@ -1,0 +1,8 @@
+test/
+__pycache__/
+env/
+Main.db
+dist/
+build/
+.stignore
+

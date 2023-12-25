@@ -15,29 +15,26 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QMainWindow, QPushButton, QSizePolicy, QSlider,
-    QSpacerItem, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QMainWindow,
+    QPushButton, QSizePolicy, QSlider, QSpacerItem,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(645, 238)
+        MainWindow.resize(634, 372)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.videoFrame = QFrame(self.centralwidget)
-        self.videoFrame.setObjectName(u"videoFrame")
-        self.videoFrame.setGeometry(QRect(110, 40, 120, 80))
-        self.videoFrame.setFrameShape(QFrame.StyledPanel)
-        self.videoFrame.setFrameShadow(QFrame.Raised)
         self.controlWidget = QWidget(self.centralwidget)
         self.controlWidget.setObjectName(u"controlWidget")
-        self.controlWidget.setGeometry(QRect(0, 170, 481, 55))
+        self.controlWidget.setGeometry(QRect(0, 174, 304, 55))
+        self.controlWidget.setMaximumSize(QSize(16777215, 55))
         self.controlWidget.setStyleSheet(u"background: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 0, 0, 202), stop:1 rgba(255, 255, 255, 0))")
         self.verticalLayout = QVBoxLayout(self.controlWidget)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(9, 0, 9, 9)
         self.horizontalSlider = QSlider(self.controlWidget)
         self.horizontalSlider.setObjectName(u"horizontalSlider")
         self.horizontalSlider.setStyleSheet(u"QSlider{\n"
@@ -147,9 +144,14 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
+        self.widget = QWidget(self.centralwidget)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(0, 0, 241, 131))
+        self.verticalLayout_2 = QVBoxLayout(self.widget)
+        self.verticalLayout_2.setSpacing(0)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.controlWidget.raise_()
-        self.videoFrame.raise_()
 
         self.retranslateUi(MainWindow)
 
@@ -157,7 +159,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"VideoPlayer", None))
         self.prvBut.setText("")
         self.playBut.setText("")
         self.nextBut.setText("")

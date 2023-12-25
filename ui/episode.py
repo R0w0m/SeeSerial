@@ -72,10 +72,19 @@ class Ui_Form(object):
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer)
 
-        self.label_2 = QLabel(self.widget)
-        self.label_2.setObjectName(u"label_2")
+        self.timeLabel = QLabel(self.widget)
+        self.timeLabel.setObjectName(u"timeLabel")
 
-        self.horizontalLayout_3.addWidget(self.label_2)
+        self.horizontalLayout_3.addWidget(self.timeLabel)
+
+        self.clearEpBt = QPushButton(self.widget)
+        self.clearEpBt.setObjectName(u"clearEpBt")
+        icon1 = QIcon()
+        icon1.addFile(u"media/clear.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.clearEpBt.setIcon(icon1)
+        self.clearEpBt.setIconSize(QSize(20, 20))
+
+        self.horizontalLayout_3.addWidget(self.clearEpBt)
 
 
         self.verticalLayout.addWidget(self.widget)
@@ -108,7 +117,8 @@ class Ui_Form(object):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.pushButton.setText("")
         self.label.setText(QCoreApplication.translate("Form", u"TextLabel", None))
-        self.label_2.setText(QCoreApplication.translate("Form", u"TextLabel", None))
+        self.timeLabel.setText(QCoreApplication.translate("Form", u"TextLabel", None))
+        self.clearEpBt.setText("")
         self.progressBar.setFormat("")
     # retranslateUi
 

@@ -85,6 +85,12 @@
             <height>50</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <family>FreeSans</family>
+            <pointsize>-1</pointsize>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {
   background-color: rgb(218, 228, 237);
@@ -128,6 +134,14 @@ QPushButton:pressed {
             <height>50</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <family>FreeSans</family>
+            <pointsize>-1</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {
   background-color: rgb(218, 228, 237);
@@ -170,6 +184,12 @@ QPushButton:pressed {
             <width>150</width>
             <height>50</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>FreeSans</family>
+            <pointsize>-1</pointsize>
+           </font>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {
@@ -216,6 +236,12 @@ QPushButton:pressed {
             <width>0</width>
             <height>50</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>FreeSans</family>
+            <pointsize>-1</pointsize>
+           </font>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {
@@ -271,6 +297,12 @@ QPushButton:pressed {
             <width>0</width>
             <height>50</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>FreeSans</family>
+            <pointsize>-1</pointsize>
+           </font>
           </property>
           <property name="cursor">
            <cursorShape>ArrowCursor</cursorShape>
@@ -434,7 +466,7 @@ border-color: red;
 border-color: rgb(222, 221, 218);</string>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>4</number>
           </property>
           <widget class="QWidget" name="main_page">
            <layout class="QGridLayout" name="gridLayout">
@@ -464,8 +496,8 @@ border-color: rgb(222, 221, 218);</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>566</width>
-                 <height>482</height>
+                 <width>100</width>
+                 <height>30</height>
                 </rect>
                </property>
               </widget>
@@ -485,8 +517,8 @@ border-color: rgb(222, 221, 218);</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>548</width>
-                 <height>464</height>
+                 <width>100</width>
+                 <height>30</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_2"/>
@@ -583,6 +615,416 @@ border-color: rgb(222, 221, 218);</string>
                </layout>
               </widget>
              </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="serSettingsPage">
+           <layout class="QVBoxLayout" name="verticalLayout_10">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_10">
+              <property name="spacing">
+               <number>9</number>
+              </property>
+              <property name="leftMargin">
+               <number>9</number>
+              </property>
+              <property name="topMargin">
+               <number>9</number>
+              </property>
+              <property name="rightMargin">
+               <number>9</number>
+              </property>
+              <property name="bottomMargin">
+               <number>9</number>
+              </property>
+              <item>
+               <widget class="QWidget" name="prevSetWidget" native="true">
+                <property name="styleSheet">
+                 <string notr="true">
+border-radius: 10px;</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_6">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item row="0" column="0">
+                  <layout class="QVBoxLayout" name="verticalLayout_6">
+                   <property name="bottomMargin">
+                    <number>9</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="prevImage">
+                     <property name="text">
+                      <string/>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout">
+                     <property name="leftMargin">
+                      <number>9</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>9</number>
+                     </property>
+                     <item>
+                      <widget class="QPushButton" name="chooseFileBut">
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton {
+  background-color: rgb(218, 228, 237);
+  border: none;
+  border-radius: 5px;
+  color: black;
+  padding: 3px;
+}
+
+QPushButton:hover {
+  background-color: #fafafa;
+}
+
+QPushButton:pressed {
+  background-color: #eeeeee;
+}:w</string>
+                       </property>
+                       <property name="text">
+                        <string/>
+                       </property>
+                       <property name="icon">
+                        <iconset>
+                         <normaloff>media/image-redo.svg</normaloff>media/image-redo.svg</iconset>
+                       </property>
+                       <property name="iconSize">
+                        <size>
+                         <width>24</width>
+                         <height>24</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="deletePrev">
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton {
+  background-color: rgb(218, 228, 237);
+  border: none;
+  border-radius: 5px;
+  color: black;
+  padding: 3px;
+}
+
+QPushButton:hover {
+  background-color: #fafafa;
+}
+
+QPushButton:pressed {
+  background-color: #eeeeee;
+}:w</string>
+                       </property>
+                       <property name="text">
+                        <string/>
+                       </property>
+                       <property name="icon">
+                        <iconset>
+                         <normaloff>media/trash.png</normaloff>media/trash.png</iconset>
+                       </property>
+                       <property name="iconSize">
+                        <size>
+                         <width>24</width>
+                         <height>24</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_11">
+                <item>
+                 <widget class="QLabel" name="label_5">
+                  <property name="font">
+                   <font>
+                    <family>FreeSans</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: black</string>
+                  </property>
+                  <property name="text">
+                   <string>Название</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="serialNameLbl">
+                  <property name="styleSheet">
+                   <string notr="true">QLineEdit {
+  background-color: rgb(218, 228, 237);
+  border: none;
+  border-radius: 13px;
+  color: black;
+  font-size: 18px;
+  padding: 4px 10px;
+  text-align: left;
+}</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_3">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_4">
+              <property name="font">
+               <font>
+                <family>FreeSans</family>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: black</string>
+              </property>
+              <property name="text">
+               <string>Заметки</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTextEdit" name="noteTextEdit">
+              <property name="styleSheet">
+               <string notr="true">color: black;
+padding: 5px;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="saveSerBt">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>FreeSans</family>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton {
+  background-color: rgb(218, 228, 237);
+  border: none;
+  border-radius: 5px;
+  color: black;
+  padding: 3px;
+}
+
+QPushButton:hover {
+  background-color: #fafafa;
+}
+
+QPushButton:pressed {
+  background-color: #eeeeee;
+}:w</string>
+                </property>
+                <property name="text">
+                 <string>Сохранить</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>media/save.svg</normaloff>media/save.svg</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>24</width>
+                  <height>24</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="clearSerBt">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>FreeSans</family>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton {
+  background-color: rgb(218, 228, 237);
+  border: none;
+  border-radius: 5px;
+  color: black;
+  padding: 3px;
+}
+
+QPushButton:hover {
+  background-color: #fafafa;
+}
+
+QPushButton:pressed {
+  background-color: #eeeeee;
+}:w</string>
+                </property>
+                <property name="text">
+                 <string>Сбросить</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>media/clear.png</normaloff>media/clear.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>24</width>
+                  <height>24</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="deleteSerBt">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>FreeSans</family>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton {
+  background-color: rgb(218, 228, 237);
+  border: none;
+  border-radius: 5px;
+  color: black;
+  padding: 3px;
+}
+
+QPushButton:hover {
+  background-color: #fafafa;
+}
+
+QPushButton:pressed {
+  background-color: #eeeeee;
+}:w</string>
+                </property>
+                <property name="text">
+                 <string>Удалить</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>media/trash.png</normaloff>media/trash.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>24</width>
+                  <height>24</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>

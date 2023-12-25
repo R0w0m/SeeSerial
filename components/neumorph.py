@@ -468,7 +468,7 @@ class InsideNeumorphismEffect(QtWidgets.QGraphicsEffect):
     _cornerShift = (QtCore.Qt.TopLeftCorner, QtCore.Qt.TopRightCorner,
                     QtCore.Qt.BottomRightCorner, QtCore.Qt.BottomLeftCorner)
 
-    def __init__(self, parent = None, distance: int = 4, lightColor: QtGui.QColor = QtGui.QColor("#EEE"),
+    def __init__(self, parent = None, distance: int = 3, lightColor: QtGui.QColor = QtGui.QColor("#EEE"),
                  darkColor: QtGui.QColor = QtGui.QColor("#999"), clipRadius: int = 20,
                  origin=QtCore.Qt.BottomRightCorner):
         super().__init__(parent)

@@ -12,7 +12,8 @@ class DBControl:
             "id INTEGER PRIMARY KEY AUTOINCREMENT, \
             name TEXT, \
             path TEXT, \
-            image_path TEXT"
+            note TEXT, \
+            image_path TEXT",
         )
         self.create_table(
             "season",
@@ -27,7 +28,9 @@ class DBControl:
             parent_id INTEGER, \
             parent_type INTEGER, \
             name TEXT, \
-            path TEXT",
+            path TEXT, \
+            position INTEGER, \
+            pos_percent INTEGER",
         )
 
     def create_table(self, table_name, columns):

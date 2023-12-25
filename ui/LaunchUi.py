@@ -18,7 +18,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QFormLayout, QGridLayout,
     QHBoxLayout, QLabel, QLineEdit, QMainWindow,
     QMenuBar, QPushButton, QScrollArea, QSizePolicy,
-    QSpacerItem, QStackedWidget, QVBoxLayout, QWidget)
+    QSpacerItem, QStackedWidget, QTextEdit, QVBoxLayout,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -62,6 +63,9 @@ class Ui_MainWindow(object):
         self.HomeBtn = QPushButton(self.centralwidget)
         self.HomeBtn.setObjectName(u"HomeBtn")
         self.HomeBtn.setMinimumSize(QSize(150, 50))
+        font1 = QFont()
+        font1.setFamilies([u"FreeSans"])
+        self.HomeBtn.setFont(font1)
         self.HomeBtn.setStyleSheet(u"QPushButton {\n"
 "  background-color: rgb(218, 228, 237);\n"
 "  border: none;\n"
@@ -90,6 +94,10 @@ class Ui_MainWindow(object):
         self.MyListBtn = QPushButton(self.centralwidget)
         self.MyListBtn.setObjectName(u"MyListBtn")
         self.MyListBtn.setMinimumSize(QSize(150, 50))
+        font2 = QFont()
+        font2.setFamilies([u"FreeSans"])
+        font2.setBold(False)
+        self.MyListBtn.setFont(font2)
         self.MyListBtn.setStyleSheet(u"QPushButton {\n"
 "  background-color: rgb(218, 228, 237);\n"
 "  border: none;\n"
@@ -116,6 +124,7 @@ class Ui_MainWindow(object):
         self.FavorsBtn = QPushButton(self.centralwidget)
         self.FavorsBtn.setObjectName(u"FavorsBtn")
         self.FavorsBtn.setMinimumSize(QSize(150, 50))
+        self.FavorsBtn.setFont(font1)
         self.FavorsBtn.setStyleSheet(u"QPushButton {\n"
 "  background-color: rgb(218, 228, 237);\n"
 "  border: none;\n"
@@ -143,6 +152,7 @@ class Ui_MainWindow(object):
         self.AddBtn.setObjectName(u"AddBtn")
         self.AddBtn.setEnabled(True)
         self.AddBtn.setMinimumSize(QSize(0, 50))
+        self.AddBtn.setFont(font1)
         self.AddBtn.setStyleSheet(u"QPushButton {\n"
 "  background-color: rgb(218, 228, 237);\n"
 "  border: none;\n"
@@ -174,6 +184,7 @@ class Ui_MainWindow(object):
         self.SettingsBtn = QPushButton(self.centralwidget)
         self.SettingsBtn.setObjectName(u"SettingsBtn")
         self.SettingsBtn.setMinimumSize(QSize(0, 50))
+        self.SettingsBtn.setFont(font1)
         self.SettingsBtn.setCursor(QCursor(Qt.ArrowCursor))
         self.SettingsBtn.setAutoFillBackground(False)
         self.SettingsBtn.setStyleSheet(u"QPushButton {\n"
@@ -296,7 +307,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.mainContents = QWidget()
         self.mainContents.setObjectName(u"mainContents")
-        self.mainContents.setGeometry(QRect(0, 0, 566, 482))
+        self.mainContents.setGeometry(QRect(0, 0, 100, 30))
         self.scrollArea.setWidget(self.mainContents)
 
         self.gridLayout.addWidget(self.scrollArea, 0, 0, 1, 1)
@@ -311,7 +322,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.seasonContents = QWidget()
         self.seasonContents.setObjectName(u"seasonContents")
-        self.seasonContents.setGeometry(QRect(0, 0, 548, 464))
+        self.seasonContents.setGeometry(QRect(0, 0, 100, 30))
         self.verticalLayout_2 = QVBoxLayout(self.seasonContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.scrollArea_3.setWidget(self.seasonContents)
@@ -376,6 +387,242 @@ class Ui_MainWindow(object):
         self.gridLayout_4.addWidget(self.scrollArea_4, 0, 0, 1, 1)
 
         self.stackedWidget.addWidget(self.settings_page)
+        self.serSettingsPage = QWidget()
+        self.serSettingsPage.setObjectName(u"serSettingsPage")
+        self.verticalLayout_10 = QVBoxLayout(self.serSettingsPage)
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.horizontalLayout_10 = QHBoxLayout()
+        self.horizontalLayout_10.setSpacing(9)
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.horizontalLayout_10.setContentsMargins(9, 9, 9, 9)
+        self.prevSetWidget = QWidget(self.serSettingsPage)
+        self.prevSetWidget.setObjectName(u"prevSetWidget")
+        self.prevSetWidget.setStyleSheet(u"\n"
+"border-radius: 10px;")
+        self.gridLayout_6 = QGridLayout(self.prevSetWidget)
+        self.gridLayout_6.setObjectName(u"gridLayout_6")
+        self.gridLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_6 = QVBoxLayout()
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.verticalLayout_6.setContentsMargins(-1, -1, -1, 9)
+        self.prevImage = QLabel(self.prevSetWidget)
+        self.prevImage.setObjectName(u"prevImage")
+
+        self.verticalLayout_6.addWidget(self.prevImage)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(9, -1, 9, -1)
+        self.chooseFileBut = QPushButton(self.prevSetWidget)
+        self.chooseFileBut.setObjectName(u"chooseFileBut")
+        self.chooseFileBut.setStyleSheet(u"QPushButton {\n"
+"  background-color: rgb(218, 228, 237);\n"
+"  border: none;\n"
+"  border-radius: 5px;\n"
+"  color: black;\n"
+"  padding: 3px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"  background-color: #fafafa;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"  background-color: #eeeeee;\n"
+"}:w")
+        icon5 = QIcon()
+        icon5.addFile(u"media/image-redo.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.chooseFileBut.setIcon(icon5)
+        self.chooseFileBut.setIconSize(QSize(24, 24))
+
+        self.horizontalLayout.addWidget(self.chooseFileBut)
+
+        self.deletePrev = QPushButton(self.prevSetWidget)
+        self.deletePrev.setObjectName(u"deletePrev")
+        self.deletePrev.setStyleSheet(u"QPushButton {\n"
+"  background-color: rgb(218, 228, 237);\n"
+"  border: none;\n"
+"  border-radius: 5px;\n"
+"  color: black;\n"
+"  padding: 3px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"  background-color: #fafafa;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"  background-color: #eeeeee;\n"
+"}:w")
+        icon6 = QIcon()
+        icon6.addFile(u"media/trash.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.deletePrev.setIcon(icon6)
+        self.deletePrev.setIconSize(QSize(24, 24))
+
+        self.horizontalLayout.addWidget(self.deletePrev)
+
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout)
+
+
+        self.gridLayout_6.addLayout(self.verticalLayout_6, 0, 0, 1, 1)
+
+
+        self.horizontalLayout_10.addWidget(self.prevSetWidget)
+
+        self.verticalLayout_11 = QVBoxLayout()
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.label_5 = QLabel(self.serSettingsPage)
+        self.label_5.setObjectName(u"label_5")
+        font3 = QFont()
+        font3.setFamilies([u"FreeSans"])
+        font3.setPointSize(14)
+        self.label_5.setFont(font3)
+        self.label_5.setStyleSheet(u"color: black")
+
+        self.verticalLayout_11.addWidget(self.label_5)
+
+        self.serialNameLbl = QLineEdit(self.serSettingsPage)
+        self.serialNameLbl.setObjectName(u"serialNameLbl")
+        self.serialNameLbl.setStyleSheet(u"QLineEdit {\n"
+"  background-color: rgb(218, 228, 237);\n"
+"  border: none;\n"
+"  border-radius: 13px;\n"
+"  color: black;\n"
+"  font-size: 18px;\n"
+"  padding: 4px 10px;\n"
+"  text-align: left;\n"
+"}")
+
+        self.verticalLayout_11.addWidget(self.serialNameLbl)
+
+        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_11.addItem(self.verticalSpacer_3)
+
+
+        self.horizontalLayout_10.addLayout(self.verticalLayout_11)
+
+
+        self.verticalLayout_10.addLayout(self.horizontalLayout_10)
+
+        self.label_4 = QLabel(self.serSettingsPage)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setFont(font3)
+        self.label_4.setStyleSheet(u"color: black")
+
+        self.verticalLayout_10.addWidget(self.label_4)
+
+        self.noteTextEdit = QTextEdit(self.serSettingsPage)
+        self.noteTextEdit.setObjectName(u"noteTextEdit")
+        self.noteTextEdit.setStyleSheet(u"color: black;\n"
+"padding: 5px;")
+
+        self.verticalLayout_10.addWidget(self.noteTextEdit)
+
+        self.label_6 = QLabel(self.serSettingsPage)
+        self.label_6.setObjectName(u"label_6")
+
+        self.verticalLayout_10.addWidget(self.label_6)
+
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_5.addItem(self.horizontalSpacer_2)
+
+        self.saveSerBt = QPushButton(self.serSettingsPage)
+        self.saveSerBt.setObjectName(u"saveSerBt")
+        self.saveSerBt.setMinimumSize(QSize(0, 40))
+        self.saveSerBt.setFont(font3)
+        self.saveSerBt.setStyleSheet(u"QPushButton {\n"
+"  background-color: rgb(218, 228, 237);\n"
+"  border: none;\n"
+"  border-radius: 5px;\n"
+"  color: black;\n"
+"  padding: 3px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"  background-color: #fafafa;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"  background-color: #eeeeee;\n"
+"}:w")
+        icon7 = QIcon()
+        icon7.addFile(u"media/save.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.saveSerBt.setIcon(icon7)
+        self.saveSerBt.setIconSize(QSize(24, 24))
+
+        self.horizontalLayout_5.addWidget(self.saveSerBt)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_5.addItem(self.horizontalSpacer)
+
+        self.clearSerBt = QPushButton(self.serSettingsPage)
+        self.clearSerBt.setObjectName(u"clearSerBt")
+        self.clearSerBt.setMinimumSize(QSize(0, 40))
+        self.clearSerBt.setFont(font3)
+        self.clearSerBt.setStyleSheet(u"QPushButton {\n"
+"  background-color: rgb(218, 228, 237);\n"
+"  border: none;\n"
+"  border-radius: 5px;\n"
+"  color: black;\n"
+"  padding: 3px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"  background-color: #fafafa;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"  background-color: #eeeeee;\n"
+"}:w")
+        icon8 = QIcon()
+        icon8.addFile(u"media/clear.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.clearSerBt.setIcon(icon8)
+        self.clearSerBt.setIconSize(QSize(24, 24))
+
+        self.horizontalLayout_5.addWidget(self.clearSerBt)
+
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_5.addItem(self.horizontalSpacer_4)
+
+        self.deleteSerBt = QPushButton(self.serSettingsPage)
+        self.deleteSerBt.setObjectName(u"deleteSerBt")
+        self.deleteSerBt.setMinimumSize(QSize(0, 40))
+        self.deleteSerBt.setFont(font3)
+        self.deleteSerBt.setStyleSheet(u"QPushButton {\n"
+"  background-color: rgb(218, 228, 237);\n"
+"  border: none;\n"
+"  border-radius: 5px;\n"
+"  color: black;\n"
+"  padding: 3px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"  background-color: #fafafa;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"  background-color: #eeeeee;\n"
+"}:w")
+        self.deleteSerBt.setIcon(icon6)
+        self.deleteSerBt.setIconSize(QSize(24, 24))
+
+        self.horizontalLayout_5.addWidget(self.deleteSerBt)
+
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_5.addItem(self.horizontalSpacer_3)
+
+
+        self.verticalLayout_10.addLayout(self.horizontalLayout_5)
+
+        self.stackedWidget.addWidget(self.serSettingsPage)
 
         self.verticalLayout_4.addWidget(self.stackedWidget)
 
@@ -394,7 +641,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(4)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -414,5 +661,14 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.prevImage.setText("")
+        self.chooseFileBut.setText("")
+        self.deletePrev.setText("")
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u043c\u0435\u0442\u043a\u0438", None))
+        self.label_6.setText("")
+        self.saveSerBt.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c", None))
+        self.clearSerBt.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c", None))
+        self.deleteSerBt.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0434\u0430\u043b\u0438\u0442\u044c", None))
     # retranslateUi
 
