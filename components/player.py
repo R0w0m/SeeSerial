@@ -1,216 +1,117 @@
+# from ui.Player_ import Ui_MainWindow as PlayerUi
 import sys
-from PySide6.QtCore import QStandardPaths, Qt, Slot
-from PySide6.QtGui import QAction, QIcon, QKeySequence
-from PySide6.QtWidgets import (QApplication, QDialog, QFileDialog,
-    QMainWindow, QSlider, QStyle, QToolBar)
-from PySide6.QtMultimedia import (QAudioOutput, QMediaFormat,
-                                  QMediaPlayer)
+
+from PySide6.QtCore import QPoint, QRect, Qt
+from PySide6.QtMultimedia import QAudioOutput  # QMediaFormat,
+from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
+from PySide6.QtWidgets import (QHBoxLayout, QLabel, QMainWindow, QMessageBox,
+                               QPushButton, QScrollArea, QSpacerItem,
+                               QVBoxLayout)
+
+sys.path.append("../")
+from ui.Player_ import Ui_MainWindow as PlayerUi
 
 
-AVI = "video/x-msvideo"  # AVI
-
-
-MP4 = '/home/rwm/Videos/Видео/Arknights/4. Chetvyortaya_seria.mp4'
-
-
-def get_supported_mime_types():
-    result = []
-    for f in QMediaFormat().supportedFileFormats(QMediaFormat.Decode):
-        mime_type = QMediaFormat(f).mimeType()
-        result.append(mime_type.name())
-    return result
-
-
-class MainWindow(QMainWindow):
-
-    def __init__(self):
+class Player(QMainWindow):
+    def __init__(self, path, episode_id, position, fix_position):
         super().__init__()
 
-        self._playlist = []  # FIXME 6.3: Replace by QMediaPlaylist?
-        self._playlist_index = -1
+        # import ui from Player_.py
+        self.ui = PlayerUi()
+        self.ui.setupUi(self)
+        # self.path = path
+        self.path = "C:/Users/Rwm/Videos/Arknights/1.mp4"
+        print(self.path)
+        self.episode_id = episode_id
+        self.fix_position = fix_position
+        self.start_position = position
+        self.started = False
+
         self._audio_output = QAudioOutput()
         self._player = QMediaPlayer()
         self._player.setAudioOutput(self._audio_output)
 
-        self._player.errorOccurred.connect(self._player_error)
+        self.ui.playBut.clicked.connect(self._player.play)
+        # self._player.positionChanged.connect(self.on_position_changed)
+        self._player.mediaStatusChanged.connect(self.set_start_position)
 
-        tool_bar = QToolBar()
-        self.addToolBar(tool_bar)
+        self.ui.videoWidget = QVideoWidget()
+        self._player.setVideoOutput(self.ui.videoWidget)
+        self.ui.widget.layout().addWidget(self.ui.videoWidget)
+        self.ui.videoWidget.lower()
+        self.ui.widget.lower()
+        # self.ui.widget.layout().addWidget(self.ui.controlWidget)
+        self.ui.controlWidget.setStyleSheet("background: black")
+        self.ui.controlWidget.raise_()
 
-        file_menu = self.menuBar().addMenu("&File")
-        icon = QIcon.fromTheme("document-open")
-        open_action = QAction(icon, "&Open...", self,
-                              shortcut=QKeySequence.Open, triggered=self.open)
-        file_menu.addAction(open_action)
-        tool_bar.addAction(open_action)
-        icon = QIcon.fromTheme("application-exit")
-        exit_action = QAction(icon, "E&xit", self,
-                              shortcut="Ctrl+Q", triggered=self.close)
-        file_menu.addAction(exit_action)
+        # bind horisontal slider to players pos
+        # self.ui.horizontalSlider.setRange(0, self._player.duration())
+        # self.ui.horizontalSlider.setValue(self.start_position)
+        # self.ui.horizontalSlider.valueChanged.connect(self._player.setPosition)
+        # self._player.positionChanged.connect(self.ui.horizontalSlider.setValue)
 
-        # button to print current position
-        icon = QIcon.fromTheme("document-open")
-        print_pos_action = QAction(icon, "&Print position", self,
-                                shortcut=QKeySequence.Open, triggered=self.print_pos)
-        # file_menu.addAction(print_pos_action)
-        tool_bar.addAction(print_pos_action)
+        # set durLabel
+        self.ui.durLabel.setText(
+            f"{self._player.duration() // 60000}:\
+        {self._player.duration() // 1000 % 60}"
+        )
+        self.open()
 
+    def set_start_position(self, status):
+        if not self.started and status == QMediaPlayer.LoadedMedia:
+            self.started = True
+            if self.start_position is not None:
+                self._player.setPosition(self.start_position)
+            self._player.play()
 
-        play_menu = self.menuBar().addMenu("&Play")
-        style = self.style()
-        icon = QIcon.fromTheme("media-playback-start.png",
-                               style.standardIcon(QStyle.SP_MediaPlay))
-        self._play_action = tool_bar.addAction(icon, "Play")
-        self._play_action.triggered.connect(self._player.play)
-        play_menu.addAction(self._play_action)
+    # @Slot()
+    def open(self):
+        self._player.setSource(self.path)
+        # print("start pos:", self.start_position)
+        # self._player.setPosition(self.start_position)
+        # self._player.play()
 
-        icon = QIcon.fromTheme("media-skip-backward-symbolic.svg",
-                               style.standardIcon(QStyle.SP_MediaSkipBackward))
-        self._previous_action = tool_bar.addAction(icon, "Previous")
-        self._previous_action.triggered.connect(self.previous_clicked)
-        play_menu.addAction(self._previous_action)
+    # @Slot()
+    def on_position_changed(self, position):
+        print("Position changed:", position)
 
-        icon = QIcon.fromTheme("media-playback-pause.png",
-                               style.standardIcon(QStyle.SP_MediaPause))
-        self._pause_action = tool_bar.addAction(icon, "Pause")
-        self._pause_action.triggered.connect(self._player.pause)
-        play_menu.addAction(self._pause_action)
-
-        icon = QIcon.fromTheme("media-skip-forward-symbolic.svg",
-                               style.standardIcon(QStyle.SP_MediaSkipForward))
-        self._next_action = tool_bar.addAction(icon, "Next")
-        self._next_action.triggered.connect(self.next_clicked)
-        play_menu.addAction(self._next_action)
-
-        icon = QIcon.fromTheme("media-playback-stop.png",
-                               style.standardIcon(QStyle.SP_MediaStop))
-        self._stop_action = tool_bar.addAction(icon, "Stop")
-        self._stop_action.triggered.connect(self._ensure_stopped)
-        play_menu.addAction(self._stop_action)
-
-        self._volume_slider = QSlider()
-        self._volume_slider.setOrientation(Qt.Horizontal)
-        self._volume_slider.setMinimum(0)
-        self._volume_slider.setMaximum(100)
-        available_width = self.screen().availableGeometry().width()
-        self._volume_slider.setFixedWidth(available_width / 10)
-        self._volume_slider.setValue(self._audio_output.volume())
-        self._volume_slider.setTickInterval(10)
-        self._volume_slider.setTickPosition(QSlider.TicksBelow)
-        self._volume_slider.setToolTip("Volume")
-        self._volume_slider.valueChanged.connect(self._audio_output.setVolume)
-        tool_bar.addWidget(self._volume_slider)
-
-        # slider прогресса проигрывания
-        self._position_slider = QSlider()
-        self._position_slider.setOrientation(Qt.Horizontal)
-        self._position_slider.setRange(0, self._player.duration() / 1000)
-        self._position_slider.setFixedWidth(available_width / 10)
-        self._position_slider.setTickInterval(10)
-        self._position_slider.setTickPosition(QSlider.TicksBelow)
-        self._position_slider.setToolTip("Position")
-        self._position_slider.sliderMoved.connect(self._player.setPosition)
-        tool_bar.addWidget(self._position_slider)
-
-
-        about_menu = self.menuBar().addMenu("&About")
-        about_qt_act = QAction("About &Qt", self, triggered=qApp.aboutQt)
-        about_menu.addAction(about_qt_act)
-
-        self._video_widget = QVideoWidget()
-        self.setCentralWidget(self._video_widget)
-        self._player.playbackStateChanged.connect(self.update_buttons)
-        self._player.setVideoOutput(self._video_widget)
-
-        self.update_buttons(self._player.playbackState())
-        self._mime_types = []
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Space:
+            if self._player.playbackState() == QMediaPlayer.PlayingState:
+                self._player.pause()
+            else:
+                self._player.play()
+        elif event.key() == Qt.Key_X:
+            self._player.setPosition(self._player.position() + 5000)
+        elif event.key() == Qt.Key_Z:
+            self._player.setPosition(self._player.position() - 5000)
+        elif event.key() == Qt.Key_Q:
+            self.close()
+        elif event.key() in range(48, 58):
+            self._player.setPosition(self._player.duration() // 10 * (event.key() - 48))
 
     def closeEvent(self, event):
+        print("Closing, Current position:", self._player.position())
+        percent_pos = self._player.position() * 100 // self._player.duration()
+        self.fix_position(self.episode_id, self._player.position(), percent_pos)
         self._ensure_stopped()
         event.accept()
 
-    def print_pos(self):
-        print(self._player.position())
-        print(self._player.duration())
-        print(self._player.position() / self._player.duration())
-
-    @Slot()
-    def open(self):
-        self._ensure_stopped()
-        file_dialog = QFileDialog(self)
-
-        is_windows = sys.platform == 'win32'
-        if not self._mime_types:
-            self._mime_types = get_supported_mime_types()
-            if (is_windows and AVI not in self._mime_types):
-                self._mime_types.append(AVI)
-            elif MP4 not in self._mime_types:
-                self._mime_types.append(MP4)
-
-        file_dialog.setMimeTypeFilters(self._mime_types)
-
-        # default_mimetype = AVI if is_windows else MP4
-        default_mimetype = MP4
-        if default_mimetype in self._mime_types:
-            file_dialog.selectMimeTypeFilter(default_mimetype)
-
-        movies_location = QStandardPaths.writableLocation(QStandardPaths.MoviesLocation)
-        file_dialog.setDirectory(movies_location)
-        if file_dialog.exec() == QDialog.Accepted:
-            url = file_dialog.selectedUrls()[0]
-            self._playlist.append(url)
-            self._playlist_index = len(self._playlist) - 1
-            self._player.setSource(url)
-            self._player.play()
-
-    @Slot()
     def _ensure_stopped(self):
         if self._player.playbackState() != QMediaPlayer.StoppedState:
             self._player.stop()
 
-    @Slot()
-    def previous_clicked(self):
-        # Go to previous track if we are within the first 5 seconds of playback
-        # Otherwise, seek to the beginning.
-        if self._player.position() <= 5000 and self._playlist_index > 0:
-            self._playlist_index -= 1
-            self._playlist.previous()
-            self._player.setSource(self._playlist[self._playlist_index])
-        else:
-            self._player.setPosition(0)
+    def resizeEvent(self, event):
+        videoRect = QRect(
+            QPoint(),
+            self.ui.widget.sizeHint().scaled(self.size(), Qt.IgnoreAspectRatio),
+        )
+        videoRect.moveCenter(self.rect().center())
+        self.ui.widget.setGeometry(videoRect)
 
-    @Slot()
-    def next_clicked(self):
-        if self._playlist_index < len(self._playlist) - 1:
-            self._playlist_index += 1
-            self._player.setSource(self._playlist[self._playlist_index])
-
-    @Slot("QMediaPlayer::PlaybackState")
-    def update_buttons(self, state):
-        media_count = len(self._playlist)
-        self._play_action.setEnabled(media_count > 0
-            and state != QMediaPlayer.PlayingState)
-        self._pause_action.setEnabled(state == QMediaPlayer.PlayingState)
-        self._stop_action.setEnabled(state != QMediaPlayer.StoppedState)
-        self._previous_action.setEnabled(self._player.position() > 0)
-        self._next_action.setEnabled(media_count > 1)
-
-    def show_status_message(self, message):
-        self.statusBar().showMessage(message, 5000)
-
-    @Slot("QMediaPlayer::Error", str)
-    def _player_error(self, error, error_string):
-        print(error_string, file=sys.stderr)
-        self.show_status_message(error_string)
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    main_win = MainWindow()
-    available_geometry = main_win.screen().availableGeometry()
-    # main_win.resize(available_geometry.width() / 3,
-    #                 available_geometry.height() / 2)
-    main_win.show()
-    sys.exit(app.exec())
-
+        controlHeight = self.ui.controlWidget.sizeHint().height()
+        controlRect = QRect(
+            0, self.height() - controlHeight, self.width(), controlHeight
+        )
+        self.ui.controlWidget.setGeometry(controlRect)
