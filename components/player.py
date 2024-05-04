@@ -5,9 +5,18 @@ from PySide6.QtCore import QPoint, QRect, Qt
 from PySide6.QtMultimedia import QAudioOutput  # QMediaFormat,
 from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
-from PySide6.QtWidgets import (QHBoxLayout, QLabel, QMainWindow, QMessageBox,
-                               QPushButton, QScrollArea, QSpacerItem,
-                               QVBoxLayout)
+from PySide6.QtWidgets import (
+    QHBoxLayout,
+    QLabel,
+    QMainWindow,
+    QMessageBox,
+    QPushButton,
+    QScrollArea,
+    QSpacerItem,
+    QStackedLayout,
+    QVBoxLayout,
+    QWidget,
+)
 
 sys.path.append("../")
 from ui.Player_ import Ui_MainWindow as PlayerUi
@@ -20,30 +29,22 @@ class Player(QMainWindow):
         # import ui from Player_.py
         self.ui = PlayerUi()
         self.ui.setupUi(self)
-        # self.path = path
-        self.path = "C:/Users/Rwm/Videos/Arknights/1.mp4"
-        print(self.path)
+        self.path = path
         self.episode_id = episode_id
         self.fix_position = fix_position
         self.start_position = position
         self.started = False
 
+        # audio
         self._audio_output = QAudioOutput()
         self._player = QMediaPlayer()
         self._player.setAudioOutput(self._audio_output)
 
+        # bind buttons
         self.ui.playBut.clicked.connect(self._player.play)
-        # self._player.positionChanged.connect(self.on_position_changed)
+        self.ui.fullScreenBut.clicked.connect(self.showFullScreen)
+        self._player.positionChanged.connect(self.on_position_changed)
         self._player.mediaStatusChanged.connect(self.set_start_position)
-
-        self.ui.videoWidget = QVideoWidget()
-        self._player.setVideoOutput(self.ui.videoWidget)
-        self.ui.widget.layout().addWidget(self.ui.videoWidget)
-        self.ui.videoWidget.lower()
-        self.ui.widget.lower()
-        # self.ui.widget.layout().addWidget(self.ui.controlWidget)
-        self.ui.controlWidget.setStyleSheet("background: black")
-        self.ui.controlWidget.raise_()
 
         # bind horisontal slider to players pos
         # self.ui.horizontalSlider.setRange(0, self._player.duration())
@@ -51,12 +52,19 @@ class Player(QMainWindow):
         # self.ui.horizontalSlider.valueChanged.connect(self._player.setPosition)
         # self._player.positionChanged.connect(self.ui.horizontalSlider.setValue)
 
+        # set videoWidget
+        self.ui.videoWidget = QVideoWidget()
+        self._player.setVideoOutput(self.ui.videoWidget)
+        self.ui.widget.layout().addWidget(self.ui.videoWidget)
+        # self.ui.widget.layout().addWidget(self.ui.controlWidget)
+        self.ui.controlWidget.setStyleSheet("background: black")
+
         # set durLabel
         self.ui.durLabel.setText(
             f"{self._player.duration() // 60000}:\
         {self._player.duration() // 1000 % 60}"
         )
-        self.open()
+        self._player.setSource(self.path)
 
     def set_start_position(self, status):
         if not self.started and status == QMediaPlayer.LoadedMedia:
@@ -64,32 +72,26 @@ class Player(QMainWindow):
             if self.start_position is not None:
                 self._player.setPosition(self.start_position)
             self._player.play()
+            self.ui.horizontalSlider.setRange(0, self._player.duration())
+            self.ui.horizontalSlider.setValue(self.start_position)
+            self.ui.horizontalSlider.valueChanged.connect(self._player.setPosition)
 
-    # @Slot()
-    def open(self):
-        self._player.setSource(self.path)
-        # print("start pos:", self.start_position)
-        # self._player.setPosition(self.start_position)
-        # self._player.play()
-
-    # @Slot()
     def on_position_changed(self, position):
         print("Position changed:", position)
 
     def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Space:
-            if self._player.playbackState() == QMediaPlayer.PlayingState:
-                self._player.pause()
-            else:
-                self._player.play()
-        elif event.key() == Qt.Key_X:
-            self._player.setPosition(self._player.position() + 5000)
-        elif event.key() == Qt.Key_Z:
-            self._player.setPosition(self._player.position() - 5000)
-        elif event.key() == Qt.Key_Q:
-            self.close()
-        elif event.key() in range(48, 58):
-            self._player.setPosition(self._player.duration() // 10 * (event.key() - 48))
+        switcher = {
+            Qt.Key_Space: (
+                self._player.pause
+                if self._player.playbackState() == QMediaPlayer.PlayingState
+                else self._player.play
+            ),
+            Qt.Key_F: self.showNormal if self.isFullScreen() else self.showFullScreen,
+            Qt.Key_X: lambda: self._player.setPosition(self._player.position() + 5000),
+            Qt.Key_Z: lambda: self._player.setPosition(self._player.position() - 5000),
+            Qt.Key_Q: self.close,
+        }
+        switcher.get(event.key(), lambda: None)()
 
     def closeEvent(self, event):
         print("Closing, Current position:", self._player.position())
@@ -109,6 +111,8 @@ class Player(QMainWindow):
         )
         videoRect.moveCenter(self.rect().center())
         self.ui.widget.setGeometry(videoRect)
+        # self.ui.widget.move(0, 0)
+        # self.ui.widget.resize(self.width(), self.height() // 2)
 
         controlHeight = self.ui.controlWidget.sizeHint().height()
         controlRect = QRect(

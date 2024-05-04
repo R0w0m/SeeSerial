@@ -1,4 +1,5 @@
 import os
+
 # import threading
 import time
 from time import sleep
@@ -7,17 +8,29 @@ from time import sleep
 # from PySide6.QtCore import *
 from PySide6.QtCore import QPoint, QRect, QSize, Qt
 from PySide6.QtGui import QFontMetrics
+
 # from PySide6.QtMultimedia import QAudioOutput  # QMediaFormat,
 # from PySide6.QtMultimedia import QMediaPlayer
 # from PySide6.QtMultimediaWidgets import QVideoWidget
 # from PySide6.QtWidgets import *
-from PySide6.QtWidgets import (QApplication, QFileDialog, QHBoxLayout, QLabel,
-                               QMainWindow, QMessageBox, QPushButton,
-                               QScrollArea, QSizePolicy, QSpacerItem,
-                               QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (
+    QApplication,
+    QFileDialog,
+    QHBoxLayout,
+    QLabel,
+    QMainWindow,
+    QMessageBox,
+    QPushButton,
+    QScrollArea,
+    QSizePolicy,
+    QSpacerItem,
+    QVBoxLayout,
+    QWidget,
+)
 
 from components.DBControl import DBControl as DB
 from components.FlowLay import FlowLayout
+
 # from components.neumorph import NeumorphismEffect as NeoEffect
 from components.neumorph import InsideNeumorphismEffect as InNeoEffect
 from components.neumorph import OutsideNeumorphismEffect as OutNeoEffect
@@ -27,11 +40,6 @@ from ui.episode import Ui_Form as EpisodeUi
 from ui.LaunchUi import Ui_MainWindow
 
 # from ui.Player_ import Ui_MainWindow as PlayerUi
-
-# QFont, QIcon, QPixmap, QColor, QPainter, QBrush
-
-
-# from components.Player
 
 
 class MainWindow(QMainWindow):
@@ -47,23 +55,27 @@ class MainWindow(QMainWindow):
         self.prev_set = ""
 
         # add shadow to buttons
-        for component in self.findChildren(QPushButton) + [
-            self.ui.label,
-            self.ui.lineEdit,
-            self.ui.serialNameLbl,
-            self.ui.noteTextEdit,
-            self.ui.prevSetWidget,
-        ]:
-            if component.objectName() in ["deletePrev", "chooseFileBut"]:
-                shadow = InNeoEffect(self)
-                component.setGraphicsEffect(shadow)
-                continue
-            shadow = OutNeoEffect(self)
-            component.setGraphicsEffect(shadow)
+        # for component in self.findChildren(QPushButton) + [
+        #     self.ui.label,
+        #     # self.ui.lineEdit,
+        #     self.ui.serialNameLbl,
+        #     self.ui.noteTextEdit,
+        #     self.ui.prevSetWidget,
+        # ]:
+        #     if component.objectName() in ["deletePrev", "chooseFileBut"]:
+        #         shadow = InNeoEffect(self)
+        #         component.setGraphicsEffect(shadow)
+        #         continue
+        #     shadow = OutNeoEffect(self)
+        #     component.setGraphicsEffect(shadow)
+
         # adding flow layout
-        self.ui.flowLayout = FlowLayout(self.ui.mainContents)
-        self.ui.mainContents.setLayout(self.ui.flowLayout)
+        self.ui.main_flowLayout = FlowLayout(self.ui.mainContents)
+        self.ui.mainContents.setLayout(self.ui.main_flowLayout)
         self.ui.stackedWidget.setCurrentIndex(0)
+
+        self.ui.fav_flowLayout = FlowLayout(self.ui.favorContents)
+        self.ui.favorContents.setLayout(self.ui.fav_flowLayout)
         # styling SCROLL BAR
         for component in self.findChildren(QScrollArea):
             component.setStyleSheet(style["scrollBar"])
@@ -72,6 +84,7 @@ class MainWindow(QMainWindow):
         self.ui.HomeBtn.clicked.connect(lambda: self.change_page(0))
         self.ui.AddBtn.clicked.connect(self.add)
         self.ui.SettingsBtn.clicked.connect(lambda: self.change_page(3))
+        self.ui.FavorsBtn.clicked.connect(lambda: self.favorites_clicked())
         self.ui.deletePrev.clicked.connect(self.deletePrev_clicked)
         self.ui.saveSerBt.clicked.connect(self.save_set)
         self.ui.chooseFileBut.clicked.connect(self.prev_set_clicked)
@@ -103,9 +116,46 @@ class MainWindow(QMainWindow):
         # print(self.db.select("serial", "*", "id = id"))
         # self.db.request("DELETE FROM serial WHERE id > 2")
         # self.db.request("ALTER TABLE serial ADD COLUMN note TEXT")
-        self.ui.MyListBtn.hide()
+        # add "favorite" column to serial table with default value 0
+        # self.db.request("ALTER TABLE serial ADD COLUMN favorite INTEGER DEFAULT 0")
 
         self.retranslateUI()
+
+    def favorited(self, serial_id, favBtn):
+        is_fav = self.db.select("serial", "favorite", f"id = {serial_id}")[0][0]
+        if is_fav:
+            # unset favorite
+            self.db.update("serial", "favorite = 0", f"id = {serial_id}")
+            # set favorite button color
+            favBtn.setStyleSheet(
+                " \
+                image: url(media/star.svg); \
+                background-color: rgba(255, 255, 255, 0.7); \
+                border-radius: 50%; \
+                padding: 4px; \
+                "
+            )
+        else:
+            self.db.update("serial", "favorite = 1", f"id = {serial_id}")
+            # set favorite button color
+            favBtn.setStyleSheet(
+                " \
+                image: url(media/star_full.svg); \
+                background-color: rgba(255, 255, 255, 0.7); \
+                border-radius: 50%; \
+                padding: 4px; \
+                "
+            )
+
+    def favorites_clicked(self):
+        # clear layout
+        for i in reversed(range(self.ui.favorContents.layout().count())):
+            self.ui.favorContents.layout().itemAt(i).widget().setParent(None)
+        # get favorite serials
+        serials = self.db.select("serial", "*", "favorite = 1")
+        for serial_info in serials:
+            self.add_card(serial_info, 1)
+        self.change_page(5)
 
     def back_clicked(self):
         if len(self.move_history) == 0:
@@ -281,7 +331,9 @@ class MainWindow(QMainWindow):
                         (elm.name, elm.path, serial_id, 0),
                     )
                     print("path: ", elm.path)
-            self.add_card(dir_name, serial_id, f"previwes/{dir_name}.webp")
+            self.add_card(
+                (serial_id, dir_name, directory, None, f"previwes/{dir_name}.webp", 0)
+            )
         else:
             print("Directory not selected")
 
@@ -313,7 +365,6 @@ class MainWindow(QMainWindow):
             episode_ui.label.setStyleSheet("color: black;")
         if pos_ms is not None:
             pos_s = pos_ms // 1000
-            print("pos_s:", pos_s)
             episode_ui.timeLabel.setText(time.strftime("%M:%S", time.gmtime(pos_s)))
             episode_ui.timeLabel.setStyleSheet("color: black;")
             episode_ui.clearEpBt.show()
@@ -336,12 +387,20 @@ class MainWindow(QMainWindow):
             lambda: self.season_clicked(season_widget.season_id, 1)
         )
 
-    def add_card(self, serial_name, serial_id, image_path=None):
-        card = Card(serial_name, serial_id, image_path)
-        self.ui.flowLayout.addWidget(card.widget)
+    def add_card(self, serial_info, page_num=0):
+        # card = Card(serial_name, serial_id, image_path)
+        card = Card(serial_info)
+        pages = (
+            self.ui.main_flowLayout,
+            self.ui.fav_flowLayout,
+        )
+        pages[page_num].addWidget(card.widget)
         card.epListBtn.clicked.connect(lambda: self.serial_clicked(card.serial_id))
         card.runBtn.clicked.connect(lambda: self.play_last(card.serial_id))
         card.setBtn.clicked.connect(lambda: self.serial_settings(card.serial_id))
+        card.favoriteBtn.clicked.connect(
+            lambda: self.favorited(card.serial_id, card.favoriteBtn)
+        )
 
     def play_last(self, serial_id):
         # check seasons and episodes
@@ -443,12 +502,21 @@ class MainWindow(QMainWindow):
         self.ui.prevImage.show()
         self.ui.prevImage.setMinimumSize(QSize(130, 200))
         self.ui.serialNameLbl.setText(serial_info[0])
-        self.ui.pushButton_3.clicked.connect(lambda: self.change_serial_name(serial_id))
+        # self.ui.pushButton_3.clicked.connect(lambda: self.change_serial_name(serial_id))
         self.current_serial = serial_id
         self.prev_set = serial_info[2]
         self.change_page(4)
 
     def delete_serial(self, serial_id):
+        # are you sure?
+        message = QMessageBox()
+        message.setWindowTitle("Delete")
+        message.setText("Вы уверены?")
+        message.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        message.setIcon(QMessageBox.Warning)
+        if message.exec() == QMessageBox.No:
+            return
+
         self.db.delete("serial", f"id = {serial_id}")
         self.db.delete("season", f"serial_id = {serial_id}")
         self.db.delete("episode", f"parent_id = {serial_id} and parent_type = 0")
@@ -461,8 +529,8 @@ class MainWindow(QMainWindow):
                     "episode", f"parent_id = {season[0]} and parent_type = 1"
                 )
         # clear serials (card) layout
-        for i in reversed(range(self.ui.flowLayout.count())):
-            self.ui.flowLayout.itemAt(i).widget().setParent(None)
+        for i in reversed(range(self.ui.main_flowLayout.count())):
+            self.ui.main_flowLayout.itemAt(i).widget().setParent(None)
         # restore serials
         self.restore()
         # change page
@@ -508,8 +576,8 @@ class MainWindow(QMainWindow):
             f"id = {self.current_serial}",
         )
         # clear serials (card) layout
-        for i in reversed(range(self.ui.flowLayout.count())):
-            self.ui.flowLayout.itemAt(i).widget().setParent(None)
+        for i in reversed(range(self.ui.main_flowLayout.count())):
+            self.ui.main_flowLayout.itemAt(i).widget().setParent(None)
         # restore serials
         self.restore()
 
@@ -548,25 +616,27 @@ class MainWindow(QMainWindow):
         self.ui.BackBtn.show()
 
     def restore(self):
-        # for i in range(20):
-        #     self.add_card(f"Serial {i}", i)
+        for i in range(20):
+            self.add_card((f"Serial {i}", str(i), None, None, None, 0))
         self.db.cursor.execute("SELECT * FROM serial")
-        for serial in self.db.cursor.fetchall():
-            self.add_card(serial[1], serial[0], serial[3])
+        for serial_info in self.db.cursor.fetchall():
+            self.add_card(serial_info)
 
     def closeEvent(self, event):
         self.db.conn.close()
+        if self.player is not None:
+            self.player.close()
         event.accept()
 
     def retranslateUI(self):
         self.ui.label.setText("SeeSerial")
         self.ui.HomeBtn.setText("Главная")
-        self.ui.MyListBtn.setText("Просмотрено")
+        # self.ui.MyListBtn.setText("Просмотрено")
         self.ui.FavorsBtn.setText("Избранные")
         self.ui.AddBtn.setText("Добавить")
         self.ui.SettingsBtn.setText("Настройки")
         # self.ui.BackBtn.setText("")
-        self.ui.pushButton_3.setText("Поиск")
+        # self.ui.pushButton_3.setText("Поиск")
         # self.ui.label_2.setText("TextLabel")
         # self.ui.pushButton_2.setText("PushButton"))
         # self.ui.pushButton_4.setText("PushButton"))
@@ -615,20 +685,26 @@ class Season:
 
 
 class Card:
-    def __init__(self, serial_name, serial_id=0, image_path="previwes/default.png"):
+    def __init__(self, serial_info):
         super().__init__()
 
-        self.serial_name = serial_name.split("/")[-1]
-        self.serial_id = serial_id
+        self.serial_id = serial_info[0]
+        self.serial_name = serial_info[1].split(os.path.sep)[-1]
+        image_path = serial_info[4]
+        is_fav = serial_info[5]
+
+        print("serial_info:", serial_info)
 
         self.widget = QWidget()
         self.widget.setFixedHeight(265)
         self.widget.setFixedWidth(130)
         self.widget.setStyleSheet(
             """
-            background-color: rgb(255, 255, 255);
+            background-color: #CFC8FF;
             border-radius: 10px;
-            padding: 0 0 10 0;"""
+            padding: 0 0 10 0;
+            border: 3px solid #CFC8FF;
+            """
         )
         self.widget.setObjectName("widget")
 
@@ -643,6 +719,7 @@ class Card:
             PixLabel.setStyleSheet(
                 " \
                 image: url(previwes/default.png); \
+                background-color: rgb(255, 255, 255); \
                 padding: 30px 15px; \
                 "
             )
@@ -659,7 +736,7 @@ class Card:
 
         # add name
         label = QLabel(self.widget)
-        label.setStyleSheet("color: rgb(0, 0, 0);")
+        label.setStyleSheet("color: rgb(0, 0, 0); border: none;")
         label.setAlignment(Qt.AlignCenter)
         label.setObjectName("label")
         font_metrics = QFontMetrics(label.font())
@@ -705,17 +782,30 @@ class Card:
             "
         )
 
+        # favorite button
         self.favoriteBtn = QPushButton(self.widget)
         self.favoriteBtn.setGeometry(QRect(95, 5, 28, 28))
         self.favoriteBtn.setMaximumSize(QSize(28, 28))
-        self.favoriteBtn.setStyleSheet(
-            " \
-            image: url(media/star.svg); \
-            background-color: rgba(255, 255, 255, 0.7); \
-            border-radius: 50%; \
-            padding: 4px; \
-            "
-        )
+        if is_fav:
+            self.favoriteBtn.setStyleSheet(
+                " \
+                image: url(media/star_full.svg); \
+                background-color: rgba(255, 255, 255, 0); \
+                border-radius: 50%; \
+                padding: 4px; \
+                border: none; \
+                "
+            )
+        else:
+            self.favoriteBtn.setStyleSheet(
+                " \
+                image: url(media/star.svg); \
+                background-color: rgba(255, 255, 255, 0); \
+                border-radius: 50%; \
+                padding: 4px; \
+                border: none; \
+                "
+            )
 
         # add layouts
         vLayout = QVBoxLayout(self.widget)

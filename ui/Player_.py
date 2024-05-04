@@ -146,12 +146,14 @@ class Ui_MainWindow(object):
 
         self.widget = QWidget(self.centralwidget)
         self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(0, 0, 241, 131))
+        self.widget.setGeometry(QRect(0, 0, 321, 201))
         self.verticalLayout_2 = QVBoxLayout(self.widget)
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         MainWindow.setCentralWidget(self.centralwidget)
+        self.widget.raise_()
+        self.controlWidget.raise_()
 
         self.retranslateUi(MainWindow)
 

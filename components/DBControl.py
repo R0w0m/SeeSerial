@@ -14,7 +14,7 @@ class DBControl:
             path TEXT, \
             note TEXT, \
             image_path TEXT, \
-            favorite INTEGER",
+            favorite INTEGER DEFAULT 0",
         )
         self.create_table(
             "season",
