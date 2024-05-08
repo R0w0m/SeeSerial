@@ -33,6 +33,18 @@ class DBControl:
             position INTEGER, \
             pos_percent INTEGER",
         )
+        # self.create_table(
+        #     "user",
+        #     "id INTEGER PRIMARY KEY AUTOINCREMENT, \
+        #     name TEXT, \
+        #     password TEXT, \
+        # )
+        # self.create_table(
+        #     "settings",
+        #     "id INTEGER PRIMARY KEY AUTOINCREMENT, \
+        #     name TEXT, \
+        #     value INTEGER",
+        # )
 
     def create_table(self, table_name, columns):
         self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({columns})")

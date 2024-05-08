@@ -1,18 +1,10 @@
 import os
-
 # import threading
 import time
 from time import sleep
-
 # import darkdetect
-# from PySide6.QtCore import *
-from PySide6.QtCore import QPoint, QRect, QSize, Qt
-from PySide6.QtGui import QFontMetrics
-
-# from PySide6.QtMultimedia import QAudioOutput  # QMediaFormat,
-# from PySide6.QtMultimedia import QMediaPlayer
-# from PySide6.QtMultimediaWidgets import QVideoWidget
-# from PySide6.QtWidgets import *
+from PySide6.QtCore import QPoint, QRect, QSize, Qt, Signal
+from PySide6.QtGui import QFontMetrics, QFont
 from PySide6.QtWidgets import (
     QApplication,
     QFileDialog,
@@ -30,12 +22,12 @@ from PySide6.QtWidgets import (
 
 from components.DBControl import DBControl as DB
 from components.FlowLay import FlowLayout
-
 # from components.neumorph import NeumorphismEffect as NeoEffect
-from components.neumorph import InsideNeumorphismEffect as InNeoEffect
-from components.neumorph import OutsideNeumorphismEffect as OutNeoEffect
+# from components.neumorph import InsideNeumorphismEffect as InNeoEffect
+# from components.neumorph import OutsideNeumorphismEffect as OutNeoEffect
 from components.player import Player as Player
-from components.StyleSheets import style
+# from components.StyleSheets import style
+from components.StyleSheets import StyleSheets
 from ui.episode import Ui_Form as EpisodeUi
 from ui.LaunchUi import Ui_MainWindow
 
@@ -43,16 +35,19 @@ from ui.LaunchUi import Ui_MainWindow
 
 
 class MainWindow(QMainWindow):
+    fix_position_signal = Signal(int, int, int)
     def __init__(self):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.stackedWidget_2.setCurrentIndex(1)
         self.player = None
-        self.move_history = [
-            0,
-        ]
+        # self.move_history = [
+        #     0,
+        # ]
         self.current_serial = None
         self.prev_set = ""
+        self.fix_position_signal.connect(self.fix_position)
 
         # add shadow to buttons
         # for component in self.findChildren(QPushButton) + [
@@ -73,14 +68,10 @@ class MainWindow(QMainWindow):
         self.ui.main_flowLayout = FlowLayout(self.ui.mainContents)
         self.ui.mainContents.setLayout(self.ui.main_flowLayout)
         self.ui.stackedWidget.setCurrentIndex(0)
-
         self.ui.fav_flowLayout = FlowLayout(self.ui.favorContents)
         self.ui.favorContents.setLayout(self.ui.fav_flowLayout)
-        # styling SCROLL BAR
-        for component in self.findChildren(QScrollArea):
-            component.setStyleSheet(style["scrollBar"])
+
         # buttons actions
-        self.ui.BackBtn.clicked.connect(self.back_clicked)
         self.ui.HomeBtn.clicked.connect(lambda: self.change_page(0))
         self.ui.AddBtn.clicked.connect(self.add)
         self.ui.SettingsBtn.clicked.connect(lambda: self.change_page(3))
@@ -88,12 +79,8 @@ class MainWindow(QMainWindow):
         self.ui.deletePrev.clicked.connect(self.deletePrev_clicked)
         self.ui.saveSerBt.clicked.connect(self.save_set)
         self.ui.chooseFileBut.clicked.connect(self.prev_set_clicked)
-        self.ui.deleteSerBt.clicked.connect(
-            lambda: self.delete_serial(self.current_serial)
-        )
-        self.ui.clearSerBt.clicked.connect(
-            lambda: self.clear_full_progress(self.current_serial)
-        )
+        self.ui.deleteSerBt.clicked.connect(lambda: self.delete_serial(self.current_serial))
+        self.ui.clearSerBt.clicked.connect(lambda: self.clear_full_progress(self.current_serial))
 
         # theme detection
         # self.t = threading.Thread(target=self.detect_theme)
@@ -101,25 +88,37 @@ class MainWindow(QMainWindow):
         # self.t.start()
 
         # nav fix
-        self.ui.BackBtn.hide()
         self.move_history.append(self.ui.stackedWidget.currentIndex())
+        self.setStyles()
 
         # setting up DB
         self.db = DB("Main.db")
         self.restore()
-
-        # self.db.request("ALTER TABLE serial ADD COLUMN image_path TEXT")
-        # self.db.update("serial", "image_path = 'previwes/rwby.webp'", "id = 2")
-        # self.db.update("serial", "image_path = 'previwes/akg.webp'", "id = 1")
-        # self.db.request("SELECT position FROM episode")
-        # self.db.request("ALTER TABLE episode ADD COLUMN pos_percent INTEGER")
-        # print(self.db.select("serial", "*", "id = id"))
-        # self.db.request("DELETE FROM serial WHERE id > 2")
-        # self.db.request("ALTER TABLE serial ADD COLUMN note TEXT")
-        # add "favorite" column to serial table with default value 0
-        # self.db.request("ALTER TABLE serial ADD COLUMN favorite INTEGER DEFAULT 0")
-
         self.retranslateUI()
+
+    def register(self):
+        login = self.ui.loginEdit.text()
+        password = self.ui.passwordEdit.text()
+        if not login or not password:
+            message = QMessageBox()
+            message.setWindowTitle("Ошибка")
+            message.setText("Заполните все поля")
+            message.setStandardButtons(QMessageBox.Ok)
+            message.setIcon(QMessageBox.Warning)
+            message.exec()
+            return
+        self.db.insert("users", "login, password", f"'{login}', '{password}'")
+
+
+    def setStyles(self):
+        self.styles = StyleSheets("purple")
+        self.setStyleSheet(self.styles.styles["main"])
+        for component in self.findChildren(QPushButton):
+            component.setStyleSheet(self.styles.styles["button"])
+        # for component in self.findChildren(QLabel):
+        #     component.setStyleSheet(self.styles.styles["label"])
+        for component in self.findChildren(QScrollArea):
+            component.setStyleSheet(self.styles.styles["scrollBar"])
 
     def favorited(self, serial_id, favBtn):
         is_fav = self.db.select("serial", "favorite", f"id = {serial_id}")[0][0]
@@ -157,24 +156,24 @@ class MainWindow(QMainWindow):
             self.add_card(serial_info, 1)
         self.change_page(5)
 
-    def back_clicked(self):
-        if len(self.move_history) == 0:
-            self.ui.stackedWidget.setCurrentIndex(0)
-            self.move_history.append(0)
-            self.ui.BackBtn.hide()
-            return
-        x = self.move_history.pop()
-
-        # if popped page is current page
-        if x == self.ui.stackedWidget.currentIndex():
-            x = self.move_history.pop()
-
-        # change page
-        self.ui.stackedWidget.setCurrentIndex(x)
-
-        # hide back button if stack is empty
-        if len(self.move_history) == 0:
-            self.ui.BackBtn.hide()
+    # def back_clicked(self):
+    #     if len(self.move_history) == 0:
+    #         self.ui.stackedWidget.setCurrentIndex(0)
+    #         self.move_history.append(0)
+    #         self.ui.BackBtn.hide()
+    #         return
+    #     x = self.move_history.pop()
+    #
+    #     # if popped page is current page
+    #     if x == self.ui.stackedWidget.currentIndex():
+    #         x = self.move_history.pop()
+    #
+    #     # change page
+    #     self.ui.stackedWidget.setCurrentIndex(x)
+    #
+    #     # hide back button if stack is empty
+    #     if len(self.move_history) == 0:
+    #         self.ui.BackBtn.hide()
 
     def serial_clicked(self, serial_id):
         # clear layouts
@@ -266,7 +265,7 @@ class MainWindow(QMainWindow):
             dlg.setText("fill is not exists")
             dlg.exec()
             return
-        self.player = Player(path, episode_id, pos, self.fix_position)
+        self.player = Player(self, path, episode_id, pos, self.fix_position)
         self.player.show()
 
     def fix_position(self, episode_id, position, percent_pos):
@@ -613,14 +612,17 @@ class MainWindow(QMainWindow):
         self.move_history.append(self.ui.stackedWidget.currentIndex())
         self.ui.stackedWidget.setCurrentIndex(page)
         # self.move_history.append(page)
-        self.ui.BackBtn.show()
+        # self.ui.BackBtn.show()
 
     def restore(self):
-        for i in range(20):
+        for i in reversed(range(self.ui.main_flowLayout.count())):
+            self.ui.main_flowLayout.itemAt(i).widget().setParent(None)
+        for i in range(8):
             self.add_card((f"Serial {i}", str(i), None, None, None, 0))
         self.db.cursor.execute("SELECT * FROM serial")
         for serial_info in self.db.cursor.fetchall():
             self.add_card(serial_info)
+        self.change_page(0)
 
     def closeEvent(self, event):
         self.db.conn.close()
@@ -635,7 +637,7 @@ class MainWindow(QMainWindow):
         self.ui.FavorsBtn.setText("Избранные")
         self.ui.AddBtn.setText("Добавить")
         self.ui.SettingsBtn.setText("Настройки")
-        # self.ui.BackBtn.setText("")
+        self.ui.userButton.setText("Пользователь")
         # self.ui.pushButton_3.setText("Поиск")
         # self.ui.label_2.setText("TextLabel")
         # self.ui.pushButton_2.setText("PushButton"))
@@ -734,11 +736,15 @@ class Card:
             )
         PixLabel.setScaledContents(True)
 
+        font = QFont()
+        font.setFamilies([u"RobotoMono Nerd Font [GOOG]"])
+
         # add name
         label = QLabel(self.widget)
         label.setStyleSheet("color: rgb(0, 0, 0); border: none;")
         label.setAlignment(Qt.AlignCenter)
         label.setObjectName("label")
+        label.setFont(font)
         font_metrics = QFontMetrics(label.font())
         elided_text = font_metrics.elidedText(self.serial_name, Qt.ElideRight, 120)
         label.setText(elided_text)

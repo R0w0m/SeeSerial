@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'LaunchUiOld.ui'
+## Form generated from reading UI file 'LaunchUi.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.0
 ##
@@ -15,263 +15,238 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QFormLayout, QGridLayout,
-    QHBoxLayout, QLabel, QLineEdit, QMainWindow,
-    QMenuBar, QPushButton, QScrollArea, QSizePolicy,
-    QSpacerItem, QStackedWidget, QTextEdit, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QFormLayout, QFrame,
+    QGridLayout, QHBoxLayout, QLabel, QLineEdit,
+    QMainWindow, QMenuBar, QPushButton, QScrollArea,
+    QSizePolicy, QSpacerItem, QStackedWidget, QTextEdit,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(760, 580)
+        MainWindow.resize(1026, 733)
         MainWindow.setStyleSheet(u"\n"
-"  background-color: rgb(221, 231, 239);\n"
+"  background-color: rgb(255, 255, 255);\n"
 "")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setSpacing(12)
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(5, 5, 5, 5)
-        self.verticalLayout_3 = QVBoxLayout()
-        self.verticalLayout_3.setSpacing(12)
+        self.stackedWidget_2 = QStackedWidget(self.centralwidget)
+        self.stackedWidget_2.setObjectName(u"stackedWidget_2")
+        self.stackedWidget_2.setStyleSheet(u"")
+        self.mainPage = QWidget()
+        self.mainPage.setObjectName(u"mainPage")
+        self.verticalLayout_3 = QVBoxLayout(self.mainPage)
+        self.verticalLayout_3.setSpacing(6)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.label = QLabel(self.centralwidget)
-        self.label.setObjectName(u"label")
-        self.label.setMaximumSize(QSize(16777215, 50))
-        font = QFont()
-        font.setFamilies([u"Carlito"])
-        font.setBold(False)
-        font.setItalic(True)
-        self.label.setFont(font)
-        self.label.setStyleSheet(u"\n"
-"  background-color: rgb(218, 228, 237);\n"
-"  border: none;\n"
-"  border-radius: 5px;\n"
-"  color: black;\n"
-"  font-size: 30px;\n"
-"  padding: 8px;\n"
-"  text-align: center;")
-        self.label.setAlignment(Qt.AlignCenter)
-
-        self.verticalLayout_3.addWidget(self.label)
-
-        self.HomeBtn = QPushButton(self.centralwidget)
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.HomeBtn = QPushButton(self.mainPage)
         self.HomeBtn.setObjectName(u"HomeBtn")
-        self.HomeBtn.setMinimumSize(QSize(150, 50))
-        font1 = QFont()
-        font1.setFamilies([u"FreeSans"])
-        self.HomeBtn.setFont(font1)
+        self.HomeBtn.setMinimumSize(QSize(0, 30))
+        font = QFont()
+        font.setFamilies([u"RobotoMono Nerd Font [GOOG]"])
+        self.HomeBtn.setFont(font)
         self.HomeBtn.setStyleSheet(u"QPushButton {\n"
-"  background-color: rgb(218, 228, 237);\n"
-"  border: none;\n"
-"  border-radius: 5px;\n"
-"  color: black;\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color: #808191;\n"
+"  border-radius: 10px;\n"
 "  font-size: 16px;\n"
 "  padding: 8px 16px;\n"
-"\n"
 "  text-align: left;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"  background-color: #fafafa;\n"
+"  background-color: #CFC8FF;\n"
+"  color: black;\n"
 "}\n"
 "\n"
 "QPushButton:pressed {\n"
-"  background-color: #eeeeee;\n"
-"}:w")
+"  background-color: #9D92E9;\n"
+"  color: white;\n"
+"}")
         icon = QIcon()
         icon.addFile(u"media/home.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.HomeBtn.setIcon(icon)
         self.HomeBtn.setIconSize(QSize(16, 16))
 
-        self.verticalLayout_3.addWidget(self.HomeBtn)
+        self.horizontalLayout_4.addWidget(self.HomeBtn)
 
-        self.FavorsBtn = QPushButton(self.centralwidget)
+        self.line = QFrame(self.mainPage)
+        self.line.setObjectName(u"line")
+        self.line.setMinimumSize(QSize(0, 0))
+        self.line.setMaximumSize(QSize(16777215, 30))
+        self.line.setFrameShape(QFrame.Shape.VLine)
+        self.line.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.horizontalLayout_4.addWidget(self.line)
+
+        self.FavorsBtn = QPushButton(self.mainPage)
         self.FavorsBtn.setObjectName(u"FavorsBtn")
-        self.FavorsBtn.setMinimumSize(QSize(150, 50))
-        self.FavorsBtn.setFont(font1)
+        self.FavorsBtn.setMinimumSize(QSize(0, 30))
+        self.FavorsBtn.setFont(font)
         self.FavorsBtn.setStyleSheet(u"QPushButton {\n"
-"  background-color: rgb(218, 228, 237);\n"
-"  border: none;\n"
-"  border-radius: 5px;\n"
-"  color: black;\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color: #808191;\n"
+"  border-radius: 10px;\n"
 "  font-size: 16px;\n"
 "  padding: 8px 16px;\n"
-"\n"
 "  text-align: left;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"  background-color: #fafafa;\n"
+"  background-color: #CFC8FF;\n"
+"  color: black;\n"
 "}\n"
 "\n"
 "QPushButton:pressed {\n"
-"  background-color: #eeeeee;\n"
-"}:w")
+"  background-color: #9D92E9;\n"
+"  color: white;\n"
+"}")
         icon1 = QIcon()
         icon1.addFile(u"media/star.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.FavorsBtn.setIcon(icon1)
         self.FavorsBtn.setIconSize(QSize(16, 16))
 
-        self.verticalLayout_3.addWidget(self.FavorsBtn)
+        self.horizontalLayout_4.addWidget(self.FavorsBtn)
 
-        self.AddBtn = QPushButton(self.centralwidget)
-        self.AddBtn.setObjectName(u"AddBtn")
-        self.AddBtn.setEnabled(True)
-        self.AddBtn.setMinimumSize(QSize(0, 50))
-        self.AddBtn.setFont(font1)
-        self.AddBtn.setStyleSheet(u"QPushButton {\n"
-"  background-color: rgb(218, 228, 237);\n"
-"  border: none;\n"
-"  border-radius: 5px;\n"
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_4.addItem(self.horizontalSpacer_3)
+
+        self.label = QLabel(self.mainPage)
+        self.label.setObjectName(u"label")
+        self.label.setMaximumSize(QSize(16777215, 50))
+        font1 = QFont()
+        font1.setBold(False)
+        font1.setItalic(True)
+        font1.setStrikeOut(False)
+        font1.setStyleStrategy(QFont.PreferDefault)
+        self.label.setFont(font1)
+        self.label.setStyleSheet(u"  background-color: rgba(255, 255, 255, 0);\n"
+"  border-radius: 10px;\n"
 "  color: black;\n"
+"  font-size: 30px;\n"
+"  padding: 8px 16px;\n"
+"  text-align: center;")
+        self.label.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_4.addWidget(self.label)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_4.addItem(self.horizontalSpacer)
+
+        self.userButton = QPushButton(self.mainPage)
+        self.userButton.setObjectName(u"userButton")
+        font2 = QFont()
+        font2.setFamilies([u"RobotoMono Nerd Font [GOOG]"])
+        font2.setBold(False)
+        self.userButton.setFont(font2)
+        self.userButton.setStyleSheet(u"QPushButton {\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color: #808191;\n"
+"  border-radius: 10px;\n"
 "  font-size: 16px;\n"
 "  padding: 8px 16px;\n"
 "  text-align: left;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"  background-color: #fafafa;\n"
+"  background-color: #CFC8FF;\n"
+"  color: black;\n"
 "}\n"
 "\n"
 "QPushButton:pressed {\n"
-"  background-color: #eeeeee;\n"
+"  background-color: #9D92E9;\n"
+"  color: white;\n"
 "}")
         icon2 = QIcon()
-        icon2.addFile(u"media/plus.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.AddBtn.setIcon(icon2)
+        icon2.addFile(u"media/user.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.userButton.setIcon(icon2)
+
+        self.horizontalLayout_4.addWidget(self.userButton)
+
+        self.AddBtn = QPushButton(self.mainPage)
+        self.AddBtn.setObjectName(u"AddBtn")
+        self.AddBtn.setEnabled(True)
+        self.AddBtn.setMinimumSize(QSize(0, 30))
+        self.AddBtn.setFont(font)
+        self.AddBtn.setStyleSheet(u"QPushButton {\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color: #808191;\n"
+"  border-radius: 10px;\n"
+"  font-size: 16px;\n"
+"  padding: 8px 16px;\n"
+"  text-align: left;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"  background-color: #CFC8FF;\n"
+"  color: black;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"  background-color: #9D92E9;\n"
+"  color: white;\n"
+"}")
+        icon3 = QIcon()
+        icon3.addFile(u"media/plus.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.AddBtn.setIcon(icon3)
         self.AddBtn.setIconSize(QSize(16, 16))
 
-        self.verticalLayout_3.addWidget(self.AddBtn)
+        self.horizontalLayout_4.addWidget(self.AddBtn)
 
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout_3.addItem(self.verticalSpacer)
-
-        self.SettingsBtn = QPushButton(self.centralwidget)
+        self.SettingsBtn = QPushButton(self.mainPage)
         self.SettingsBtn.setObjectName(u"SettingsBtn")
-        self.SettingsBtn.setMinimumSize(QSize(0, 50))
-        self.SettingsBtn.setFont(font1)
+        self.SettingsBtn.setMinimumSize(QSize(0, 30))
+        self.SettingsBtn.setFont(font)
         self.SettingsBtn.setCursor(QCursor(Qt.ArrowCursor))
         self.SettingsBtn.setAutoFillBackground(False)
         self.SettingsBtn.setStyleSheet(u"QPushButton {\n"
-"  background-color: rgb(218, 228, 237);\n"
-"  border: none;\n"
-"  border-radius: 5px;\n"
-"  color: black;\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color: #808191;\n"
+"  border-radius: 10px;\n"
 "  font-size: 16px;\n"
 "  padding: 8px 16px;\n"
 "  text-align: left;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"  background-color: #fafafa;\n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"  background-color: #eeeeee;\n"
-"}")
-        icon3 = QIcon()
-        icon3.addFile(u"media/settings.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.SettingsBtn.setIcon(icon3)
-        self.SettingsBtn.setIconSize(QSize(16, 16))
-
-        self.verticalLayout_3.addWidget(self.SettingsBtn)
-
-
-        self.horizontalLayout_2.addLayout(self.verticalLayout_3)
-
-        self.verticalLayout_4 = QVBoxLayout()
-        self.verticalLayout_4.setSpacing(9)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setContentsMargins(-1, 0, -1, -1)
-        self.horizontalLayout_3 = QHBoxLayout()
-        self.horizontalLayout_3.setSpacing(12)
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.BackBtn = QPushButton(self.centralwidget)
-        self.BackBtn.setObjectName(u"BackBtn")
-        self.BackBtn.setMinimumSize(QSize(0, 0))
-        self.BackBtn.setStyleSheet(u"QPushButton {\n"
-"  background-color: rgb(218, 228, 237);\n"
-"  border: none;\n"
+"  background-color: #CFC8FF;\n"
 "  color: black;\n"
-"  font-size: 16px;\n"
-"	padding: 3 0 3 2;\n"
-"  text-align: left;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"  background-color: #fafafa;\n"
 "}\n"
 "\n"
 "QPushButton:pressed {\n"
-"  background-color: #eeeeee;\n"
+"  background-color: #9D92E9;\n"
+"  color: white;\n"
 "}")
         icon4 = QIcon()
-        icon4.addFile(u"media/left.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.BackBtn.setIcon(icon4)
-        self.BackBtn.setIconSize(QSize(24, 24))
+        icon4.addFile(u"media/settings.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.SettingsBtn.setIcon(icon4)
+        self.SettingsBtn.setIconSize(QSize(16, 16))
 
-        self.horizontalLayout_3.addWidget(self.BackBtn)
-
-        self.lineEdit = QLineEdit(self.centralwidget)
-        self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setStyleSheet(u"QLineEdit {\n"
-"  background-color: rgb(218, 228, 237);\n"
-"  border: none;\n"
-"  border-radius: 13px;\n"
-"  color: black;\n"
-"  font-size: 18px;\n"
-"  padding: 4px 10px;\n"
-"  text-align: left;\n"
-"}")
-
-        self.horizontalLayout_3.addWidget(self.lineEdit)
-
-        self.pushButton_3 = QPushButton(self.centralwidget)
-        self.pushButton_3.setObjectName(u"pushButton_3")
-        self.pushButton_3.setMinimumSize(QSize(0, 0))
-        self.pushButton_3.setStyleSheet(u"QPushButton {\n"
-"  background-color: rgb(218, 228, 237);\n"
-"	border: none;\n"
-"	padding: 7 10;\n"
-"	color: black;\n"
-"	text-align: left;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"	background-color: #fafafa;\n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"	background-color: #eeeeee;\n"
-"}")
-        icon5 = QIcon()
-        icon5.addFile(u"media/search.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.pushButton_3.setIcon(icon5)
-        self.pushButton_3.setIconSize(QSize(14, 14))
-
-        self.horizontalLayout_3.addWidget(self.pushButton_3)
+        self.horizontalLayout_4.addWidget(self.SettingsBtn)
 
 
-        self.verticalLayout_4.addLayout(self.horizontalLayout_3)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_4)
 
-        self.stackedWidget = QStackedWidget(self.centralwidget)
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setSpacing(12)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_2.setContentsMargins(5, 5, 5, 5)
+        self.stackedWidget = QStackedWidget(self.mainPage)
         self.stackedWidget.setObjectName(u"stackedWidget")
-        self.stackedWidget.setStyleSheet(u"background-color: rgb(218, 228, 237);\n"
-"border: 2px;\n"
-"border-color: red;\n"
-"border-color: rgb(222, 221, 218);")
+        self.stackedWidget.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+"border: none;")
         self.main_page = QWidget()
         self.main_page.setObjectName(u"main_page")
         self.gridLayout = QGridLayout(self.main_page)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout.setContentsMargins(9, 9, 9, 9)
         self.scrollArea = QScrollArea(self.main_page)
         self.scrollArea.setObjectName(u"scrollArea")
         self.scrollArea.setStyleSheet(u"border: none;\n"
@@ -279,7 +254,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.mainContents = QWidget()
         self.mainContents.setObjectName(u"mainContents")
-        self.mainContents.setGeometry(QRect(0, 0, 100, 30))
+        self.mainContents.setGeometry(QRect(0, 0, 980, 609))
         self.scrollArea.setWidget(self.mainContents)
 
         self.gridLayout.addWidget(self.scrollArea, 0, 0, 1, 1)
@@ -294,7 +269,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.seasonContents = QWidget()
         self.seasonContents.setObjectName(u"seasonContents")
-        self.seasonContents.setGeometry(QRect(0, 0, 68, 18))
+        self.seasonContents.setGeometry(QRect(0, 0, 980, 609))
         self.verticalLayout_2 = QVBoxLayout(self.seasonContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.scrollArea_3.setWidget(self.seasonContents)
@@ -314,7 +289,7 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.episodeContents = QWidget()
         self.episodeContents.setObjectName(u"episodeContents")
-        self.episodeContents.setGeometry(QRect(0, 0, 100, 30))
+        self.episodeContents.setGeometry(QRect(0, 0, 998, 627))
         self.verticalLayout_5 = QVBoxLayout(self.episodeContents)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.scrollArea_2.setWidget(self.episodeContents)
@@ -331,7 +306,7 @@ class Ui_MainWindow(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.settingsContents = QWidget()
         self.settingsContents.setObjectName(u"settingsContents")
-        self.settingsContents.setGeometry(QRect(0, 0, 150, 54))
+        self.settingsContents.setGeometry(QRect(0, 0, 980, 609))
         self.formLayout = QFormLayout(self.settingsContents)
         self.formLayout.setObjectName(u"formLayout")
         self.label_2 = QLabel(self.settingsContents)
@@ -404,9 +379,9 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {\n"
 "  background-color: #eeeeee;\n"
 "}:w")
-        icon6 = QIcon()
-        icon6.addFile(u"media/image-redo.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.chooseFileBut.setIcon(icon6)
+        icon5 = QIcon()
+        icon5.addFile(u"media/image-redo.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.chooseFileBut.setIcon(icon5)
         self.chooseFileBut.setIconSize(QSize(24, 24))
 
         self.horizontalLayout.addWidget(self.chooseFileBut)
@@ -428,9 +403,9 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {\n"
 "  background-color: #eeeeee;\n"
 "}:w")
-        icon7 = QIcon()
-        icon7.addFile(u"media/trash.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.deletePrev.setIcon(icon7)
+        icon6 = QIcon()
+        icon6.addFile(u"media/trash.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.deletePrev.setIcon(icon6)
         self.deletePrev.setIconSize(QSize(24, 24))
 
         self.horizontalLayout.addWidget(self.deletePrev)
@@ -455,10 +430,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
         self.label_5 = QLabel(self.serSettingsPage)
         self.label_5.setObjectName(u"label_5")
-        font2 = QFont()
-        font2.setFamilies([u"FreeSans"])
-        font2.setPointSize(14)
-        self.label_5.setFont(font2)
+        font3 = QFont()
+        font3.setFamilies([u"FreeSans"])
+        font3.setPointSize(14)
+        self.label_5.setFont(font3)
         self.label_5.setStyleSheet(u"color: black")
 
         self.verticalLayout_11.addWidget(self.label_5)
@@ -483,7 +458,7 @@ class Ui_MainWindow(object):
 
         self.label_4 = QLabel(self.serSettingsPage)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setFont(font2)
+        self.label_4.setFont(font3)
         self.label_4.setStyleSheet(u"color: black")
 
         self.verticalLayout_11.addWidget(self.label_4)
@@ -519,7 +494,7 @@ class Ui_MainWindow(object):
         self.saveSerBt = QPushButton(self.serSettingsPage)
         self.saveSerBt.setObjectName(u"saveSerBt")
         self.saveSerBt.setMinimumSize(QSize(0, 40))
-        self.saveSerBt.setFont(font2)
+        self.saveSerBt.setFont(font3)
         self.saveSerBt.setStyleSheet(u"QPushButton {\n"
 "  background-color: rgb(218, 228, 237);\n"
 "  border: none;\n"
@@ -535,9 +510,9 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {\n"
 "  background-color: #eeeeee;\n"
 "}:w")
-        icon8 = QIcon()
-        icon8.addFile(u"media/save.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.saveSerBt.setIcon(icon8)
+        icon7 = QIcon()
+        icon7.addFile(u"media/save.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.saveSerBt.setIcon(icon7)
         self.saveSerBt.setIconSize(QSize(24, 24))
 
         self.horizontalLayout_5.addWidget(self.saveSerBt)
@@ -545,7 +520,7 @@ class Ui_MainWindow(object):
         self.clearSerBt = QPushButton(self.serSettingsPage)
         self.clearSerBt.setObjectName(u"clearSerBt")
         self.clearSerBt.setMinimumSize(QSize(0, 40))
-        self.clearSerBt.setFont(font2)
+        self.clearSerBt.setFont(font3)
         self.clearSerBt.setStyleSheet(u"QPushButton {\n"
 "  background-color: rgb(218, 228, 237);\n"
 "  border: none;\n"
@@ -561,9 +536,9 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {\n"
 "  background-color: #eeeeee;\n"
 "}:w")
-        icon9 = QIcon()
-        icon9.addFile(u"media/clear.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.clearSerBt.setIcon(icon9)
+        icon8 = QIcon()
+        icon8.addFile(u"media/clear.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.clearSerBt.setIcon(icon8)
         self.clearSerBt.setIconSize(QSize(24, 24))
 
         self.horizontalLayout_5.addWidget(self.clearSerBt)
@@ -571,7 +546,7 @@ class Ui_MainWindow(object):
         self.deleteSerBt = QPushButton(self.serSettingsPage)
         self.deleteSerBt.setObjectName(u"deleteSerBt")
         self.deleteSerBt.setMinimumSize(QSize(0, 40))
-        self.deleteSerBt.setFont(font2)
+        self.deleteSerBt.setFont(font3)
         self.deleteSerBt.setStyleSheet(u"QPushButton {\n"
 "  background-color: rgb(218, 228, 237);\n"
 "  border: none;\n"
@@ -587,7 +562,7 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {\n"
 "  background-color: #eeeeee;\n"
 "}:w")
-        self.deleteSerBt.setIcon(icon7)
+        self.deleteSerBt.setIcon(icon6)
         self.deleteSerBt.setIconSize(QSize(24, 24))
 
         self.horizontalLayout_5.addWidget(self.deleteSerBt)
@@ -613,24 +588,126 @@ class Ui_MainWindow(object):
 
         self.stackedWidget.addWidget(self.favor_page)
 
-        self.verticalLayout_4.addWidget(self.stackedWidget)
+        self.horizontalLayout_2.addWidget(self.stackedWidget)
 
 
-        self.horizontalLayout_2.addLayout(self.verticalLayout_4)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
 
+        self.stackedWidget_2.addWidget(self.mainPage)
+        self.registrationPage = QWidget()
+        self.registrationPage.setObjectName(u"registrationPage")
+        self.gridLayout_6 = QGridLayout(self.registrationPage)
+        self.gridLayout_6.setObjectName(u"gridLayout_6")
+        self.label_8 = QLabel(self.registrationPage)
+        self.label_8.setObjectName(u"label_8")
+        self.label_8.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
-        self.verticalLayout.addLayout(self.horizontalLayout_2)
+        self.gridLayout_6.addWidget(self.label_8, 2, 1, 1, 1)
+
+        self.lineEdit = QLineEdit(self.registrationPage)
+        self.lineEdit.setObjectName(u"lineEdit")
+
+        self.gridLayout_6.addWidget(self.lineEdit, 2, 3, 1, 1)
+
+        self.lineEdit_2 = QLineEdit(self.registrationPage)
+        self.lineEdit_2.setObjectName(u"lineEdit_2")
+
+        self.gridLayout_6.addWidget(self.lineEdit_2, 3, 3, 1, 1)
+
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_6.addItem(self.horizontalSpacer_5, 1, 4, 1, 1)
+
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_6.addItem(self.horizontalSpacer_4, 1, 0, 1, 1)
+
+        self.label_9 = QLabel(self.registrationPage)
+        self.label_9.setObjectName(u"label_9")
+        self.label_9.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.gridLayout_6.addWidget(self.label_9, 3, 1, 1, 1)
+
+        self.pushButton = QPushButton(self.registrationPage)
+        self.pushButton.setObjectName(u"pushButton")
+
+        self.gridLayout_6.addWidget(self.pushButton, 4, 3, 1, 1)
+
+        self.pushButton_3 = QPushButton(self.registrationPage)
+        self.pushButton_3.setObjectName(u"pushButton_3")
+
+        self.gridLayout_6.addWidget(self.pushButton_3, 4, 1, 1, 1)
+
+        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_6.addItem(self.verticalSpacer_5, 0, 1, 1, 1)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_6.addItem(self.verticalSpacer, 5, 1, 1, 1)
+
+        self.label_7 = QLabel(self.registrationPage)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_6.addWidget(self.label_7, 1, 1, 1, 3)
+
+        self.stackedWidget_2.addWidget(self.registrationPage)
+        self.authPage = QWidget()
+        self.authPage.setObjectName(u"authPage")
+        self.gridLayout_8 = QGridLayout(self.authPage)
+        self.gridLayout_8.setObjectName(u"gridLayout_8")
+        self.pushButton_5 = QPushButton(self.authPage)
+        self.pushButton_5.setObjectName(u"pushButton_5")
+
+        self.gridLayout_8.addWidget(self.pushButton_5, 2, 1, 1, 1)
+
+        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_8.addItem(self.horizontalSpacer_6, 1, 0, 1, 1)
+
+        self.pushButton_6 = QPushButton(self.authPage)
+        self.pushButton_6.setObjectName(u"pushButton_6")
+
+        self.gridLayout_8.addWidget(self.pushButton_6, 2, 2, 1, 1)
+
+        self.scrollArea_6 = QScrollArea(self.authPage)
+        self.scrollArea_6.setObjectName(u"scrollArea_6")
+        self.scrollArea_6.setLineWidth(1)
+        self.scrollArea_6.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 223, 210))
+        self.scrollArea_6.setWidget(self.scrollAreaWidgetContents)
+
+        self.gridLayout_8.addWidget(self.scrollArea_6, 1, 1, 1, 2)
+
+        self.verticalSpacer_6 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_8.addItem(self.verticalSpacer_6, 3, 1, 1, 1)
+
+        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_8.addItem(self.horizontalSpacer_7, 1, 3, 1, 1)
+
+        self.verticalSpacer_7 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_8.addItem(self.verticalSpacer_7, 0, 1, 1, 1)
+
+        self.stackedWidget_2.addWidget(self.authPage)
+
+        self.verticalLayout.addWidget(self.stackedWidget_2)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 760, 20))
+        self.menubar.setGeometry(QRect(0, 0, 1026, 20))
         MainWindow.setMenuBar(self.menubar)
-        QWidget.setTabOrder(self.AddBtn, self.SettingsBtn)
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget_2.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -638,13 +715,12 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"SeeSerial", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"SeeSerial", None))
         self.HomeBtn.setText(QCoreApplication.translate("MainWindow", u"Home", None))
         self.FavorsBtn.setText(QCoreApplication.translate("MainWindow", u"Favorites", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"SeeSerial", None))
+        self.userButton.setText(QCoreApplication.translate("MainWindow", u"User", None))
         self.AddBtn.setText(QCoreApplication.translate("MainWindow", u"Add", None))
         self.SettingsBtn.setText(QCoreApplication.translate("MainWindow", u"Settings", None))
-        self.BackBtn.setText("")
-        self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Search", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
@@ -658,5 +734,12 @@ class Ui_MainWindow(object):
         self.saveSerBt.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c", None))
         self.clearSerBt.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c", None))
         self.deleteSerBt.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0434\u0430\u043b\u0438\u0442\u044c", None))
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"\u041b\u043e\u0433\u0438\u043d", None))
+        self.label_9.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0430\u0440\u043e\u043b\u044c", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c\u0441\u044f", None))
+        self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0445\u043e\u0434", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f", None))
+        self.pushButton_5.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c\u0441\u044f", None))
+        self.pushButton_6.setText(QCoreApplication.translate("MainWindow", u"\u0414\u0430\u043b\u0435\u0435", None))
     # retranslateUi
 

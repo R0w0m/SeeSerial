@@ -1,49 +1,12 @@
-style = {
-    "scrollBar": """
-        QScrollBar:vertical {
-            border: none;
-            background: transparent;
-            width: 6px;
-            margin: 0;
-            border-radius: 3px;
-        }
-        QScrollBar::handle:vertical {
-            background: #777777;
-            min-height: 0px;
-            border-radius: 3px;
-        }
-        QScrollBar::add-line:vertical {
-            border: none;
-            background: none;
-        }
-        QScrollBar::sub-line:vertical {
-            border: none;
-            background: none;
-        }
-        QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-            background: none;
-        }
 
-        QScrollBar:vertical:hover {
-            background: #aaaaaa;
-            width: 10px;
-        }
-        QScrollBar::handle:vertical:hover {
-            background: #181a1b;
-        }
-        QScrollBar::add-line:vertical:hover {
-            background: #aaaaaa;
-        }
-        """,
-    "widget": """
-            background-color: rgb(255, 255, 255);
-            border-radius: 10px;""",
-}
-
+# "purple": ("#CFC8FF", "#9D92E9", "#8072DC", "#6C5DD3"),
+# "blue": ("#3F8CFF", "#A0D7E7", "#CCF3FE", "#0049C6"),
+# "pink": ("#FF77A3", "#FFC6DB", "#FFBED3", "#FFA2C0"),
+# "orange": ("#FFA25F", "#FFE1AA", "#FFDD9D", "#FFCE73"),
+# "black": ("#FFFFFF", "#8D8E90", "#494A4D", "#1B1D21"),
 
 class StyleSheets:
     def __init__(self, color):
-        self.color = colors[color]
         # text
         # #1B1D21
         # #808191
@@ -52,17 +15,35 @@ class StyleSheets:
             "gray": "#808191",
         }
         colors = {
-            "purple": {1: "#CFC8FF", 2: "#9D92E9", 3: "#8072DC", 4: "#6C5DD3"},
-            "blue": {1: "#3F8CFF", 2: "#A0D7E7", 3: "#CCF3FE", 4: "#0049C6"},
-            "pink": {1: "#FF77A3", 2: "#FFC6DB", 3: "#FFBED3", 4: "#FFA2C0"},
-            "orange": {1: "#FFA25F", 2: "#FFE1AA", 3: "#FFDD9D", 4: "#FFCE73"},
-            "black": {1: "#FFFFFF", 2: "#8D8E90", 3: "#494A4D", 4: "#1B1D21"},
+            # color: [background, button, hover, pressed, logo, text, text_hover, text_pressed]
+            "purple": ("#FFF", "#CFC8FF", "#9D92E9", "#8072DC", "#6C5DD3", "#1B1D21", "#808191"),
+        #     "purple": {
+        #         "background": "#FFF",
+        #         "button": "#CFC8FF",
+        #         "hover": "#9D92E9",
+        #         "pressed": "#8072DC",
+        #         "logo": "#6C5DD3",
+        #         "text": "#1B1D21",
+        #         "text_hover": "#808191",
+        #         "text_pressed": "#808191",
+        # }
+            "blue": ("#FFF", "#3F8CFF", "#A0D7E7", "#CCF3FE", "#0049C6"),
+            "pink": ("#FFF", "#FF77A3", "#FFC6DB", "#FFBED3", "#FFA2C0"),
+            "orange": ("#FFF", "#FFA25F", "#FFE1AA", "#FFDD9D", "#FFCE73"),
+            "black": ("#0F0F0F", "#FFFFFF", "#8D8E90", "#494A4D", "#1B1D21"),
         }
+        self.color = colors[color]
         self.styles = {
+            "main": f"""
+                background-color: {colors[color][0]};
+                color: {text_colors["black"]};
+                font-size: 16px;
+                font-family: 'Roboto', sans-serif;
+            """,
             "button": f"""
                 QPushButton {{
                     background-color: {colors[color][1]};
-                    color: {colors[color][3]};
+                    color: {colors[color][5]};
                     border-radius: 10px;
                     font-size: 16px;
                     padding: 8px 16px;
@@ -89,4 +70,43 @@ class StyleSheets:
                     text-align: center;
                 }}
                 """,
+            "scrollBar": """
+                QScrollBar:vertical {
+                    border: none;
+                    background: transparent;
+                    width: 6px;
+                    margin: 0;
+                    border-radius: 3px;
+                }
+                QScrollBar::handle:vertical {
+                    background: #777777;
+                    min-height: 0px;
+                    border-radius: 3px;
+                }
+                QScrollBar::add-line:vertical {
+                    border: none;
+                    background: none;
+                }
+                QScrollBar::sub-line:vertical {
+                    border: none;
+                    background: none;
+                }
+                QScrollBar::add-page:vertikal, QScrollBar::sub-page:vertical {
+                    background: none;
+                }
+
+                QScrollBar:vertical:hover {
+                    background: #aaaaaa;
+                    width: 10px;
+                }
+                QScrollBar::handle:vertical:hover {
+                    background: #181a1b;
+                }
+                QScrollBar::add-line:vertical:hover {
+                    background: #aaaaaa;
+                }
+                """,
+            "widget": """
+                    background-color: rgb(255, 255, 255);
+                    border-radius: 10px;""",
         }

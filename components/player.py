@@ -23,15 +23,16 @@ from ui.Player_ import Ui_MainWindow as PlayerUi
 
 
 class Player(QMainWindow):
-    def __init__(self, path, episode_id, position, fix_position):
-        super().__init__()
+    def __init__(self, parent, path, episode_id, position, fix_position):
+        super().__init__(parent)
 
         # import ui from Player_.py
         self.ui = PlayerUi()
         self.ui.setupUi(self)
         self.path = path
         self.episode_id = episode_id
-        self.fix_position = fix_position
+        # self.fix_position = fix_position
+        self.parent = parent
         self.start_position = position
         self.started = False
 
@@ -43,14 +44,8 @@ class Player(QMainWindow):
         # bind buttons
         self.ui.playBut.clicked.connect(self._player.play)
         self.ui.fullScreenBut.clicked.connect(self.showFullScreen)
-        self._player.positionChanged.connect(self.on_position_changed)
+        # self._player.positionChanged.connect(self.on_position_changed)
         self._player.mediaStatusChanged.connect(self.set_start_position)
-
-        # bind horisontal slider to players pos
-        # self.ui.horizontalSlider.setRange(0, self._player.duration())
-        # self.ui.horizontalSlider.setValue(self.start_position)
-        # self.ui.horizontalSlider.valueChanged.connect(self._player.setPosition)
-        # self._player.positionChanged.connect(self.ui.horizontalSlider.setValue)
 
         # set videoWidget
         self.ui.videoWidget = QVideoWidget()
@@ -96,7 +91,8 @@ class Player(QMainWindow):
     def closeEvent(self, event):
         print("Closing, Current position:", self._player.position())
         percent_pos = self._player.position() * 100 // self._player.duration()
-        self.fix_position(self.episode_id, self._player.position(), percent_pos)
+        # self.fix_position(self.episode_id, self._player.position(), percent_pos)
+        self.parent.fix_position_signal.emit(self.episode_id, self._player.position(), percent_pos)
         self._ensure_stopped()
         event.accept()
 

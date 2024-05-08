@@ -64,14 +64,14 @@ class FlowLayout(QLayout):
         card_width = self._item_list[0].sizeHint().width() if self._item_list else 0
         num_cards = max(1, rect.width() // (card_width + self.spacing()))
         remaining_space = rect.width() - num_cards * (card_width + self.spacing())
-        x = rect.x() + remaining_space // 2
+        x = rect.x() + remaining_space // 2 if len(self._item_list) > num_cards else rect.x()
         y = rect.y()
         line_height = 0
 
         for item in self._item_list:
             next_x = x + item.sizeHint().width() + self.spacing()
             if next_x - self.spacing() > rect.right() and line_height > 0:
-                x = rect.x() + remaining_space // 2
+                x = rect.x() + remaining_space // 2 if len(self._item_list) > num_cards else rect.x()
                 y = y + line_height + self.spacing()
                 next_x = x + item.sizeHint().width() + self.spacing()
                 line_height = 0
@@ -83,32 +83,3 @@ class FlowLayout(QLayout):
             line_height = max(line_height, item.sizeHint().height())
 
         return y + line_height - rect.y()
-        # x = rect.x()
-        # y = rect.y()
-        # line_height = 0
-        # spacing = self.spacing() + 6
-        #
-        # for item in self._item_list:
-        #     style = item.widget().style()
-        #     layout_spacing_x = style.layoutSpacing(
-        #         QSizePolicy.PushButton, QSizePolicy.PushButton, Qt.Horizontal
-        #     )
-        #     layout_spacing_y = style.layoutSpacing(
-        #         QSizePolicy.PushButton, QSizePolicy.PushButton, Qt.Vertical
-        #     )
-        #     space_x = spacing + layout_spacing_x
-        #     space_y = spacing + layout_spacing_y
-        #     next_x = x + item.sizeHint().width() + space_x
-        #     if next_x - space_x > rect.right() and line_height > 0:
-        #         x = rect.x()
-        #         y = y + line_height + space_y
-        #         next_x = x + item.sizeHint().width() + space_x
-        #         line_height = 0
-        #
-        #     if not test_only:
-        #         item.setGeometry(QRect(QPoint(x, y), item.sizeHint()))
-        #
-        #     x = next_x
-        #     line_height = max(line_height, item.sizeHint().height())
-        #
-        # return y + line_height - rect.y()
