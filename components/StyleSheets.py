@@ -10,40 +10,51 @@ class StyleSheets:
         # text
         # #1B1D21
         # #808191
-        text_colors = {
+        text_color = {
             "black": "#1B1D21",
             "gray": "#808191",
         }
-        colors = {
-            # color: [background, button, hover, pressed, logo, text, text_hover, text_pressed]
+        themes = {
+            # color: [background, button, hover, pressed, primary, text, text_hover, text_pressed]
             "purple": ("#FFF", "#CFC8FF", "#9D92E9", "#8072DC", "#6C5DD3", "#1B1D21", "#808191"),
-        #     "purple": {
-        #         "background": "#FFF",
-        #         "button": "#CFC8FF",
-        #         "hover": "#9D92E9",
-        #         "pressed": "#8072DC",
-        #         "logo": "#6C5DD3",
-        #         "text": "#1B1D21",
-        #         "text_hover": "#808191",
-        #         "text_pressed": "#808191",
-        # }
-            "blue": ("#FFF", "#3F8CFF", "#A0D7E7", "#CCF3FE", "#0049C6"),
-            "pink": ("#FFF", "#FF77A3", "#FFC6DB", "#FFBED3", "#FFA2C0"),
-            "orange": ("#FFF", "#FFA25F", "#FFE1AA", "#FFDD9D", "#FFCE73"),
-            "black": ("#0F0F0F", "#FFFFFF", "#8D8E90", "#494A4D", "#1B1D21"),
+            "blue": ("#FFF", "#3F8CFF", "#A0D7E7", "#CCF3FE", "#0049C6", "#1B1D21", "#808191"),
+            "pink": ("#FFF", "#FF77A3", "#FFC6DB", "#FFBED3", "#FFA2C0", "#1B1D21", "#808191"),
+            "orange": ("#FFF", "#FFA25F", "#FFE1AA", "#FFDD9D", "#FFCE73", "#1B1D21", "#808191"),
+            "black": ("#0F0F0F", "#FFFFFF", "#8D8E90", "#494A4D", "#1B1D21", "#1B1D21", "#808191"),
         }
-        self.color = colors[color]
+        self.theme = themes[color]
         self.styles = {
             "main": f"""
-                background-color: {colors[color][0]};
-                color: {text_colors["black"]};
+                background-color: {self.theme[0]};
+                color: {self.theme[5]};
                 font-size: 16px;
                 font-family: 'Roboto', sans-serif;
             """,
+            # text align center
             "button": f"""
                 QPushButton {{
-                    background-color: {colors[color][1]};
-                    color: {colors[color][5]};
+                    background-color: {self.theme[0]};
+                    color: {self.theme[6]};
+                    border-radius: 10px;
+                    font-size: 16px;
+                    padding: 8px 16px;
+                    text-align: center;
+                }}
+
+                QPushButton:hover {{
+                    background-color: {self.theme[2]};
+                    color: {self.theme[5]};
+                }}
+
+                QPushButton:pressed {{
+                    background-color: {self.theme[3]};
+                    color: {self.theme[0]};
+                }}
+            """,
+            "accent_button": f"""
+                QPushButton {{
+                    background-color: {self.theme[1]};
+                    color: {self.theme[0]};
                     border-radius: 10px;
                     font-size: 16px;
                     padding: 8px 16px;
@@ -51,18 +62,19 @@ class StyleSheets:
                 }}
 
                 QPushButton:hover {{
-                    background-color: {colors[color][2]};
-                    color: black;
+                    background-color: {self.theme[2]};
+                    color: {self.theme[5]};
                 }}
 
                 QPushButton:pressed {{
-                    background-color: {colors[color][3]};
-                    color: white;
+                    background-color: {self.theme[3]};
+                    color: {self.theme[0]};
                 }}
             """,
+
             "logo": f"""
                 QLabel {{
-                    background-color: {colors[color][4]};
+                    background-color: {self.theme[4]};
                     border-radius: 10px;
                     color: white;
                     font-size: 30px;
@@ -70,7 +82,11 @@ class StyleSheets:
                     text-align: center;
                 }}
                 """,
+            # border none for scrollarea
             "scrollBar": """
+                QScrollArea {
+                    border: none;
+                }
                 QScrollBar:vertical {
                     border: none;
                     background: transparent;
@@ -109,4 +125,30 @@ class StyleSheets:
             "widget": """
                     background-color: rgb(255, 255, 255);
                     border-radius: 10px;""",
+            "line": f"""
+                background-color: #AAAAAA;
+                border: none;
+                width: 1px;
+            """,
+            "label": f"""
+                color: {self.theme[5]};
+                font-size: 16px;
+                font-family: 'Roboto', sans-serif;
+            """,
+            "header": f"""
+                color: {self.theme[5]};
+                font-size: 24px;
+                font-family: 'Roboto', sans-serif;
+            """,
+            "line_edit": f"""
+                background-color: {self.theme[0]};
+                color: {self.theme[5]};
+                border: 1px solid {self.theme[5]};
+                border-radius: 10px;
+                font-size: 16px;
+                padding: 8px 16px;
+            """,
         }
+
+    def get_color(self):
+        return self.self.theme

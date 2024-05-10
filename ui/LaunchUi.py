@@ -31,8 +31,8 @@ class Ui_MainWindow(object):
 "")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.verticalLayout = QVBoxLayout(self.centralwidget)
-        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.horizontalLayout_3 = QHBoxLayout(self.centralwidget)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.stackedWidget_2 = QStackedWidget(self.centralwidget)
         self.stackedWidget_2.setObjectName(u"stackedWidget_2")
         self.stackedWidget_2.setStyleSheet(u"")
@@ -44,6 +44,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalLayout_4.setContentsMargins(9, 0, 9, -1)
         self.HomeBtn = QPushButton(self.mainPage)
         self.HomeBtn.setObjectName(u"HomeBtn")
         self.HomeBtn.setMinimumSize(QSize(0, 30))
@@ -140,13 +141,14 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_4.addItem(self.horizontalSpacer)
 
-        self.userButton = QPushButton(self.mainPage)
-        self.userButton.setObjectName(u"userButton")
+        self.userBt = QPushButton(self.mainPage)
+        self.userBt.setObjectName(u"userBt")
         font2 = QFont()
         font2.setFamilies([u"RobotoMono Nerd Font [GOOG]"])
         font2.setBold(False)
-        self.userButton.setFont(font2)
-        self.userButton.setStyleSheet(u"QPushButton {\n"
+        font2.setItalic(False)
+        self.userBt.setFont(font2)
+        self.userBt.setStyleSheet(u"QPushButton {\n"
 "  background-color: rgb(255, 255, 255);\n"
 "  color: #808191;\n"
 "  border-radius: 10px;\n"
@@ -166,9 +168,18 @@ class Ui_MainWindow(object):
 "}")
         icon2 = QIcon()
         icon2.addFile(u"media/user.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.userButton.setIcon(icon2)
+        self.userBt.setIcon(icon2)
 
-        self.horizontalLayout_4.addWidget(self.userButton)
+        self.horizontalLayout_4.addWidget(self.userBt)
+
+        self.line_2 = QFrame(self.mainPage)
+        self.line_2.setObjectName(u"line_2")
+        self.line_2.setMinimumSize(QSize(0, 0))
+        self.line_2.setMaximumSize(QSize(16777215, 30))
+        self.line_2.setFrameShape(QFrame.Shape.VLine)
+        self.line_2.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.horizontalLayout_4.addWidget(self.line_2)
 
         self.AddBtn = QPushButton(self.mainPage)
         self.AddBtn.setObjectName(u"AddBtn")
@@ -199,6 +210,15 @@ class Ui_MainWindow(object):
         self.AddBtn.setIconSize(QSize(16, 16))
 
         self.horizontalLayout_4.addWidget(self.AddBtn)
+
+        self.line_3 = QFrame(self.mainPage)
+        self.line_3.setObjectName(u"line_3")
+        self.line_3.setMinimumSize(QSize(0, 0))
+        self.line_3.setMaximumSize(QSize(16777215, 30))
+        self.line_3.setFrameShape(QFrame.Shape.VLine)
+        self.line_3.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.horizontalLayout_4.addWidget(self.line_3)
 
         self.SettingsBtn = QPushButton(self.mainPage)
         self.SettingsBtn.setObjectName(u"SettingsBtn")
@@ -269,7 +289,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.seasonContents = QWidget()
         self.seasonContents.setObjectName(u"seasonContents")
-        self.seasonContents.setGeometry(QRect(0, 0, 980, 609))
+        self.seasonContents.setGeometry(QRect(0, 0, 68, 18))
         self.verticalLayout_2 = QVBoxLayout(self.seasonContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.scrollArea_3.setWidget(self.seasonContents)
@@ -289,7 +309,7 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.episodeContents = QWidget()
         self.episodeContents.setObjectName(u"episodeContents")
-        self.episodeContents.setGeometry(QRect(0, 0, 998, 627))
+        self.episodeContents.setGeometry(QRect(0, 0, 100, 30))
         self.verticalLayout_5 = QVBoxLayout(self.episodeContents)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.scrollArea_2.setWidget(self.episodeContents)
@@ -306,7 +326,7 @@ class Ui_MainWindow(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.settingsContents = QWidget()
         self.settingsContents.setObjectName(u"settingsContents")
-        self.settingsContents.setGeometry(QRect(0, 0, 980, 609))
+        self.settingsContents.setGeometry(QRect(0, 0, 150, 54))
         self.formLayout = QFormLayout(self.settingsContents)
         self.formLayout.setObjectName(u"formLayout")
         self.label_2 = QLabel(self.settingsContents)
@@ -598,29 +618,26 @@ class Ui_MainWindow(object):
         self.registrationPage.setObjectName(u"registrationPage")
         self.gridLayout_6 = QGridLayout(self.registrationPage)
         self.gridLayout_6.setObjectName(u"gridLayout_6")
+        self.registerBt = QPushButton(self.registrationPage)
+        self.registerBt.setObjectName(u"registerBt")
+
+        self.gridLayout_6.addWidget(self.registerBt, 4, 3, 1, 1)
+
+        self.loginInput = QLineEdit(self.registrationPage)
+        self.loginInput.setObjectName(u"loginInput")
+
+        self.gridLayout_6.addWidget(self.loginInput, 2, 3, 1, 1)
+
+        self.passInput = QLineEdit(self.registrationPage)
+        self.passInput.setObjectName(u"passInput")
+
+        self.gridLayout_6.addWidget(self.passInput, 3, 3, 1, 1)
+
         self.label_8 = QLabel(self.registrationPage)
         self.label_8.setObjectName(u"label_8")
         self.label_8.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridLayout_6.addWidget(self.label_8, 2, 1, 1, 1)
-
-        self.lineEdit = QLineEdit(self.registrationPage)
-        self.lineEdit.setObjectName(u"lineEdit")
-
-        self.gridLayout_6.addWidget(self.lineEdit, 2, 3, 1, 1)
-
-        self.lineEdit_2 = QLineEdit(self.registrationPage)
-        self.lineEdit_2.setObjectName(u"lineEdit_2")
-
-        self.gridLayout_6.addWidget(self.lineEdit_2, 3, 3, 1, 1)
-
-        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_6.addItem(self.horizontalSpacer_5, 1, 4, 1, 1)
-
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_6.addItem(self.horizontalSpacer_4, 1, 0, 1, 1)
 
         self.label_9 = QLabel(self.registrationPage)
         self.label_9.setObjectName(u"label_9")
@@ -628,23 +645,14 @@ class Ui_MainWindow(object):
 
         self.gridLayout_6.addWidget(self.label_9, 3, 1, 1, 1)
 
-        self.pushButton = QPushButton(self.registrationPage)
-        self.pushButton.setObjectName(u"pushButton")
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.gridLayout_6.addWidget(self.pushButton, 4, 3, 1, 1)
+        self.gridLayout_6.addItem(self.horizontalSpacer_5, 1, 4, 1, 1)
 
-        self.pushButton_3 = QPushButton(self.registrationPage)
-        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.gotoLoginBt = QPushButton(self.registrationPage)
+        self.gotoLoginBt.setObjectName(u"gotoLoginBt")
 
-        self.gridLayout_6.addWidget(self.pushButton_3, 4, 1, 1, 1)
-
-        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.gridLayout_6.addItem(self.verticalSpacer_5, 0, 1, 1, 1)
-
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.gridLayout_6.addItem(self.verticalSpacer, 5, 1, 1, 1)
+        self.gridLayout_6.addWidget(self.gotoLoginBt, 4, 1, 1, 1)
 
         self.label_7 = QLabel(self.registrationPage)
         self.label_7.setObjectName(u"label_7")
@@ -652,51 +660,112 @@ class Ui_MainWindow(object):
 
         self.gridLayout_6.addWidget(self.label_7, 1, 1, 1, 3)
 
+        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_6.addItem(self.verticalSpacer_5, 0, 1, 1, 1)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_6.addItem(self.verticalSpacer, 6, 1, 1, 1)
+
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_6.addItem(self.horizontalSpacer_4, 1, 0, 1, 1)
+
+        self.skipRegBt = QPushButton(self.registrationPage)
+        self.skipRegBt.setObjectName(u"skipRegBt")
+
+        self.gridLayout_6.addWidget(self.skipRegBt, 5, 1, 1, 3)
+
         self.stackedWidget_2.addWidget(self.registrationPage)
-        self.authPage = QWidget()
-        self.authPage.setObjectName(u"authPage")
-        self.gridLayout_8 = QGridLayout(self.authPage)
+        self.usersPage = QWidget()
+        self.usersPage.setObjectName(u"usersPage")
+        self.gridLayout_8 = QGridLayout(self.usersPage)
         self.gridLayout_8.setObjectName(u"gridLayout_8")
-        self.pushButton_5 = QPushButton(self.authPage)
-        self.pushButton_5.setObjectName(u"pushButton_5")
-
-        self.gridLayout_8.addWidget(self.pushButton_5, 2, 1, 1, 1)
-
-        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_8.addItem(self.horizontalSpacer_6, 1, 0, 1, 1)
-
-        self.pushButton_6 = QPushButton(self.authPage)
-        self.pushButton_6.setObjectName(u"pushButton_6")
-
-        self.gridLayout_8.addWidget(self.pushButton_6, 2, 2, 1, 1)
-
-        self.scrollArea_6 = QScrollArea(self.authPage)
-        self.scrollArea_6.setObjectName(u"scrollArea_6")
-        self.scrollArea_6.setLineWidth(1)
-        self.scrollArea_6.setWidgetResizable(True)
-        self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 223, 210))
-        self.scrollArea_6.setWidget(self.scrollAreaWidgetContents)
-
-        self.gridLayout_8.addWidget(self.scrollArea_6, 1, 1, 1, 2)
-
-        self.verticalSpacer_6 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.gridLayout_8.addItem(self.verticalSpacer_6, 3, 1, 1, 1)
-
-        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_8.addItem(self.horizontalSpacer_7, 1, 3, 1, 1)
-
-        self.verticalSpacer_7 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.verticalSpacer_7 = QSpacerItem(20, 100, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.MinimumExpanding)
 
         self.gridLayout_8.addItem(self.verticalSpacer_7, 0, 1, 1, 1)
 
+        self.label_10 = QLabel(self.usersPage)
+        self.label_10.setObjectName(u"label_10")
+        self.label_10.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_8.addWidget(self.label_10, 1, 1, 1, 1)
+
+        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_8.addItem(self.horizontalSpacer_6, 2, 0, 1, 1)
+
+        self.usersListScrollArea = QScrollArea(self.usersPage)
+        self.usersListScrollArea.setObjectName(u"usersListScrollArea")
+        self.usersListScrollArea.setWidgetResizable(True)
+        self.usersWidgetContents = QWidget()
+        self.usersWidgetContents.setObjectName(u"usersWidgetContents")
+        self.usersWidgetContents.setGeometry(QRect(0, 0, 324, 203))
+        self.usersListScrollArea.setWidget(self.usersWidgetContents)
+
+        self.gridLayout_8.addWidget(self.usersListScrollArea, 2, 1, 1, 1)
+
+        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_8.addItem(self.horizontalSpacer_7, 2, 2, 1, 1)
+
+        self.gotoRegisterBt = QPushButton(self.usersPage)
+        self.gotoRegisterBt.setObjectName(u"gotoRegisterBt")
+
+        self.gridLayout_8.addWidget(self.gotoRegisterBt, 3, 1, 1, 1)
+
+        self.verticalSpacer_6 = QSpacerItem(20, 100, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.MinimumExpanding)
+
+        self.gridLayout_8.addItem(self.verticalSpacer_6, 4, 1, 1, 1)
+
+        self.stackedWidget_2.addWidget(self.usersPage)
+        self.authPage = QWidget()
+        self.authPage.setObjectName(u"authPage")
+        self.gridLayout_9 = QGridLayout(self.authPage)
+        self.gridLayout_9.setObjectName(u"gridLayout_9")
+        self.verticalSpacer_8 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_9.addItem(self.verticalSpacer_8, 4, 1, 1, 1)
+
+        self.userNameLbl = QLabel(self.authPage)
+        self.userNameLbl.setObjectName(u"userNameLbl")
+        self.userNameLbl.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_9.addWidget(self.userNameLbl, 1, 1, 1, 2)
+
+        self.passEnterToLogin = QLineEdit(self.authPage)
+        self.passEnterToLogin.setObjectName(u"passEnterToLogin")
+
+        self.gridLayout_9.addWidget(self.passEnterToLogin, 3, 1, 1, 1)
+
+        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_9.addItem(self.horizontalSpacer_8, 1, 0, 1, 1)
+
+        self.verticalSpacer_9 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_9.addItem(self.verticalSpacer_9, 0, 1, 1, 1)
+
+        self.horizontalSpacer_9 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_9.addItem(self.horizontalSpacer_9, 1, 3, 1, 1)
+
+        self.finLogBt = QPushButton(self.authPage)
+        self.finLogBt.setObjectName(u"finLogBt")
+        icon9 = QIcon()
+        icon9.addFile(u"media/login.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.finLogBt.setIcon(icon9)
+
+        self.gridLayout_9.addWidget(self.finLogBt, 3, 2, 1, 1)
+
+        self.verticalSpacer_10 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Maximum)
+
+        self.gridLayout_9.addItem(self.verticalSpacer_10, 2, 1, 1, 1)
+
         self.stackedWidget_2.addWidget(self.authPage)
 
-        self.verticalLayout.addWidget(self.stackedWidget_2)
+        self.horizontalLayout_3.addWidget(self.stackedWidget_2)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
@@ -706,8 +775,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget_2.setCurrentIndex(2)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget_2.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -718,7 +787,7 @@ class Ui_MainWindow(object):
         self.HomeBtn.setText(QCoreApplication.translate("MainWindow", u"Home", None))
         self.FavorsBtn.setText(QCoreApplication.translate("MainWindow", u"Favorites", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"SeeSerial", None))
-        self.userButton.setText(QCoreApplication.translate("MainWindow", u"User", None))
+        self.userBt.setText(QCoreApplication.translate("MainWindow", u"User", None))
         self.AddBtn.setText(QCoreApplication.translate("MainWindow", u"Add", None))
         self.SettingsBtn.setText(QCoreApplication.translate("MainWindow", u"Settings", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
@@ -734,12 +803,14 @@ class Ui_MainWindow(object):
         self.saveSerBt.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c", None))
         self.clearSerBt.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c", None))
         self.deleteSerBt.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0434\u0430\u043b\u0438\u0442\u044c", None))
+        self.registerBt.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c\u0441\u044f", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"\u041b\u043e\u0433\u0438\u043d", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0430\u0440\u043e\u043b\u044c", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c\u0441\u044f", None))
-        self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0445\u043e\u0434", None))
+        self.gotoLoginBt.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0445\u043e\u0434", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f", None))
-        self.pushButton_5.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c\u0441\u044f", None))
-        self.pushButton_6.setText(QCoreApplication.translate("MainWindow", u"\u0414\u0430\u043b\u0435\u0435", None))
+        self.skipRegBt.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0440\u043e\u043f\u0443\u0441\u0442\u0438\u0442\u044c", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0445\u043e\u0434", None))
+        self.gotoRegisterBt.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c\u0441\u044f", None))
+        self.userNameLbl.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
     # retranslateUi
 

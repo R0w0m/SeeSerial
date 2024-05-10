@@ -18,9 +18,12 @@ from PySide6.QtWidgets import (
     QSpacerItem,
     QVBoxLayout,
     QWidget,
+    QFrame,
+    QLineEdit,
 )
 
 from components.DBControl import DBControl as DB
+from components.DBControl import DBUsers
 from components.FlowLay import FlowLayout
 # from components.neumorph import NeumorphismEffect as NeoEffect
 # from components.neumorph import InsideNeumorphismEffect as InNeoEffect
@@ -40,7 +43,6 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.stackedWidget_2.setCurrentIndex(1)
         self.player = None
         # self.move_history = [
         #     0,
@@ -71,11 +73,22 @@ class MainWindow(QMainWindow):
         self.ui.fav_flowLayout = FlowLayout(self.ui.favorContents)
         self.ui.favorContents.setLayout(self.ui.fav_flowLayout)
 
+        self.ui.userListLayout = QVBoxLayout(self.ui.usersWidgetContents)
+
         # buttons actions
+        # menu
         self.ui.HomeBtn.clicked.connect(lambda: self.change_page(0))
         self.ui.AddBtn.clicked.connect(self.add)
         self.ui.SettingsBtn.clicked.connect(lambda: self.change_page(3))
         self.ui.FavorsBtn.clicked.connect(lambda: self.favorites_clicked())
+        self.ui.userBt.clicked.connect(lambda: self.logout())
+        # auth menu
+        self.ui.registerBt.clicked.connect(self.register)
+        self.ui.gotoRegisterBt.clicked.connect(self.goto_register)
+        self.ui.gotoLoginBt.clicked.connect(self.goto_login)
+        self.ui.finLogBt.clicked.connect(self.login)
+        self.ui.skipRegBt.clicked.connect(self.skip_login)
+        # serial settings
         self.ui.deletePrev.clicked.connect(self.deletePrev_clicked)
         self.ui.saveSerBt.clicked.connect(self.save_set)
         self.ui.chooseFileBut.clicked.connect(self.prev_set_clicked)
@@ -87,19 +100,29 @@ class MainWindow(QMainWindow):
         # self.t.daemon = True
         # self.t.start()
 
-        # nav fix
-        self.move_history.append(self.ui.stackedWidget.currentIndex())
-        self.setStyles()
-
         # setting up DB
-        self.db = DB("Main.db")
-        self.restore()
+        self.dbUsers = DBUsers("Main.db")
+        # get users
+        users = self.dbUsers.get_all_users()
+        if users:
+            for user in users:
+                self.add_user_bt(user[0], user[1])
+            spacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+            self.ui.userListLayout.addItem(spacer)
+            self.ui.stackedWidget_2.setCurrentIndex(2)
+        else:
+            self.ui.gotoLoginBt.hide()
+            self.ui.stackedWidget_2.setCurrentIndex(1)
+
+        self.setStyles()
         self.retranslateUI()
 
+
+
     def register(self):
-        login = self.ui.loginEdit.text()
-        password = self.ui.passwordEdit.text()
-        if not login or not password:
+        self.current_user_login = self.ui.loginInput.text()
+        password = self.ui.passInput.text()
+        if not self.current_user_login or not password:
             message = QMessageBox()
             message.setWindowTitle("Ошибка")
             message.setText("Заполните все поля")
@@ -107,19 +130,89 @@ class MainWindow(QMainWindow):
             message.setIcon(QMessageBox.Warning)
             message.exec()
             return
-        self.db.insert("users", "login, password", f"'{login}', '{password}'")
+        self.dbUsers.insert_user(self.current_user_login, password)
+        # get id
+        self.current_user_id = self.dbUsers.cursor.lastrowid
+        self.add_user_bt(self.current_user_id, self.current_user_login)
+        self.ui.gotoLoginBt.show()
+        self.success_login()
+
+    def goto_register(self):
+        self.ui.stackedWidget_2.setCurrentIndex(1)
+
+    def goto_login(self):
+        self.ui.stackedWidget_2.setCurrentIndex(2)
+
+    def user_clicked(self, user_id, user_login):
+        self.current_user_id = user_id
+        self.current_user_login = user_login
+        self.ui.stackedWidget_2.setCurrentIndex(3)
+        self.ui.userNameLbl.setText(self.current_user_login)
+
+    def login(self):
+        user_id = self.current_user_id
+        password = self.ui.passEnterToLogin.text()
+        if password == self.dbUsers.get_password(user_id)[0][0]:
+            self.success_login()
+        else:
+            message = QMessageBox()
+            message.setWindowTitle("Ошибка")
+            message.setText("Неверный пароль")
+            message.setStandardButtons(QMessageBox.Ok)
+            message.setIcon(QMessageBox.Warning)
+            message.exec()
+
+    def success_login(self):
+        self.db = DB(f"{self.current_user_id}.db")
+        self.restore()
+        self.ui.userBt.setText(self.current_user_login)
+        self.ui.stackedWidget_2.setCurrentIndex(0)
+
+    def skip_login(self):
+        self.db = DB("Main.db")
+        self.restore()
+        self.ui.userBt.setText("Гость")
+        self.ui.stackedWidget_2.setCurrentIndex(0)
+
+    def add_user_bt(self, user_id, user_login):
+        user = UserBt(user_id, user_login)
+        user.clicked.connect(lambda: self.user_clicked(user.id, user.login))
+        self.ui.userListLayout.addWidget(user)
+
+    def logout(self):
+        if self.db is not None:
+            self.db.close()
+        self.ui.loginInput.setText("")
+        self.ui.passInput.setText("")
+        self.ui.passEnterToLogin.setText("")
+        self.ui.stackedWidget_2.setCurrentIndex(2)
 
 
     def setStyles(self):
-        self.styles = StyleSheets("purple")
+        # general
+        self.styles = StyleSheets("orange")
         self.setStyleSheet(self.styles.styles["main"])
         for component in self.findChildren(QPushButton):
             component.setStyleSheet(self.styles.styles["button"])
-        # for component in self.findChildren(QLabel):
-        #     component.setStyleSheet(self.styles.styles["label"])
+        for component in self.findChildren(QLabel):
+            if component.objectName() != "label":
+                component.setStyleSheet(self.styles.styles["label"])
         for component in self.findChildren(QScrollArea):
             component.setStyleSheet(self.styles.styles["scrollBar"])
+        for component in (self.ui.line, self.ui.line_2, self.ui.line_3):
+            component.setStyleSheet(self.styles.styles["line"])
+        for component in self.findChildren(QLineEdit):
+            component.setStyleSheet(self.styles.styles["line_edit"])
 
+        # excepts
+        for component in self.ui.usersListScrollArea.findChildren(QPushButton):
+            component.setStyleSheet(self.styles.styles["accent_button"])
+        # headers (labels)
+        for component in (self.ui.label_7, self.ui.label_10, self.ui.userNameLbl):
+            component.setStyleSheet(self.styles.styles["header"])
+
+
+            
     def favorited(self, serial_id, favBtn):
         is_fav = self.db.select("serial", "favorite", f"id = {serial_id}")[0][0]
         if is_fav:
@@ -609,7 +702,7 @@ class MainWindow(QMainWindow):
             self.prev_set = f"previwes/{self.ui.serialNameLbl.text()}.webp"
 
     def change_page(self, page):
-        self.move_history.append(self.ui.stackedWidget.currentIndex())
+        # self.move_history.append(self.ui.stackedWidget.currentIndex())
         self.ui.stackedWidget.setCurrentIndex(page)
         # self.move_history.append(page)
         # self.ui.BackBtn.show()
@@ -625,7 +718,11 @@ class MainWindow(QMainWindow):
         self.change_page(0)
 
     def closeEvent(self, event):
-        self.db.conn.close()
+        # close db connections if exist
+        if self.db is not None:
+            self.db.close()
+        if self.dbUsers is not None:
+            self.dbUsers.close()
         if self.player is not None:
             self.player.close()
         event.accept()
@@ -637,7 +734,7 @@ class MainWindow(QMainWindow):
         self.ui.FavorsBtn.setText("Избранные")
         self.ui.AddBtn.setText("Добавить")
         self.ui.SettingsBtn.setText("Настройки")
-        self.ui.userButton.setText("Пользователь")
+        self.ui.userBt.setText("Пользователь")
         # self.ui.pushButton_3.setText("Поиск")
         # self.ui.label_2.setText("TextLabel")
         # self.ui.pushButton_2.setText("PushButton"))
@@ -695,11 +792,12 @@ class Card:
         image_path = serial_info[4]
         is_fav = serial_info[5]
 
-        print("serial_info:", serial_info)
-
         self.widget = QWidget()
-        self.widget.setFixedHeight(265)
-        self.widget.setFixedWidth(130)
+        # self.widget.setFixedHeight(265)
+        # self.widget.setFixedWidth(130)
+        # 1.5x size
+        self.widget.setFixedHeight(400)
+        self.widget.setFixedWidth(195)
         self.widget.setStyleSheet(
             """
             background-color: #CFC8FF;
@@ -714,10 +812,12 @@ class Card:
         PixLabel = QLabel(self.widget)
         PixLabel.setAlignment(Qt.AlignCenter)
         PixLabel.setObjectName("label")
-        PixLabel.setFixedSize(130, 200)
+        # PixLabel.setFixedSize(130, 200)
+        PixLabel.setFixedSize(195, 300)
         if image_path is None or not os.path.exists(image_path):
             image_path = "previwes/default.png"
-            PixLabel.setFixedSize(130, 200)
+            # PixLabel.setFixedSize(130, 200)
+            PixLabel.setFixedSize(195, 300)
             PixLabel.setStyleSheet(
                 " \
                 image: url(previwes/default.png); \
@@ -831,6 +931,19 @@ class Card:
         hLayout.addWidget(self.runBtn)
         hLayout.addWidget(self.setBtn)
 
+class UserBt(QPushButton):
+    def __init__(self, id, login):
+        super().__init__()
+        self.id = id
+        self.login = login
+        self.setText(login)
+        self.setFixedHeight(50)
+        self.setStyleSheet(
+            " \
+            background-color: rgb(255, 255, 255); \
+            border: 1px solid rgb(0, 0, 0); \
+            "
+        )
 
 if __name__ == "__main__":
     app = QApplication([])

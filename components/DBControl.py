@@ -4,7 +4,7 @@ import sqlite3
 class DBControl:
     def __init__(self, db_name):
         self.db_name = db_name
-        self.conn = sqlite3.connect(self.db_name)
+        self.conn = sqlite3.connect(f"data/{self.db_name}")
         self.cursor = self.conn.cursor()
 
         self.create_table(
@@ -39,12 +39,12 @@ class DBControl:
         #     name TEXT, \
         #     password TEXT, \
         # )
-        # self.create_table(
-        #     "settings",
-        #     "id INTEGER PRIMARY KEY AUTOINCREMENT, \
-        #     name TEXT, \
-        #     value INTEGER",
-        # )
+        self.create_table(
+            "settings",
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, \
+            name TEXT, \
+            value INTEGER",
+        )
 
     def create_table(self, table_name, columns):
         self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({columns})")
@@ -95,9 +95,6 @@ class DBControl:
         self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
         tables = self.cursor.fetchall()
         for table_name in tables:
-            # print(table_name[0])
-            # self.cursor.execute("SELECT * FROM " + table_name[0])
-            # print(self.cursor.fetchall())
             self.beautiuful_print(table_name[0])
 
     def beautiuful_print(self, table_name):
@@ -106,3 +103,47 @@ class DBControl:
 
     def close(self):
         self.conn.close()
+
+
+class DBUsers(DBControl):
+    def __init__(self, db_name):
+        super().__init__(db_name)
+        self.create_table(
+            "user",
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, \
+            name TEXT, \
+            password TEXT",
+        )
+
+    def insert_user(self, name: str, password: str):
+        vals = (name, password)
+        self.cursor.execute(
+            """INSERT INTO user (name, password) VALUES (?, ?)""", vals
+        )
+        self.conn.commit()
+
+    def select_user(self, name: str):
+        self.cursor.execute(f"SELECT * FROM user WHERE name = '{name}'")
+        return self.cursor.fetchall()
+
+    def get_all_users(self):
+        self.cursor.execute("SELECT * FROM user")
+        return self.cursor.fetchall()
+
+    def select_user_id(self, id: int):
+        self.cursor.execute(f"SELECT * FROM user WHERE id = {id}")
+        return self.cursor.fetchall()
+
+    def get_password(self, id: int):
+        self.cursor.execute(f"SELECT password FROM user WHERE id = {id}")
+        return self.cursor.fetchall()
+
+    def update_user(self, name: str, password: str):
+        self.cursor.execute(
+            f"UPDATE user SET password = '{password}' WHERE name = '{name}'"
+        )
+        self.conn.commit()
+
+    def delete_user(self, name: str):
+        self.cursor.execute(f"DELETE FROM user WHERE name = '{name}'")
+        self.conn.commit()
