@@ -20,7 +20,7 @@ class StyleSheets:
             "blue": ("#FFF", "#3F8CFF", "#A0D7E7", "#CCF3FE", "#0049C6", "#1B1D21", "#808191"),
             "pink": ("#FFF", "#FF77A3", "#FFC6DB", "#FFBED3", "#FFA2C0", "#1B1D21", "#808191"),
             "orange": ("#FFF", "#FFA25F", "#FFE1AA", "#FFDD9D", "#FFCE73", "#1B1D21", "#808191"),
-            "black": ("#0F0F0F", "#FFFFFF", "#8D8E90", "#494A4D", "#1B1D21", "#1B1D21", "#808191"),
+            "black": ("#202222", "#8D8E90", "#FFFFFF", "#494A4D", "#1B1D21", "#FFF", "#808191"),
         }
         self.theme = themes[color]
         self.styles = {
@@ -54,7 +54,7 @@ class StyleSheets:
             "accent_button": f"""
                 QPushButton {{
                     background-color: {self.theme[1]};
-                    color: {self.theme[0]};
+                    color: {self.theme[5]};
                     border-radius: 10px;
                     font-size: 16px;
                     padding: 8px 16px;
@@ -63,7 +63,7 @@ class StyleSheets:
 
                 QPushButton:hover {{
                     background-color: {self.theme[2]};
-                    color: {self.theme[5]};
+                    color: {self.theme[6]};
                 }}
 
                 QPushButton:pressed {{
@@ -141,6 +141,18 @@ class StyleSheets:
                 font-family: 'Roboto', sans-serif;
             """,
             "line_edit": f"""
+                background-color: {self.theme[0]};
+                color: {self.theme[5]};
+                border: 1px solid {self.theme[5]};
+                border-radius: 10px;
+                font-size: 16px;
+                padding: 8px 16px;
+            """,
+            "episode_ui": f"""
+                background-color: {self.theme[1]};
+                border-radius: 10px;
+            """,
+            "text_edit": f"""
                 background-color: {self.theme[0]};
                 color: {self.theme[5]};
                 border: 1px solid {self.theme[5]};

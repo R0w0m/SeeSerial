@@ -95,6 +95,13 @@ class MainWindow(QMainWindow):
         self.ui.deleteSerBt.clicked.connect(lambda: self.delete_serial(self.current_serial))
         self.ui.clearSerBt.clicked.connect(lambda: self.clear_full_progress(self.current_serial))
 
+        # добавить всплывающую подсказку для кнопок
+        self.ui.deletePrev.setToolTip("Удалить превью")
+        self.ui.saveSerBt.setToolTip("Сохранить изменения")
+        self.ui.chooseFileBut.setToolTip("Выбрать изображение")
+        self.ui.deleteSerBt.setToolTip("Удалить сериал")
+        self.ui.clearSerBt.setToolTip("Сбросить прогресс просмотра cериала")
+
         # theme detection
         # self.t = threading.Thread(target=self.detect_theme)
         # self.t.daemon = True
@@ -171,6 +178,11 @@ class MainWindow(QMainWindow):
     def skip_login(self):
         self.db = DB("Main.db")
         self.restore()
+        # hide favor and settings buttons
+        self.ui.FavorsBtn.hide()
+        self.ui.SettingsBtn.hide()
+        self.ui.line.hide()
+        self.ui.line_3.hide()
         self.ui.userBt.setText("Гость")
         self.ui.stackedWidget_2.setCurrentIndex(0)
 
@@ -190,7 +202,7 @@ class MainWindow(QMainWindow):
 
     def setStyles(self):
         # general
-        self.styles = StyleSheets("orange")
+        self.styles = StyleSheets("purple")
         self.setStyleSheet(self.styles.styles["main"])
         for component in self.findChildren(QPushButton):
             component.setStyleSheet(self.styles.styles["button"])
@@ -203,6 +215,8 @@ class MainWindow(QMainWindow):
             component.setStyleSheet(self.styles.styles["line"])
         for component in self.findChildren(QLineEdit):
             component.setStyleSheet(self.styles.styles["line_edit"])
+        # text edit
+        self.ui.noteTextEdit.setStyleSheet(self.styles.styles["text_edit"])
 
         # excepts
         for component in self.ui.usersListScrollArea.findChildren(QPushButton):
@@ -222,9 +236,10 @@ class MainWindow(QMainWindow):
             favBtn.setStyleSheet(
                 " \
                 image: url(media/star.svg); \
-                background-color: rgba(255, 255, 255, 0.7); \
+                background-color: rgba(255, 255, 255, 0); \
                 border-radius: 50%; \
                 padding: 4px; \
+                border: none; \
                 "
             )
         else:
@@ -233,9 +248,10 @@ class MainWindow(QMainWindow):
             favBtn.setStyleSheet(
                 " \
                 image: url(media/star_full.svg); \
-                background-color: rgba(255, 255, 255, 0.7); \
+                background-color: rgba(255, 255, 255, 0); \
                 border-radius: 50%; \
                 padding: 4px; \
+                border: none; \
                 "
             )
 
@@ -320,6 +336,7 @@ class MainWindow(QMainWindow):
             "id, name",
             f"parent_id = {season_id} and parent_type = {parent_type}",
         )
+        self.parent_info = (season_id, parent_type)
         # sort episodes by name
         episode_info.sort(key=lambda x: x[1])
         if not episode_info:
@@ -440,6 +457,7 @@ class MainWindow(QMainWindow):
         self.ui.episodeContents.layout().addWidget(widget)
         episode_ui = EpisodeUi()
         episode_ui.setupUi(widget)
+        episode_ui.widget.setStyleSheet(self.styles.styles["episode_ui"])
         if pos is None:
             pos = 0
         if pos == 0:
@@ -473,7 +491,7 @@ class MainWindow(QMainWindow):
         self.season_clicked(self.parent_info[0], self.parent_info[1])
 
     def add_season(self, season_id, season_name):
-        season_widget = Season(season_id, season_name)
+        season_widget = Season(season_id, season_name, self.styles.theme)
         self.ui.seasonContents.layout().addWidget(season_widget.widget)
         season_widget.runBtn.clicked.connect(
             lambda: self.season_clicked(season_widget.season_id, 1)
@@ -481,7 +499,7 @@ class MainWindow(QMainWindow):
 
     def add_card(self, serial_info, page_num=0):
         # card = Card(serial_name, serial_id, image_path)
-        card = Card(serial_info)
+        card = Card(serial_info, self.styles.theme)
         pages = (
             self.ui.main_flowLayout,
             self.ui.fav_flowLayout,
@@ -537,10 +555,8 @@ class MainWindow(QMainWindow):
                 episode_info.sort(key=lambda x: x[1])
                 # get last watched episode
                 for episode in reversed(episode_info):
+                    episode_id = episode[0] 
                     if episode[2] is not None:
-                        episode_id = episode[0]
-                        # self.db.update("episode", "position = NULL, pos_percent = NULL",
-                        #                 f"id = {episode_id}")
                         break
                 self.play(episode_id)
             else:
@@ -574,7 +590,7 @@ class MainWindow(QMainWindow):
         image_path = serial_info[2]
         if image_path is None or not os.path.exists(image_path):
             image_path = "previwes/default.png"
-            self.ui.prevImage.setFixedSize(130, 200)
+            self.ui.prevImage.setFixedSize(130, 220)
             self.ui.prevImage.setStyleSheet(
                 " \
                 image: url(previwes/default.png); \
@@ -592,7 +608,7 @@ class MainWindow(QMainWindow):
             )
         self.ui.prevImage.setScaledContents(True)
         self.ui.prevImage.show()
-        self.ui.prevImage.setMinimumSize(QSize(130, 200))
+        self.ui.prevImage.setMinimumSize(QSize(140, 210))
         self.ui.serialNameLbl.setText(serial_info[0])
         # self.ui.pushButton_3.clicked.connect(lambda: self.change_serial_name(serial_id))
         self.current_serial = serial_id
@@ -743,7 +759,7 @@ class MainWindow(QMainWindow):
 
 
 class Season:
-    def __init__(self, season_id: int, season_name: str):
+    def __init__(self, season_id: int, season_name: str, colors):
         super().__init__()
 
         self.season_name = season_name.split("/")[-1]
@@ -751,8 +767,8 @@ class Season:
 
         self.widget = QWidget()
         self.widget.setStyleSheet(
-            """
-            background-color: rgb(255, 255, 255);
+            f"""
+            background-color: {colors[1]};
             border-radius: 5px;"""
         )
         self.widget.setObjectName("widget")
@@ -784,26 +800,26 @@ class Season:
 
 
 class Card:
-    def __init__(self, serial_info):
+    def __init__(self, serial_info, colors):
         super().__init__()
 
         self.serial_id = serial_info[0]
         self.serial_name = serial_info[1].split(os.path.sep)[-1]
         image_path = serial_info[4]
         is_fav = serial_info[5]
+        self.colors = colors
+
+        self.width = 160
+        self.height = 315
 
         self.widget = QWidget()
-        # self.widget.setFixedHeight(265)
-        # self.widget.setFixedWidth(130)
-        # 1.5x size
-        self.widget.setFixedHeight(400)
-        self.widget.setFixedWidth(195)
+        self.widget.setFixedSize(self.width, self.height)
         self.widget.setStyleSheet(
-            """
-            background-color: #CFC8FF;
+            f"""
+            background-color: {self.colors[1]};
             border-radius: 10px;
-            padding: 0 0 10 0;
-            border: 3px solid #CFC8FF;
+            padding: 3 3 10 0;
+            border: 3px solid {self.colors[4]};
             """
         )
         self.widget.setObjectName("widget")
@@ -812,12 +828,11 @@ class Card:
         PixLabel = QLabel(self.widget)
         PixLabel.setAlignment(Qt.AlignCenter)
         PixLabel.setObjectName("label")
-        # PixLabel.setFixedSize(130, 200)
-        PixLabel.setFixedSize(195, 300)
+        PixLabel.setFixedSize(self.width, round(self.width * 1.5))
         if image_path is None or not os.path.exists(image_path):
             image_path = "previwes/default.png"
             # PixLabel.setFixedSize(130, 200)
-            PixLabel.setFixedSize(195, 300)
+            PixLabel.setFixedSize(self.width, round(self.width * 1.5))
             PixLabel.setStyleSheet(
                 " \
                 image: url(previwes/default.png); \
@@ -841,57 +856,65 @@ class Card:
 
         # add name
         label = QLabel(self.widget)
-        label.setStyleSheet("color: rgb(0, 0, 0); border: none;")
+        label.setStyleSheet("""
+                color: black;
+                border: none;
+                background-color: rgba(0, 0, 0, 0);
+                """)
         label.setAlignment(Qt.AlignCenter)
         label.setObjectName("label")
         label.setFont(font)
+        label.setFixedSize(self.width-5, 30)
         font_metrics = QFontMetrics(label.font())
         elided_text = font_metrics.elidedText(self.serial_name, Qt.ElideRight, 120)
         label.setText(elided_text)
 
         # ep list button
         self.epListBtn = QPushButton(self.widget)
-        self.epListBtn.setGeometry(QRect(0, 0, 28, 28))
-        self.epListBtn.setMaximumSize(QSize(28, 28))
+        self.epListBtn.setGeometry(QRect(0, 0, 32, 32))
+        self.epListBtn.setMaximumSize(QSize(32, 32))
         self.epListBtn.setStyleSheet(
             " \
             background-color: rgba(218, 228, 237, 255); \
             border-radius: 10%; \
             image: url(media/menu.svg); \
             padding: 5 px; \
+            border: none; \
             "
         )
 
         # add run button
         self.runBtn = QPushButton(self.widget)
         # self.runBtn.setGeometry(QRect(0, 0, 50, 50))
-        self.runBtn.setMinimumSize(QSize(28, 28))
+        self.runBtn.setMinimumSize(QSize(32, 32))
         self.runBtn.setStyleSheet(
             " \
             background-color: rgb(150, 255, 200); \
             border-radius: 10%; \
             image: url(media/play.svg); \
             padding: 6 px; \
+            border: none; \
             "
         )
 
         # settings button
         self.setBtn = QPushButton(self.widget)
-        self.setBtn.setGeometry(QRect(0, 0, 28, 28))
-        self.setBtn.setMaximumSize(QSize(28, 28))
+        self.setBtn.setGeometry(QRect(0, 0, 32, 32))
+        self.setBtn.setMaximumSize(QSize(32, 32))
         self.setBtn.setStyleSheet(
             " \
             image: url(media/settings_gear.svg); \
             border-radius: 10%; \
             background-color: rgba(218, 228, 237, 255); \
             padding: 4 px; \
+            border: none; \
             "
         )
 
         # favorite button
         self.favoriteBtn = QPushButton(self.widget)
-        self.favoriteBtn.setGeometry(QRect(95, 5, 28, 28))
-        self.favoriteBtn.setMaximumSize(QSize(28, 28))
+        self.favoriteBtn.setGeometry(QRect(self.width - 37, 5, 32, 32))
+        self.favoriteBtn.setMaximumSize(QSize(32, 32))
         if is_fav:
             self.favoriteBtn.setStyleSheet(
                 " \

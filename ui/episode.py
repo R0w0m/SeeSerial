@@ -25,8 +25,7 @@ class Ui_Form(object):
             Form.setObjectName(u"Form")
         Form.resize(591, 62)
         Form.setMinimumSize(QSize(0, 62))
-        Form.setStyleSheet(u"background-color: rgb(218, 228, 237);\n"
-"background-color: white;\n"
+        Form.setStyleSheet(u"background-color: white;\n"
 "border: 2px;\n"
 "border-color: red;\n"
 "border-radius: 10px;")
@@ -36,11 +35,17 @@ class Ui_Form(object):
         self.verticalLayout.setContentsMargins(0, -1, 0, 0)
         self.widget = QWidget(Form)
         self.widget.setObjectName(u"widget")
-        self.widget.setMaximumSize(QSize(16777215, 50))
-        self.horizontalLayout_3 = QHBoxLayout(self.widget)
+        self.verticalLayout_3 = QVBoxLayout(self.widget)
+        self.verticalLayout_3.setSpacing(0)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.widget_2 = QWidget(self.widget)
+        self.widget_2.setObjectName(u"widget_2")
+        self.widget_2.setMaximumSize(QSize(16777215, 50))
+        self.horizontalLayout_3 = QHBoxLayout(self.widget_2)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(18, -1, 18, -1)
-        self.pushButton = QPushButton(self.widget)
+        self.horizontalLayout_3.setContentsMargins(18, -1, 18, 6)
+        self.pushButton = QPushButton(self.widget_2)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setStyleSheet(u"QPushButton {\n"
 "  background-color: #2CDE85;\n"
@@ -63,7 +68,7 @@ class Ui_Form(object):
 
         self.horizontalLayout_3.addWidget(self.pushButton)
 
-        self.label = QLabel(self.widget)
+        self.label = QLabel(self.widget_2)
         self.label.setObjectName(u"label")
 
         self.horizontalLayout_3.addWidget(self.label)
@@ -72,12 +77,12 @@ class Ui_Form(object):
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer)
 
-        self.timeLabel = QLabel(self.widget)
+        self.timeLabel = QLabel(self.widget_2)
         self.timeLabel.setObjectName(u"timeLabel")
 
         self.horizontalLayout_3.addWidget(self.timeLabel)
 
-        self.clearEpBt = QPushButton(self.widget)
+        self.clearEpBt = QPushButton(self.widget_2)
         self.clearEpBt.setObjectName(u"clearEpBt")
         icon1 = QIcon()
         icon1.addFile(u"media/clear.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -87,9 +92,9 @@ class Ui_Form(object):
         self.horizontalLayout_3.addWidget(self.clearEpBt)
 
 
-        self.verticalLayout.addWidget(self.widget)
+        self.verticalLayout_3.addWidget(self.widget_2)
 
-        self.progressBar = QProgressBar(Form)
+        self.progressBar = QProgressBar(self.widget)
         self.progressBar.setObjectName(u"progressBar")
         self.progressBar.setMaximumSize(QSize(16777215, 4))
         self.progressBar.setStyleSheet(u"QProgressBar {\n"
@@ -104,7 +109,10 @@ class Ui_Form(object):
 "}")
         self.progressBar.setValue(24)
 
-        self.verticalLayout.addWidget(self.progressBar)
+        self.verticalLayout_3.addWidget(self.progressBar)
+
+
+        self.verticalLayout.addWidget(self.widget)
 
 
         self.retranslateUi(Form)

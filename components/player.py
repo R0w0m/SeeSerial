@@ -87,6 +87,8 @@ class Player(QMainWindow):
             Qt.Key_Q: self.close,
         }
         switcher.get(event.key(), lambda: None)()
+        if event.key() in range(48, 58):
+            self._player.setPosition(self._player.duration() // 10 * (event.key() - 48)) 
 
     def closeEvent(self, event):
         print("Closing, Current position:", self._player.position())
