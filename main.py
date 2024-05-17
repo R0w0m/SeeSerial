@@ -2,6 +2,7 @@ import os
 # import threading
 import time
 from time import sleep
+import hashlib
 # import darkdetect
 from PySide6.QtCore import QPoint, QRect, QSize, Qt, Signal
 from PySide6.QtGui import QFontMetrics, QFont, QIcon
@@ -135,7 +136,9 @@ class MainWindow(QMainWindow):
 
     def register(self):
         self.current_user_login = self.ui.loginInput.text()
-        password = self.ui.passInput.text()
+        # password = self.ui.passInput.text()
+        # hashed_password = hashlib.sha256(password.encode()).hexdigest()
+        password = hashlib.sha256(self.ui.passInput.text().encode()).hexdigest()
         if not self.current_user_login or not password:
             message = QMessageBox()
             message.setWindowTitle("Ошибка")
@@ -165,7 +168,7 @@ class MainWindow(QMainWindow):
 
     def login(self):
         user_id = self.current_user_id
-        password = self.ui.passEnterToLogin.text()
+        password = hashlib.sha256(self.ui.passEnterToLogin.text().encode()).hexdigest()
         if password == self.dbUsers.get_password(user_id)[0][0]:
             self.success_login()
         else:
