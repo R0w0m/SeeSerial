@@ -160,6 +160,44 @@ class StyleSheets:
                 font-size: 16px;
                 padding: 8px 16px;
             """,
+            "combo_box": f"""
+                QComboBox {{
+                    background-color: {self.theme[0]};
+                    color: {self.theme[5]};
+                    border: 1px solid {self.theme[5]};
+                    border-radius: 10px;
+                    font-size: 16px;
+                    padding: 8px 16px;
+                }}
+
+                QComboBox::drop-down {{
+                    border: none;
+                }}
+
+                QComboBox::down-arrow {{
+                    image: url(./assets/arrow_down.png);
+                }}
+            """,
+            "check_box": f"""
+                QCheckBox {{
+                    background-color: {self.theme[6]};
+                    border-radius: 15px;
+                    padding: 5px;
+                }}
+                QCheckBox::indicator {{
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 10px;
+                    background-color: white;
+                    transition: margin 0.2s;
+                }}
+                QCheckBox::indicator:checked {{
+                    margin-left: 30px;
+                }}
+                QCheckBox::checked {{
+                    background-color: {self.theme[1]};
+                }}
+            """,
         }
 
     def get_color(self):

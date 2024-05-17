@@ -30,8 +30,8 @@ class Player(QMainWindow):
         self.ui = PlayerUi()
         self.ui.setupUi(self)
         self.path = path
+        # self.path = "C:/Users/Rwm/Videos/Arknights/1.mp4"
         self.episode_id = episode_id
-        # self.fix_position = fix_position
         self.parent = parent
         self.start_position = position
         self.started = False

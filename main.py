@@ -4,11 +4,13 @@ import time
 from time import sleep
 # import darkdetect
 from PySide6.QtCore import QPoint, QRect, QSize, Qt, Signal
-from PySide6.QtGui import QFontMetrics, QFont
+from PySide6.QtGui import QFontMetrics, QFont, QIcon
 from PySide6.QtWidgets import (
     QApplication,
     QFileDialog,
     QHBoxLayout,
+    QComboBox,
+    QCheckBox,
     QLabel,
     QMainWindow,
     QMessageBox,
@@ -77,7 +79,7 @@ class MainWindow(QMainWindow):
 
         # buttons actions
         # menu
-        self.ui.HomeBtn.clicked.connect(lambda: self.change_page(0))
+        self.ui.HomeBtn.clicked.connect(self.goto_home)
         self.ui.AddBtn.clicked.connect(self.add)
         self.ui.SettingsBtn.clicked.connect(lambda: self.change_page(3))
         self.ui.FavorsBtn.clicked.connect(lambda: self.favorites_clicked())
@@ -94,6 +96,11 @@ class MainWindow(QMainWindow):
         self.ui.chooseFileBut.clicked.connect(self.prev_set_clicked)
         self.ui.deleteSerBt.clicked.connect(lambda: self.delete_serial(self.current_serial))
         self.ui.clearSerBt.clicked.connect(lambda: self.clear_full_progress(self.current_serial))
+        # setting buttons
+        self.ui.color_purple_Bt.clicked.connect(lambda: self.change_colorscheme("purple"))
+        self.ui.color_orange_Bt.clicked.connect(lambda: self.change_colorscheme("orange"))
+        self.ui.color_pink_Bt.clicked.connect(lambda: self.change_colorscheme("pink"))
+        self.ui.color_blue_Bt.clicked.connect(lambda: self.change_colorscheme("blue"))
 
         # добавить всплывающую подсказку для кнопок
         self.ui.deletePrev.setToolTip("Удалить превью")
@@ -121,9 +128,9 @@ class MainWindow(QMainWindow):
             self.ui.gotoLoginBt.hide()
             self.ui.stackedWidget_2.setCurrentIndex(1)
 
+        # styles
         self.setStyles()
         self.retranslateUI()
-
 
 
     def register(self):
@@ -200,9 +207,25 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget_2.setCurrentIndex(2)
 
 
-    def setStyles(self):
+    def change_colorscheme(self, color):
+        self.setStyles(color)
+        icon = QIcon()
+        icon.addFile(f"media/colors/purple{"_full" if color == "purple" else ""}.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ui.color_purple_Bt.setIcon(icon)
+        icon = QIcon()
+        icon.addFile(f"media/colors/orange{"_full" if color == "orange" else ""}.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ui.color_orange_Bt.setIcon(icon)
+        icon = QIcon()
+        icon.addFile(f"media/colors/pink{"_full" if color == "pink" else ""}.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ui.color_pink_Bt.setIcon(icon)
+        icon = QIcon()
+        icon.addFile(f"media/colors/blue{"_full" if color == "blue" else ""}.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ui.color_blue_Bt.setIcon(icon)
+
+
+    def setStyles(self, color="purple"):
         # general
-        self.styles = StyleSheets("purple")
+        self.styles = StyleSheets(color)
         self.setStyleSheet(self.styles.styles["main"])
         for component in self.findChildren(QPushButton):
             component.setStyleSheet(self.styles.styles["button"])
@@ -215,8 +238,13 @@ class MainWindow(QMainWindow):
             component.setStyleSheet(self.styles.styles["line"])
         for component in self.findChildren(QLineEdit):
             component.setStyleSheet(self.styles.styles["line_edit"])
-        # text edit
+        for component in self.findChildren(QCheckBox):
+            component.setStyleSheet(self.styles.styles["check_box"])
+        for component in self.findChildren(QComboBox):
+            component.setStyleSheet(self.styles.styles["combo_box"])
         self.ui.noteTextEdit.setStyleSheet(self.styles.styles["text_edit"])
+
+        
 
         # excepts
         for component in self.ui.usersListScrollArea.findChildren(QPushButton):
@@ -372,7 +400,7 @@ class MainWindow(QMainWindow):
         if not os.path.exists(path):
             dlg = QMessageBox()
             dlg.setWindowTitle("Error")
-            dlg.setText("fill is not exists")
+            dlg.setText("Файл перемещен или удален")
             dlg.exec()
             return
         self.player = Player(self, path, episode_id, pos, self.fix_position)
@@ -430,16 +458,16 @@ class MainWindow(QMainWindow):
                             self.db.insert_(
                                 "episode",
                                 "name, path, parent_id, parent_type",
-                                (sub_elm.name, sub_elm.path, season_id, 1),
+                                (sub_elm.name, os.path.normpath(elm.path).replace("\\", "/"), season_id, 1),
                             )
                             print("path: ", sub_elm.path)
                 elif elm.is_file():
                     self.db.insert_(
                         "episode",
                         "name, path, parent_id, parent_type",
-                        (elm.name, elm.path, serial_id, 0),
+                        (elm.name, os.path.normpath(elm.path).replace("\\", "/"), serial_id, 0),
                     )
-                    print("path: ", elm.path)
+                    print("path: ", os.path.normpath(elm.path).replace("\\", "/"))
             self.add_card(
                 (serial_id, dir_name, directory, None, f"previwes/{dir_name}.webp", 0)
             )
@@ -619,7 +647,8 @@ class MainWindow(QMainWindow):
         # are you sure?
         message = QMessageBox()
         message.setWindowTitle("Delete")
-        message.setText("Вы уверены?")
+        message.setText("""Удаление затронет только информацию, сохраненную в приложении.\n"""
+                        """Видеофайлы останутся на накопителе. Вы уверены?""")
         message.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         message.setIcon(QMessageBox.Warning)
         if message.exec() == QMessageBox.No:
@@ -717,11 +746,12 @@ class MainWindow(QMainWindow):
             )
             self.prev_set = f"previwes/{self.ui.serialNameLbl.text()}.webp"
 
+    def goto_home(self):
+        self.restore()
+        self.change_page(0)
+
     def change_page(self, page):
-        # self.move_history.append(self.ui.stackedWidget.currentIndex())
         self.ui.stackedWidget.setCurrentIndex(page)
-        # self.move_history.append(page)
-        # self.ui.BackBtn.show()
 
     def restore(self):
         for i in reversed(range(self.ui.main_flowLayout.count())):
@@ -755,7 +785,6 @@ class MainWindow(QMainWindow):
         # self.ui.label_2.setText("TextLabel")
         # self.ui.pushButton_2.setText("PushButton"))
         # self.ui.pushButton_4.setText("PushButton"))
-        self.ui.label_3.setText("TextLabel")
 
 
 class Season:
@@ -804,7 +833,7 @@ class Card:
         super().__init__()
 
         self.serial_id = serial_info[0]
-        self.serial_name = serial_info[1].split(os.path.sep)[-1]
+        self.serial_name = serial_info[1].split("/")[-1]
         image_path = serial_info[4]
         is_fav = serial_info[5]
         self.colors = colors
@@ -866,7 +895,7 @@ class Card:
         label.setFont(font)
         label.setFixedSize(self.width-5, 30)
         font_metrics = QFontMetrics(label.font())
-        elided_text = font_metrics.elidedText(self.serial_name, Qt.ElideRight, 120)
+        elided_text = font_metrics.elidedText(self.serial_name, Qt.ElideRight, 100)
         label.setText(elided_text)
 
         # ep list button

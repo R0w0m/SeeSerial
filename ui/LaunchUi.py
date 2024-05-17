@@ -15,11 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QFormLayout, QFrame,
-    QGridLayout, QHBoxLayout, QLabel, QLineEdit,
-    QMainWindow, QMenuBar, QPushButton, QScrollArea,
-    QSizePolicy, QSpacerItem, QStackedWidget, QTextEdit,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComboBox,
+    QFormLayout, QFrame, QGridLayout, QHBoxLayout,
+    QLabel, QLineEdit, QMainWindow, QMenuBar,
+    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
+    QStackedWidget, QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -274,7 +274,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.mainContents = QWidget()
         self.mainContents.setObjectName(u"mainContents")
-        self.mainContents.setGeometry(QRect(0, 0, 980, 609))
+        self.mainContents.setGeometry(QRect(0, 0, 68, 16))
         self.scrollArea.setWidget(self.mainContents)
 
         self.gridLayout.addWidget(self.scrollArea, 0, 0, 1, 1)
@@ -321,37 +321,163 @@ class Ui_MainWindow(object):
         self.settings_page.setObjectName(u"settings_page")
         self.gridLayout_4 = QGridLayout(self.settings_page)
         self.gridLayout_4.setObjectName(u"gridLayout_4")
+        self.horizontalSpacer_13 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_4.addItem(self.horizontalSpacer_13, 0, 4, 1, 1)
+
+        self.horizontalSpacer_12 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_4.addItem(self.horizontalSpacer_12, 0, 0, 1, 1)
+
         self.scrollArea_4 = QScrollArea(self.settings_page)
         self.scrollArea_4.setObjectName(u"scrollArea_4")
+        self.scrollArea_4.setMinimumSize(QSize(700, 0))
         self.scrollArea_4.setWidgetResizable(True)
         self.settingsContents = QWidget()
         self.settingsContents.setObjectName(u"settingsContents")
-        self.settingsContents.setGeometry(QRect(0, 0, 150, 54))
+        self.settingsContents.setGeometry(QRect(0, 0, 700, 609))
         self.formLayout = QFormLayout(self.settingsContents)
         self.formLayout.setObjectName(u"formLayout")
+        self.label_11 = QLabel(self.settingsContents)
+        self.label_11.setObjectName(u"label_11")
+
+        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label_11)
+
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.horizontalSpacer_11 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_7.addItem(self.horizontalSpacer_11)
+
+        self.comboBox = QComboBox(self.settingsContents)
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.setObjectName(u"comboBox")
+
+        self.horizontalLayout_7.addWidget(self.comboBox)
+
+
+        self.formLayout.setLayout(0, QFormLayout.FieldRole, self.horizontalLayout_7)
+
         self.label_2 = QLabel(self.settingsContents)
         self.label_2.setObjectName(u"label_2")
 
-        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label_2)
+        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_2)
 
-        self.pushButton_2 = QPushButton(self.settingsContents)
-        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setSpacing(0)
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.pushButton_2)
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_10)
 
-        self.pushButton_4 = QPushButton(self.settingsContents)
-        self.pushButton_4.setObjectName(u"pushButton_4")
+        self.color_purple_Bt = QPushButton(self.settingsContents)
+        self.color_purple_Bt.setObjectName(u"color_purple_Bt")
+        self.color_purple_Bt.setMaximumSize(QSize(40, 16777215))
+        icon5 = QIcon()
+        icon5.addFile(u"media/colors/purple.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.color_purple_Bt.setIcon(icon5)
+        self.color_purple_Bt.setIconSize(QSize(48, 48))
 
-        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.pushButton_4)
+        self.horizontalLayout_6.addWidget(self.color_purple_Bt)
+
+        self.color_orange_Bt = QPushButton(self.settingsContents)
+        self.color_orange_Bt.setObjectName(u"color_orange_Bt")
+        self.color_orange_Bt.setMaximumSize(QSize(40, 16777215))
+        icon6 = QIcon()
+        icon6.addFile(u"media/colors/orange.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.color_orange_Bt.setIcon(icon6)
+        self.color_orange_Bt.setIconSize(QSize(48, 48))
+        self.color_orange_Bt.setAutoDefault(False)
+
+        self.horizontalLayout_6.addWidget(self.color_orange_Bt)
+
+        self.color_pink_Bt = QPushButton(self.settingsContents)
+        self.color_pink_Bt.setObjectName(u"color_pink_Bt")
+        self.color_pink_Bt.setMaximumSize(QSize(40, 16777215))
+        icon7 = QIcon()
+        icon7.addFile(u"media/colors/pink.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.color_pink_Bt.setIcon(icon7)
+        self.color_pink_Bt.setIconSize(QSize(48, 48))
+
+        self.horizontalLayout_6.addWidget(self.color_pink_Bt)
+
+        self.color_blue_Bt = QPushButton(self.settingsContents)
+        self.color_blue_Bt.setObjectName(u"color_blue_Bt")
+        self.color_blue_Bt.setMaximumSize(QSize(40, 16777215))
+        icon8 = QIcon()
+        icon8.addFile(u"media/colors/blue.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.color_blue_Bt.setIcon(icon8)
+        self.color_blue_Bt.setIconSize(QSize(48, 48))
+
+        self.horizontalLayout_6.addWidget(self.color_blue_Bt)
+
+
+        self.formLayout.setLayout(1, QFormLayout.FieldRole, self.horizontalLayout_6)
+
+        self.label_13 = QLabel(self.settingsContents)
+        self.label_13.setObjectName(u"label_13")
+        self.label_13.setAlignment(Qt.AlignCenter)
+
+        self.formLayout.setWidget(2, QFormLayout.SpanningRole, self.label_13)
 
         self.label_3 = QLabel(self.settingsContents)
         self.label_3.setObjectName(u"label_3")
 
-        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_3)
+        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.label_3)
+
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_9.addItem(self.horizontalSpacer_14)
+
+        self.checkBox = QCheckBox(self.settingsContents)
+        self.checkBox.setObjectName(u"checkBox")
+        self.checkBox.setMinimumSize(QSize(60, 0))
+
+        self.horizontalLayout_9.addWidget(self.checkBox)
+
+
+        self.formLayout.setLayout(3, QFormLayout.FieldRole, self.horizontalLayout_9)
+
+        self.horizontalLayout_11 = QHBoxLayout()
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.horizontalSpacer_15 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_11.addItem(self.horizontalSpacer_15)
+
+        self.checkBox_2 = QCheckBox(self.settingsContents)
+        self.checkBox_2.setObjectName(u"checkBox_2")
+        self.checkBox_2.setMinimumSize(QSize(60, 0))
+
+        self.horizontalLayout_11.addWidget(self.checkBox_2)
+
+
+        self.formLayout.setLayout(4, QFormLayout.FieldRole, self.horizontalLayout_11)
+
+        self.line_4 = QFrame(self.settingsContents)
+        self.line_4.setObjectName(u"line_4")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.line_4.sizePolicy().hasHeightForWidth())
+        self.line_4.setSizePolicy(sizePolicy)
+        self.line_4.setMinimumSize(QSize(100, 1))
+        self.line_4.setFrameShape(QFrame.Shape.HLine)
+        self.line_4.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.formLayout.setWidget(6, QFormLayout.LabelRole, self.line_4)
+
+        self.label_12 = QLabel(self.settingsContents)
+        self.label_12.setObjectName(u"label_12")
+
+        self.formLayout.setWidget(4, QFormLayout.LabelRole, self.label_12)
 
         self.scrollArea_4.setWidget(self.settingsContents)
 
-        self.gridLayout_4.addWidget(self.scrollArea_4, 0, 0, 1, 1)
+        self.gridLayout_4.addWidget(self.scrollArea_4, 0, 1, 1, 1)
 
         self.stackedWidget.addWidget(self.settings_page)
         self.serSettingsPage = QWidget()
@@ -399,9 +525,9 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {\n"
 "  background-color: #eeeeee;\n"
 "}:w")
-        icon5 = QIcon()
-        icon5.addFile(u"media/image-redo.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.chooseFileBut.setIcon(icon5)
+        icon9 = QIcon()
+        icon9.addFile(u"media/image-redo.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.chooseFileBut.setIcon(icon9)
         self.chooseFileBut.setIconSize(QSize(24, 24))
 
         self.horizontalLayout.addWidget(self.chooseFileBut)
@@ -423,9 +549,9 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {\n"
 "  background-color: #eeeeee;\n"
 "}:w")
-        icon6 = QIcon()
-        icon6.addFile(u"media/trash.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.deletePrev.setIcon(icon6)
+        icon10 = QIcon()
+        icon10.addFile(u"media/trash.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.deletePrev.setIcon(icon10)
         self.deletePrev.setIconSize(QSize(24, 24))
 
         self.horizontalLayout.addWidget(self.deletePrev)
@@ -530,9 +656,9 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {\n"
 "  background-color: #eeeeee;\n"
 "}:w")
-        icon7 = QIcon()
-        icon7.addFile(u"media/save.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.saveSerBt.setIcon(icon7)
+        icon11 = QIcon()
+        icon11.addFile(u"media/save.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.saveSerBt.setIcon(icon11)
         self.saveSerBt.setIconSize(QSize(24, 24))
 
         self.horizontalLayout_5.addWidget(self.saveSerBt)
@@ -556,9 +682,9 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {\n"
 "  background-color: #eeeeee;\n"
 "}:w")
-        icon8 = QIcon()
-        icon8.addFile(u"media/clear.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.clearSerBt.setIcon(icon8)
+        icon12 = QIcon()
+        icon12.addFile(u"media/clear.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.clearSerBt.setIcon(icon12)
         self.clearSerBt.setIconSize(QSize(24, 24))
 
         self.horizontalLayout_5.addWidget(self.clearSerBt)
@@ -582,7 +708,7 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {\n"
 "  background-color: #eeeeee;\n"
 "}:w")
-        self.deleteSerBt.setIcon(icon6)
+        self.deleteSerBt.setIcon(icon10)
         self.deleteSerBt.setIconSize(QSize(24, 24))
 
         self.horizontalLayout_5.addWidget(self.deleteSerBt)
@@ -701,7 +827,7 @@ class Ui_MainWindow(object):
         self.usersListScrollArea.setWidgetResizable(True)
         self.usersWidgetContents = QWidget()
         self.usersWidgetContents.setObjectName(u"usersWidgetContents")
-        self.usersWidgetContents.setGeometry(QRect(0, 0, 324, 203))
+        self.usersWidgetContents.setGeometry(QRect(0, 0, 54, 16))
         self.usersListScrollArea.setWidget(self.usersWidgetContents)
 
         self.gridLayout_8.addWidget(self.usersListScrollArea, 2, 1, 1, 1)
@@ -753,9 +879,9 @@ class Ui_MainWindow(object):
 
         self.finLogBt = QPushButton(self.authPage)
         self.finLogBt.setObjectName(u"finLogBt")
-        icon9 = QIcon()
-        icon9.addFile(u"media/login.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.finLogBt.setIcon(icon9)
+        icon13 = QIcon()
+        icon13.addFile(u"media/login.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.finLogBt.setIcon(icon13)
 
         self.gridLayout_9.addWidget(self.finLogBt, 3, 2, 1, 1)
 
@@ -776,7 +902,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget_2.setCurrentIndex(0)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -790,10 +916,24 @@ class Ui_MainWindow(object):
         self.userBt.setText(QCoreApplication.translate("MainWindow", u"User", None))
         self.AddBtn.setText(QCoreApplication.translate("MainWindow", u"Add", None))
         self.SettingsBtn.setText(QCoreApplication.translate("MainWindow", u"Settings", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
-        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.label_11.setText(QCoreApplication.translate("MainWindow", u"\u0422\u0435\u043c\u043d\u0430\u044f \u0442\u0435\u043c\u0430", None))
+        self.comboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"\u0421\u0432\u0435\u0442\u043b\u0430\u044f", None))
+        self.comboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"\u0422\u0435\u043c\u043d\u0430\u044f", None))
+        self.comboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"\u0421\u0438\u0441\u0442\u0435\u043c\u043d\u0430\u044f", None))
+
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u0426\u0432\u0435\u0442\u043e\u0432\u0430\u044f \u0441\u0445\u0435\u043c\u0430", None))
+        self.color_purple_Bt.setText("")
+        self.color_orange_Bt.setText("")
+#if QT_CONFIG(shortcut)
+        self.color_orange_Bt.setShortcut("")
+#endif // QT_CONFIG(shortcut)
+        self.color_pink_Bt.setText("")
+        self.color_blue_Bt.setText("")
+        self.label_13.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u043f\u043b\u0435\u0435\u0440\u0430", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0432\u0442\u043e\u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u0435 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0433\u043e \u044d\u043f\u0438\u0437\u043e\u0434\u0430", None))
+        self.checkBox.setText("")
+        self.checkBox_2.setText("")
+        self.label_12.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u043a\u043c \u043e\u0442\u043a\u0440\u044b\u0432\u0430\u0442\u044c \u043f\u043b\u0435\u0435\u0440 \u043d\u0430 \u043f\u043e\u043b\u043d\u044b\u0439 \u044d\u043a\u0440\u0430\u043d", None))
         self.prevImage.setText("")
         self.chooseFileBut.setText("")
         self.deletePrev.setText("")
