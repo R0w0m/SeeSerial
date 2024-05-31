@@ -38,12 +38,24 @@ class DBControl:
             "name TEXT PRIMARY KEY, \
             value INTEGER",
         )
-        # if first run
-        print(self.select("settings", "value", "name = 'first_run'"))
-        # if self.select("settings", "value", "name = 'first_run'"):
-        #     self.insert_("settings", "name, value", ("first_run", 0))
-        #     self.insert_("settings", "name, value", ("is_dark", 0))
-        #     self.insert_("settings", "name, value", ("color_accent", 0))
+        self.init_settings()
+
+
+    def init_settings(self):
+        settings = (
+            ("is_dark", 0),
+            ("color", 0),
+            ("is_fullscreen", 0),
+            ("is_autoplay", 0),
+            ("is_repeat", 0),
+        )
+        
+        self.cursor.execute("SELECT COUNT(*) FROM settings")
+        count = self.cursor.fetchone()[0]
+
+        if count == 0:
+            self.cursor.executemany("INSERT INTO settings (name, value) VALUES (?, ?)", settings)
+            self.conn.commit()
 
     def create_table(self, table_name, columns):
         self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({columns})")

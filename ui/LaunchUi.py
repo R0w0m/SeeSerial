@@ -15,11 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComboBox,
-    QFormLayout, QFrame, QGridLayout, QHBoxLayout,
-    QLabel, QLineEdit, QMainWindow, QMenuBar,
-    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QStackedWidget, QTextEdit, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QFormLayout,
+    QFrame, QGridLayout, QHBoxLayout, QLabel,
+    QLineEdit, QMainWindow, QMenuBar, QPushButton,
+    QScrollArea, QSizePolicy, QSpacerItem, QStackedWidget,
+    QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -274,7 +274,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.mainContents = QWidget()
         self.mainContents.setObjectName(u"mainContents")
-        self.mainContents.setGeometry(QRect(0, 0, 68, 16))
+        self.mainContents.setGeometry(QRect(0, 0, 100, 30))
         self.scrollArea.setWidget(self.mainContents)
 
         self.gridLayout.addWidget(self.scrollArea, 0, 0, 1, 1)
@@ -289,7 +289,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.seasonContents = QWidget()
         self.seasonContents.setObjectName(u"seasonContents")
-        self.seasonContents.setGeometry(QRect(0, 0, 68, 18))
+        self.seasonContents.setGeometry(QRect(0, 0, 100, 30))
         self.verticalLayout_2 = QVBoxLayout(self.seasonContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.scrollArea_3.setWidget(self.seasonContents)
@@ -349,13 +349,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_7.addItem(self.horizontalSpacer_11)
 
-        self.comboBox = QComboBox(self.settingsContents)
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.setObjectName(u"comboBox")
+        self.darkModeComboBox = QComboBox(self.settingsContents)
+        self.darkModeComboBox.addItem("")
+        self.darkModeComboBox.addItem("")
+        self.darkModeComboBox.addItem("")
+        self.darkModeComboBox.setObjectName(u"darkModeComboBox")
 
-        self.horizontalLayout_7.addWidget(self.comboBox)
+        self.horizontalLayout_7.addWidget(self.darkModeComboBox)
 
 
         self.formLayout.setLayout(0, QFormLayout.FieldRole, self.horizontalLayout_7)
@@ -416,47 +416,6 @@ class Ui_MainWindow(object):
 
         self.formLayout.setLayout(1, QFormLayout.FieldRole, self.horizontalLayout_6)
 
-        self.label_13 = QLabel(self.settingsContents)
-        self.label_13.setObjectName(u"label_13")
-        self.label_13.setAlignment(Qt.AlignCenter)
-
-        self.formLayout.setWidget(2, QFormLayout.SpanningRole, self.label_13)
-
-        self.label_3 = QLabel(self.settingsContents)
-        self.label_3.setObjectName(u"label_3")
-
-        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.label_3)
-
-        self.horizontalLayout_9 = QHBoxLayout()
-        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_9.addItem(self.horizontalSpacer_14)
-
-        self.checkBox = QCheckBox(self.settingsContents)
-        self.checkBox.setObjectName(u"checkBox")
-        self.checkBox.setMinimumSize(QSize(60, 0))
-
-        self.horizontalLayout_9.addWidget(self.checkBox)
-
-
-        self.formLayout.setLayout(3, QFormLayout.FieldRole, self.horizontalLayout_9)
-
-        self.horizontalLayout_11 = QHBoxLayout()
-        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
-        self.horizontalSpacer_15 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_11.addItem(self.horizontalSpacer_15)
-
-        self.checkBox_2 = QCheckBox(self.settingsContents)
-        self.checkBox_2.setObjectName(u"checkBox_2")
-        self.checkBox_2.setMinimumSize(QSize(60, 0))
-
-        self.horizontalLayout_11.addWidget(self.checkBox_2)
-
-
-        self.formLayout.setLayout(4, QFormLayout.FieldRole, self.horizontalLayout_11)
-
         self.line_4 = QFrame(self.settingsContents)
         self.line_4.setObjectName(u"line_4")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
@@ -468,12 +427,7 @@ class Ui_MainWindow(object):
         self.line_4.setFrameShape(QFrame.Shape.HLine)
         self.line_4.setFrameShadow(QFrame.Shadow.Sunken)
 
-        self.formLayout.setWidget(6, QFormLayout.LabelRole, self.line_4)
-
-        self.label_12 = QLabel(self.settingsContents)
-        self.label_12.setObjectName(u"label_12")
-
-        self.formLayout.setWidget(4, QFormLayout.LabelRole, self.label_12)
+        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.line_4)
 
         self.scrollArea_4.setWidget(self.settingsContents)
 
@@ -744,138 +698,156 @@ class Ui_MainWindow(object):
         self.registrationPage.setObjectName(u"registrationPage")
         self.gridLayout_6 = QGridLayout(self.registrationPage)
         self.gridLayout_6.setObjectName(u"gridLayout_6")
-        self.registerBt = QPushButton(self.registrationPage)
-        self.registerBt.setObjectName(u"registerBt")
+        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.gridLayout_6.addWidget(self.registerBt, 4, 3, 1, 1)
+        self.gridLayout_6.addItem(self.verticalSpacer_5, 1, 1, 1, 1)
 
-        self.loginInput = QLineEdit(self.registrationPage)
-        self.loginInput.setObjectName(u"loginInput")
+        self.logo_2 = QLabel(self.registrationPage)
+        self.logo_2.setObjectName(u"logo_2")
+        self.logo_2.setMaximumSize(QSize(16777215, 50))
+        self.logo_2.setFont(font1)
+        self.logo_2.setStyleSheet(u"  background-color: rgba(255, 255, 255, 0);\n"
+"  border-radius: 10px;\n"
+"  color: black;\n"
+"  font-size: 30px;\n"
+"  padding: 8px 16px;\n"
+"  text-align: center;")
+        self.logo_2.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout_6.addWidget(self.loginInput, 2, 3, 1, 1)
+        self.gridLayout_6.addWidget(self.logo_2, 0, 1, 1, 3)
 
-        self.passInput = QLineEdit(self.registrationPage)
-        self.passInput.setObjectName(u"passInput")
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.gridLayout_6.addWidget(self.passInput, 3, 3, 1, 1)
+        self.gridLayout_6.addItem(self.verticalSpacer, 7, 1, 1, 1)
 
         self.label_8 = QLabel(self.registrationPage)
         self.label_8.setObjectName(u"label_8")
         self.label_8.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
-        self.gridLayout_6.addWidget(self.label_8, 2, 1, 1, 1)
+        self.gridLayout_6.addWidget(self.label_8, 3, 1, 1, 1)
 
         self.label_9 = QLabel(self.registrationPage)
         self.label_9.setObjectName(u"label_9")
         self.label_9.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
-        self.gridLayout_6.addWidget(self.label_9, 3, 1, 1, 1)
-
-        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_6.addItem(self.horizontalSpacer_5, 1, 4, 1, 1)
-
-        self.gotoLoginBt = QPushButton(self.registrationPage)
-        self.gotoLoginBt.setObjectName(u"gotoLoginBt")
-
-        self.gridLayout_6.addWidget(self.gotoLoginBt, 4, 1, 1, 1)
+        self.gridLayout_6.addWidget(self.label_9, 4, 1, 1, 1)
 
         self.label_7 = QLabel(self.registrationPage)
         self.label_7.setObjectName(u"label_7")
         self.label_7.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout_6.addWidget(self.label_7, 1, 1, 1, 3)
+        self.gridLayout_6.addWidget(self.label_7, 2, 1, 1, 3)
 
-        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.loginInput = QLineEdit(self.registrationPage)
+        self.loginInput.setObjectName(u"loginInput")
 
-        self.gridLayout_6.addItem(self.verticalSpacer_5, 0, 1, 1, 1)
-
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.gridLayout_6.addItem(self.verticalSpacer, 6, 1, 1, 1)
-
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_6.addItem(self.horizontalSpacer_4, 1, 0, 1, 1)
+        self.gridLayout_6.addWidget(self.loginInput, 3, 3, 1, 1)
 
         self.skipRegBt = QPushButton(self.registrationPage)
         self.skipRegBt.setObjectName(u"skipRegBt")
 
-        self.gridLayout_6.addWidget(self.skipRegBt, 5, 1, 1, 3)
+        self.gridLayout_6.addWidget(self.skipRegBt, 6, 1, 1, 3)
+
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_6.addItem(self.horizontalSpacer_5, 2, 4, 1, 1)
+
+        self.gotoLoginBt = QPushButton(self.registrationPage)
+        self.gotoLoginBt.setObjectName(u"gotoLoginBt")
+
+        self.gridLayout_6.addWidget(self.gotoLoginBt, 5, 1, 1, 1)
+
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_6.addItem(self.horizontalSpacer_4, 2, 0, 1, 1)
+
+        self.registerBt = QPushButton(self.registrationPage)
+        self.registerBt.setObjectName(u"registerBt")
+
+        self.gridLayout_6.addWidget(self.registerBt, 5, 3, 1, 1)
+
+        self.passInput = QLineEdit(self.registrationPage)
+        self.passInput.setObjectName(u"passInput")
+
+        self.gridLayout_6.addWidget(self.passInput, 4, 3, 1, 1)
 
         self.stackedWidget_2.addWidget(self.registrationPage)
         self.usersPage = QWidget()
         self.usersPage.setObjectName(u"usersPage")
         self.gridLayout_8 = QGridLayout(self.usersPage)
         self.gridLayout_8.setObjectName(u"gridLayout_8")
-        self.verticalSpacer_7 = QSpacerItem(20, 100, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.MinimumExpanding)
-
-        self.gridLayout_8.addItem(self.verticalSpacer_7, 0, 1, 1, 1)
-
-        self.label_10 = QLabel(self.usersPage)
-        self.label_10.setObjectName(u"label_10")
-        self.label_10.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout_8.addWidget(self.label_10, 1, 1, 1, 1)
-
-        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_8.addItem(self.horizontalSpacer_6, 2, 0, 1, 1)
-
         self.usersListScrollArea = QScrollArea(self.usersPage)
         self.usersListScrollArea.setObjectName(u"usersListScrollArea")
         self.usersListScrollArea.setWidgetResizable(True)
         self.usersWidgetContents = QWidget()
         self.usersWidgetContents.setObjectName(u"usersWidgetContents")
-        self.usersWidgetContents.setGeometry(QRect(0, 0, 54, 16))
+        self.usersWidgetContents.setGeometry(QRect(0, 0, 324, 185))
         self.usersListScrollArea.setWidget(self.usersWidgetContents)
 
-        self.gridLayout_8.addWidget(self.usersListScrollArea, 2, 1, 1, 1)
+        self.gridLayout_8.addWidget(self.usersListScrollArea, 4, 1, 1, 1)
 
         self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.gridLayout_8.addItem(self.horizontalSpacer_7, 2, 2, 1, 1)
+        self.gridLayout_8.addItem(self.horizontalSpacer_7, 4, 2, 1, 1)
+
+        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_8.addItem(self.horizontalSpacer_6, 4, 0, 1, 1)
+
+        self.logo = QLabel(self.usersPage)
+        self.logo.setObjectName(u"logo")
+        self.logo.setMaximumSize(QSize(16777215, 50))
+        self.logo.setFont(font1)
+        self.logo.setStyleSheet(u"  background-color: rgba(255, 255, 255, 0);\n"
+"  border-radius: 10px;\n"
+"  color: black;\n"
+"  font-size: 30px;\n"
+"  padding: 8px 16px;\n"
+"  text-align: center;")
+        self.logo.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_8.addWidget(self.logo, 1, 1, 1, 1)
+
+        self.verticalSpacer_6 = QSpacerItem(20, 100, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.MinimumExpanding)
+
+        self.gridLayout_8.addItem(self.verticalSpacer_6, 6, 1, 1, 1)
 
         self.gotoRegisterBt = QPushButton(self.usersPage)
         self.gotoRegisterBt.setObjectName(u"gotoRegisterBt")
 
-        self.gridLayout_8.addWidget(self.gotoRegisterBt, 3, 1, 1, 1)
+        self.gridLayout_8.addWidget(self.gotoRegisterBt, 5, 1, 1, 1)
 
-        self.verticalSpacer_6 = QSpacerItem(20, 100, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.MinimumExpanding)
+        self.label_10 = QLabel(self.usersPage)
+        self.label_10.setObjectName(u"label_10")
+        self.label_10.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout_8.addItem(self.verticalSpacer_6, 4, 1, 1, 1)
+        self.gridLayout_8.addWidget(self.label_10, 3, 1, 1, 1)
+
+        self.verticalSpacer_7 = QSpacerItem(20, 100, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.MinimumExpanding)
+
+        self.gridLayout_8.addItem(self.verticalSpacer_7, 2, 1, 1, 1)
 
         self.stackedWidget_2.addWidget(self.usersPage)
         self.authPage = QWidget()
         self.authPage.setObjectName(u"authPage")
         self.gridLayout_9 = QGridLayout(self.authPage)
         self.gridLayout_9.setObjectName(u"gridLayout_9")
-        self.verticalSpacer_8 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.gridLayout_9.addItem(self.verticalSpacer_8, 4, 1, 1, 1)
-
-        self.userNameLbl = QLabel(self.authPage)
-        self.userNameLbl.setObjectName(u"userNameLbl")
-        self.userNameLbl.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout_9.addWidget(self.userNameLbl, 1, 1, 1, 2)
-
         self.passEnterToLogin = QLineEdit(self.authPage)
         self.passEnterToLogin.setObjectName(u"passEnterToLogin")
 
-        self.gridLayout_9.addWidget(self.passEnterToLogin, 3, 1, 1, 1)
+        self.gridLayout_9.addWidget(self.passEnterToLogin, 3, 2, 1, 1)
+
+        self.verticalSpacer_8 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_9.addItem(self.verticalSpacer_8, 4, 2, 1, 1)
+
+        self.horizontalSpacer_9 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_9.addItem(self.horizontalSpacer_9, 1, 4, 1, 1)
 
         self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.gridLayout_9.addItem(self.horizontalSpacer_8, 1, 0, 1, 1)
-
-        self.verticalSpacer_9 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.gridLayout_9.addItem(self.verticalSpacer_9, 0, 1, 1, 1)
-
-        self.horizontalSpacer_9 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_9.addItem(self.horizontalSpacer_9, 1, 3, 1, 1)
 
         self.finLogBt = QPushButton(self.authPage)
         self.finLogBt.setObjectName(u"finLogBt")
@@ -883,11 +855,29 @@ class Ui_MainWindow(object):
         icon13.addFile(u"media/login.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.finLogBt.setIcon(icon13)
 
-        self.gridLayout_9.addWidget(self.finLogBt, 3, 2, 1, 1)
+        self.gridLayout_9.addWidget(self.finLogBt, 3, 3, 1, 1)
+
+        self.verticalSpacer_9 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_9.addItem(self.verticalSpacer_9, 0, 2, 1, 1)
 
         self.verticalSpacer_10 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Maximum)
 
-        self.gridLayout_9.addItem(self.verticalSpacer_10, 2, 1, 1, 1)
+        self.gridLayout_9.addItem(self.verticalSpacer_10, 2, 2, 1, 1)
+
+        self.backToRegBt = QPushButton(self.authPage)
+        self.backToRegBt.setObjectName(u"backToRegBt")
+        icon14 = QIcon()
+        icon14.addFile(u"media/left.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.backToRegBt.setIcon(icon14)
+
+        self.gridLayout_9.addWidget(self.backToRegBt, 3, 1, 1, 1)
+
+        self.userNameLbl = QLabel(self.authPage)
+        self.userNameLbl.setObjectName(u"userNameLbl")
+        self.userNameLbl.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_9.addWidget(self.userNameLbl, 1, 1, 1, 3)
 
         self.stackedWidget_2.addWidget(self.authPage)
 
@@ -917,9 +907,9 @@ class Ui_MainWindow(object):
         self.AddBtn.setText(QCoreApplication.translate("MainWindow", u"Add", None))
         self.SettingsBtn.setText(QCoreApplication.translate("MainWindow", u"Settings", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"\u0422\u0435\u043c\u043d\u0430\u044f \u0442\u0435\u043c\u0430", None))
-        self.comboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"\u0421\u0432\u0435\u0442\u043b\u0430\u044f", None))
-        self.comboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"\u0422\u0435\u043c\u043d\u0430\u044f", None))
-        self.comboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"\u0421\u0438\u0441\u0442\u0435\u043c\u043d\u0430\u044f", None))
+        self.darkModeComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"\u0421\u0432\u0435\u0442\u043b\u0430\u044f", None))
+        self.darkModeComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"\u0422\u0435\u043c\u043d\u0430\u044f", None))
+        self.darkModeComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"\u0421\u0438\u0441\u0442\u0435\u043c\u043d\u0430\u044f", None))
 
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u0426\u0432\u0435\u0442\u043e\u0432\u0430\u044f \u0441\u0445\u0435\u043c\u0430", None))
         self.color_purple_Bt.setText("")
@@ -929,11 +919,6 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(shortcut)
         self.color_pink_Bt.setText("")
         self.color_blue_Bt.setText("")
-        self.label_13.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u043f\u043b\u0435\u0435\u0440\u0430", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0432\u0442\u043e\u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u0435 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0433\u043e \u044d\u043f\u0438\u0437\u043e\u0434\u0430", None))
-        self.checkBox.setText("")
-        self.checkBox_2.setText("")
-        self.label_12.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u043a\u043c \u043e\u0442\u043a\u0440\u044b\u0432\u0430\u0442\u044c \u043f\u043b\u0435\u0435\u0440 \u043d\u0430 \u043f\u043e\u043b\u043d\u044b\u0439 \u044d\u043a\u0440\u0430\u043d", None))
         self.prevImage.setText("")
         self.chooseFileBut.setText("")
         self.deletePrev.setText("")
@@ -943,14 +928,17 @@ class Ui_MainWindow(object):
         self.saveSerBt.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c", None))
         self.clearSerBt.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c", None))
         self.deleteSerBt.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0434\u0430\u043b\u0438\u0442\u044c", None))
-        self.registerBt.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c\u0441\u044f", None))
+        self.logo_2.setText(QCoreApplication.translate("MainWindow", u"SeeSerial", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"\u041b\u043e\u0433\u0438\u043d", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0430\u0440\u043e\u043b\u044c", None))
-        self.gotoLoginBt.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0445\u043e\u0434", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f", None))
         self.skipRegBt.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0440\u043e\u043f\u0443\u0441\u0442\u0438\u0442\u044c", None))
-        self.label_10.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0445\u043e\u0434", None))
+        self.gotoLoginBt.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0445\u043e\u0434", None))
+        self.registerBt.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c\u0441\u044f", None))
+        self.logo.setText(QCoreApplication.translate("MainWindow", u"SeeSerial", None))
         self.gotoRegisterBt.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c\u0441\u044f", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0445\u043e\u0434", None))
+        self.backToRegBt.setText("")
         self.userNameLbl.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
     # retranslateUi
 

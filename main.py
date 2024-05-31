@@ -91,6 +91,7 @@ class MainWindow(QMainWindow):
         self.ui.gotoLoginBt.clicked.connect(self.goto_login)
         self.ui.finLogBt.clicked.connect(self.login)
         self.ui.skipRegBt.clicked.connect(self.skip_login)
+        self.ui.backToRegBt.clicked.connect(self.goto_login)
         # serial settings
         self.ui.deletePrev.clicked.connect(self.deletePrev_clicked)
         self.ui.saveSerBt.clicked.connect(self.save_set)
@@ -102,6 +103,8 @@ class MainWindow(QMainWindow):
         self.ui.color_orange_Bt.clicked.connect(lambda: self.change_colorscheme("orange"))
         self.ui.color_pink_Bt.clicked.connect(lambda: self.change_colorscheme("pink"))
         self.ui.color_blue_Bt.clicked.connect(lambda: self.change_colorscheme("blue"))
+        # self.ui.darkModeBt.hide()
+        # Пересмотреть 3 серию
 
         # добавить всплывающую подсказку для кнопок
         self.ui.deletePrev.setToolTip("Удалить превью")
@@ -109,6 +112,9 @@ class MainWindow(QMainWindow):
         self.ui.chooseFileBut.setToolTip("Выбрать изображение")
         self.ui.deleteSerBt.setToolTip("Удалить сериал")
         self.ui.clearSerBt.setToolTip("Сбросить прогресс просмотра cериала")
+
+        self.ui.passInput.setEchoMode(QLineEdit.EchoMode.Password)
+        self.ui.passEnterToLogin.setEchoMode(QLineEdit.EchoMode.Password)
 
         # theme detection
         # self.t = threading.Thread(target=self.detect_theme)
@@ -124,7 +130,10 @@ class MainWindow(QMainWindow):
                 self.add_user_bt(user[0], user[1])
             spacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
             self.ui.userListLayout.addItem(spacer)
-            self.ui.stackedWidget_2.setCurrentIndex(2)
+            if len(users) == 1:
+                self.user_clicked(users[0][0], users[0][1])
+            else:
+                self.ui.stackedWidget_2.setCurrentIndex(2)
         else:
             self.ui.gotoLoginBt.hide()
             self.ui.stackedWidget_2.setCurrentIndex(1)
@@ -158,6 +167,7 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget_2.setCurrentIndex(1)
 
     def goto_login(self):
+        self.ui.passEnterToLogin.setText("")
         self.ui.stackedWidget_2.setCurrentIndex(2)
 
     def user_clicked(self, user_id, user_login):
@@ -199,7 +209,17 @@ class MainWindow(QMainWindow):
     def add_user_bt(self, user_id, user_login):
         user = UserBt(user_id, user_login)
         user.clicked.connect(lambda: self.user_clicked(user.id, user.login))
-        self.ui.userListLayout.addWidget(user)
+        # self.ui.userListLayout.addWidget(user) add before last
+        # user.setStyleSheet(self.styles.styles["accent_button"])
+        # MainWindow has no attribute 'styles'
+        user.setStyleSheet(
+            " \
+            background-color: rgb(150, 255, 200); \
+            border-radius: 5px; \
+            padding: 10px; \
+            "
+        )
+        self.ui.userListLayout.insertWidget(self.ui.userListLayout.count()-1, user)
 
     def logout(self):
         if self.db is not None:
@@ -207,6 +227,10 @@ class MainWindow(QMainWindow):
         self.ui.loginInput.setText("")
         self.ui.passInput.setText("")
         self.ui.passEnterToLogin.setText("")
+        self.ui.FavorsBtn.show()
+        self.ui.SettingsBtn.show()
+        self.ui.line.show()
+        self.ui.line_3.show()
         self.ui.stackedWidget_2.setCurrentIndex(2)
 
 
@@ -245,15 +269,13 @@ class MainWindow(QMainWindow):
             component.setStyleSheet(self.styles.styles["check_box"])
         for component in self.findChildren(QComboBox):
             component.setStyleSheet(self.styles.styles["combo_box"])
-        self.ui.noteTextEdit.setStyleSheet(self.styles.styles["text_edit"])
-
-        
+        self.ui.noteTextEdit.setStyleSheet(self.styles.styles["text_edit"])    
 
         # excepts
         for component in self.ui.usersListScrollArea.findChildren(QPushButton):
             component.setStyleSheet(self.styles.styles["accent_button"])
         # headers (labels)
-        for component in (self.ui.label_7, self.ui.label_10, self.ui.userNameLbl):
+        for component in (self.ui.label_7, self.ui.label_10, self.ui.userNameLbl, self.ui.logo, self.ui.logo_2):
             component.setStyleSheet(self.styles.styles["header"])
 
 
@@ -372,7 +394,7 @@ class MainWindow(QMainWindow):
         episode_info.sort(key=lambda x: x[1])
         if not episode_info:
             # add label "No episodes" to scroll area
-            label = QLabel("No episodes")
+            label = QLabel("Эпизоды отсутствуют")
             label.setAlignment(Qt.AlignCenter)
             self.ui.episodeContents.layout().addWidget(label)
         else:
@@ -514,6 +536,7 @@ class MainWindow(QMainWindow):
             episode_ui.clearEpBt.hide()
         episode_ui.pushButton.clicked.connect(lambda: self.play(episode_id))
         episode_ui.clearEpBt.clicked.connect(lambda: self.clear_ep_progress(episode_id))
+        episode_ui.clearEpBt.setToolTip("Сбросить прогресс эпизода")
 
     def clear_ep_progress(self, episode_id):
         self.db.update(
@@ -759,8 +782,8 @@ class MainWindow(QMainWindow):
     def restore(self):
         for i in reversed(range(self.ui.main_flowLayout.count())):
             self.ui.main_flowLayout.itemAt(i).widget().setParent(None)
-        for i in range(8):
-            self.add_card((f"Serial {i}", str(i), None, None, None, 0))
+        # for i in range(8):
+        #     self.add_card((f"Serial {i}", "Сериал "+str(i), None, None, None, 0))
         self.db.cursor.execute("SELECT * FROM serial")
         for serial_info in self.db.cursor.fetchall():
             self.add_card(serial_info)
