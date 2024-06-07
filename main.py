@@ -8,21 +8,22 @@ from PySide6.QtCore import QPoint, QRect, QSize, Qt, Signal
 from PySide6.QtGui import QFontMetrics, QFont, QIcon
 from PySide6.QtWidgets import (
     QApplication,
-    QFileDialog,
-    QHBoxLayout,
     QComboBox,
     QCheckBox,
+    QFileDialog,
+    QFrame,
+    QHBoxLayout,
     QLabel,
+    QLineEdit,
     QMainWindow,
     QMessageBox,
     QPushButton,
     QScrollArea,
     QSizePolicy,
     QSpacerItem,
+    QStackedWidget,
     QVBoxLayout,
     QWidget,
-    QFrame,
-    QLineEdit,
 )
 
 from components.DBControl import DBControl as DB
@@ -234,7 +235,6 @@ class MainWindow(QMainWindow):
 
     def change_colorscheme(self, color: str):
         if (color == "Темная"):
-            # 1 if dark, 0 if light
             self.db.update("settings", "value = 1", "name = 'is_dark'")
             self.setStyles("black")
             return
@@ -282,7 +282,8 @@ class MainWindow(QMainWindow):
         for component in self.findChildren(QWidget):
             if "Contents" in component.objectName():
                 component.setStyleSheet(self.styles.styles["contents"])
-        for component in self.findChildren(QHBoxLayout):
+        for component in self.findChildren(QStackedWidget):
+            component.setStyleSheet(self.styles.styles["stacked_widget"])
 
         # excepts
         for component in self.ui.usersListScrollArea.findChildren(QPushButton):
@@ -423,7 +424,9 @@ class MainWindow(QMainWindow):
             dlg.setText("Файл перемещен или удален")
             dlg.exec()
             return
-        self.player = Player(self, path, episode_id, pos, self.fix_position)
+        # get setting full screen
+        full_screen = self.db.select("settings", "value", "name = 'full_screen'")[0][0]
+        self.player = Player(self, path, episode_id, pos, self.fix_position, (full_screen))
         self.player.show()
 
     def fix_position(self, episode_id, position, percent_pos):

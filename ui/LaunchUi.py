@@ -15,11 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QFormLayout,
-    QFrame, QGridLayout, QHBoxLayout, QLabel,
-    QLineEdit, QMainWindow, QMenuBar, QPushButton,
-    QScrollArea, QSizePolicy, QSpacerItem, QStackedWidget,
-    QTextEdit, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QCheckBox, QComboBox,
+    QFormLayout, QFrame, QGridLayout, QHBoxLayout,
+    QLabel, QLineEdit, QMainWindow, QMenuBar,
+    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
+    QStackedWidget, QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -254,10 +254,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_4)
 
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setSpacing(12)
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(5, 5, 5, 5)
         self.stackedWidget = QStackedWidget(self.mainPage)
         self.stackedWidget.setObjectName(u"stackedWidget")
         self.stackedWidget.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
@@ -274,7 +270,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.mainContents = QWidget()
         self.mainContents.setObjectName(u"mainContents")
-        self.mainContents.setGeometry(QRect(0, 0, 100, 30))
+        self.mainContents.setGeometry(QRect(0, 0, 990, 619))
         self.scrollArea.setWidget(self.mainContents)
 
         self.gridLayout.addWidget(self.scrollArea, 0, 0, 1, 1)
@@ -289,7 +285,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.seasonContents = QWidget()
         self.seasonContents.setObjectName(u"seasonContents")
-        self.seasonContents.setGeometry(QRect(0, 0, 100, 30))
+        self.seasonContents.setGeometry(QRect(0, 0, 68, 18))
         self.verticalLayout_2 = QVBoxLayout(self.seasonContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.scrollArea_3.setWidget(self.seasonContents)
@@ -335,7 +331,7 @@ class Ui_MainWindow(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.settingsContents = QWidget()
         self.settingsContents.setObjectName(u"settingsContents")
-        self.settingsContents.setGeometry(QRect(0, 0, 700, 609))
+        self.settingsContents.setGeometry(QRect(0, 0, 700, 619))
         self.formLayout = QFormLayout(self.settingsContents)
         self.formLayout.setObjectName(u"formLayout")
         self.label_11 = QLabel(self.settingsContents)
@@ -416,6 +412,16 @@ class Ui_MainWindow(object):
 
         self.formLayout.setLayout(1, QFormLayout.FieldRole, self.horizontalLayout_6)
 
+        self.label_3 = QLabel(self.settingsContents)
+        self.label_3.setObjectName(u"label_3")
+
+        self.formLayout.setWidget(2, QFormLayout.LabelRole, self.label_3)
+
+        self.label_12 = QLabel(self.settingsContents)
+        self.label_12.setObjectName(u"label_12")
+
+        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.label_12)
+
         self.line_4 = QFrame(self.settingsContents)
         self.line_4.setObjectName(u"line_4")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
@@ -427,7 +433,43 @@ class Ui_MainWindow(object):
         self.line_4.setFrameShape(QFrame.Shape.HLine)
         self.line_4.setFrameShadow(QFrame.Shadow.Sunken)
 
-        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.line_4)
+        self.formLayout.setWidget(5, QFormLayout.LabelRole, self.line_4)
+
+        self.verticalSpacer_11 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.formLayout.setItem(4, QFormLayout.LabelRole, self.verticalSpacer_11)
+
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_14)
+
+        self.checkBox = QCheckBox(self.settingsContents)
+        self.checkBox.setObjectName(u"checkBox")
+        self.checkBox.setMinimumSize(QSize(60, 0))
+        self.checkBox.setMaximumSize(QSize(60, 16777215))
+
+        self.horizontalLayout_2.addWidget(self.checkBox)
+
+
+        self.formLayout.setLayout(2, QFormLayout.FieldRole, self.horizontalLayout_2)
+
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.horizontalSpacer_15 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_8.addItem(self.horizontalSpacer_15)
+
+        self.checkBox_2 = QCheckBox(self.settingsContents)
+        self.checkBox_2.setObjectName(u"checkBox_2")
+        self.checkBox_2.setMinimumSize(QSize(60, 0))
+        self.checkBox_2.setMaximumSize(QSize(60, 16777215))
+
+        self.horizontalLayout_8.addWidget(self.checkBox_2)
+
+
+        self.formLayout.setLayout(3, QFormLayout.FieldRole, self.horizontalLayout_8)
 
         self.scrollArea_4.setWidget(self.settingsContents)
 
@@ -688,10 +730,7 @@ class Ui_MainWindow(object):
 
         self.stackedWidget.addWidget(self.favor_page)
 
-        self.horizontalLayout_2.addWidget(self.stackedWidget)
-
-
-        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
+        self.verticalLayout_3.addWidget(self.stackedWidget)
 
         self.stackedWidget_2.addWidget(self.mainPage)
         self.registrationPage = QWidget()
@@ -781,7 +820,7 @@ class Ui_MainWindow(object):
         self.usersListScrollArea.setWidgetResizable(True)
         self.usersWidgetContents = QWidget()
         self.usersWidgetContents.setObjectName(u"usersWidgetContents")
-        self.usersWidgetContents.setGeometry(QRect(0, 0, 324, 185))
+        self.usersWidgetContents.setGeometry(QRect(0, 0, 54, 16))
         self.usersListScrollArea.setWidget(self.usersWidgetContents)
 
         self.gridLayout_8.addWidget(self.usersListScrollArea, 4, 1, 1, 1)
@@ -919,6 +958,10 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(shortcut)
         self.color_pink_Bt.setText("")
         self.color_blue_Bt.setText("")
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u043a\u0440\u044b\u0432\u0430\u0442\u044c \u043d\u0430 \u043f\u043e\u043b\u043d\u044b\u0439 \u044d\u043a\u0440\u0430\u043d", None))
+        self.label_12.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u0432\u043a\u043b\u044e\u0447\u0430\u0442\u044c \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0443\u044e \u0441\u0435\u0440\u0438\u044e", None))
+        self.checkBox.setText("")
+        self.checkBox_2.setText("")
         self.prevImage.setText("")
         self.chooseFileBut.setText("")
         self.deletePrev.setText("")

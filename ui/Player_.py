@@ -26,9 +26,21 @@ class Ui_MainWindow(object):
         MainWindow.resize(634, 372)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        self.verticalLayout_3 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_3.setSpacing(0)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.widget = QWidget(self.centralwidget)
+        self.widget.setObjectName(u"widget")
+        self.verticalLayout_2 = QVBoxLayout(self.widget)
+        self.verticalLayout_2.setSpacing(0)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+
+        self.verticalLayout_3.addWidget(self.widget)
+
         self.controlWidget = QWidget(self.centralwidget)
         self.controlWidget.setObjectName(u"controlWidget")
-        self.controlWidget.setGeometry(QRect(0, 174, 304, 55))
         self.controlWidget.setMaximumSize(QSize(16777215, 55))
         self.controlWidget.setStyleSheet(u"background: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 0, 0, 202), stop:1 rgba(255, 255, 255, 0))")
         self.verticalLayout = QVBoxLayout(self.controlWidget)
@@ -120,15 +132,15 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.posLabel)
 
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer)
+
         self.durLabel = QLabel(self.controlWidget)
         self.durLabel.setObjectName(u"durLabel")
         self.durLabel.setStyleSheet(u"background: rgba(255, 255, 255, 0)")
 
         self.horizontalLayout_3.addWidget(self.durLabel)
-
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_3.addItem(self.horizontalSpacer)
 
         self.fullScreenBut = QPushButton(self.controlWidget)
         self.fullScreenBut.setObjectName(u"fullScreenBut")
@@ -144,13 +156,9 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
-        self.widget = QWidget(self.centralwidget)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(0, 0, 321, 201))
-        self.verticalLayout_2 = QVBoxLayout(self.widget)
-        self.verticalLayout_2.setSpacing(0)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+
+        self.verticalLayout_3.addWidget(self.controlWidget)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.widget.raise_()
         self.controlWidget.raise_()

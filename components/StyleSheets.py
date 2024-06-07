@@ -20,7 +20,7 @@ class StyleSheets:
             "blue": ("#FFF", "#3F8CFF", "#A0D7E7", "#CCF3FE", "#0049C6", "#1B1D21", "#808191"),
             "pink": ("#FFF", "#FF77A3", "#FFC6DB", "#FFBED3", "#FFA2C0", "#1B1D21", "#808191"),
             "orange": ("#FFF", "#FFA25F", "#FFE1AA", "#FFDD9D", "#FFCE73", "#1B1D21", "#808191"),
-            "black": ("#202222", "#8D8E90", "#FFFFFF", "#494A4D", "#1B1D21", "#FFF", "#808191"),
+            "black": ("#202222", "#8D8E90", "#FFFFFF", "#494A4D", "#1B1D21", "#808191", "#8D8E90"),
         }
         self.theme = themes[color]
         self.styles = {
@@ -190,7 +190,6 @@ class StyleSheets:
                     height: 20px;
                     border-radius: 10px;
                     background-color: white;
-                    transition: margin 0.2s;
                 }}
                 QCheckBox::indicator:checked {{
                     margin-left: 30px;
@@ -200,6 +199,9 @@ class StyleSheets:
                 }}
             """,
             "contents": f"""
+                background-color: {self.theme[0]};
+            """,
+            "stacked_widget": f"""
                 background-color: {self.theme[0]};
             """,
         }
