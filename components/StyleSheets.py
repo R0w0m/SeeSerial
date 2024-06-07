@@ -83,44 +83,45 @@ class StyleSheets:
                 }}
                 """,
             # border none for scrollarea
-            "scrollBar": """
-                QScrollArea {
+            "scrollBar": f"""
+                QScrollArea {{
                     border: none;
-                }
-                QScrollBar:vertical {
+                    background-color: {self.theme[0]};
+                }}
+                QScrollBar:vertical {{
                     border: none;
                     background: transparent;
                     width: 6px;
                     margin: 0;
                     border-radius: 3px;
-                }
-                QScrollBar::handle:vertical {
+                }}
+                QScrollBar::handle:vertical {{
                     background: #777777;
                     min-height: 0px;
                     border-radius: 3px;
-                }
-                QScrollBar::add-line:vertical {
+                }}
+                QScrollBar::add-line:vertical {{
                     border: none;
                     background: none;
-                }
-                QScrollBar::sub-line:vertical {
+                }}
+                QScrollBar::sub-line:vertical {{
                     border: none;
                     background: none;
-                }
-                QScrollBar::add-page:vertikal, QScrollBar::sub-page:vertical {
+                }}
+                QScrollBar::add-page:vertikal, QScrollBar::sub-page:vertical {{
                     background: none;
-                }
+                }}
 
-                QScrollBar:vertical:hover {
+                QScrollBar:vertical:hover {{
                     background: #aaaaaa;
                     width: 10px;
-                }
-                QScrollBar::handle:vertical:hover {
+                }}
+                QScrollBar::handle:vertical:hover {{
                     background: #181a1b;
-                }
-                QScrollBar::add-line:vertical:hover {
+                }}
+                QScrollBar::add-line:vertical:hover {{
                     background: #aaaaaa;
-                }
+                }}
                 """,
             "widget": """
                     background-color: rgb(255, 255, 255);
@@ -197,6 +198,9 @@ class StyleSheets:
                 QCheckBox::checked {{
                     background-color: {self.theme[1]};
                 }}
+            """,
+            "contents": f"""
+                background-color: {self.theme[0]};
             """,
         }
 

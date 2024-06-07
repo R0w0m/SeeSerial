@@ -47,27 +47,13 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.player = None
-        # self.move_history = [
-        #     0,
-        # ]
         self.current_serial = None
         self.prev_set = ""
         self.fix_position_signal.connect(self.fix_position)
-
-        # add shadow to buttons
-        # for component in self.findChildren(QPushButton) + [
-        #     self.ui.label,
-        #     # self.ui.lineEdit,
-        #     self.ui.serialNameLbl,
-        #     self.ui.noteTextEdit,
-        #     self.ui.prevSetWidget,
-        # ]:
-        #     if component.objectName() in ["deletePrev", "chooseFileBut"]:
-        #         shadow = InNeoEffect(self)
-        #         component.setGraphicsEffect(shadow)
-        #         continue
-        #     shadow = OutNeoEffect(self)
-        #     component.setGraphicsEffect(shadow)
+        self.db = None
+        self.dbUsers = None
+        self.is_guest = False
+        self.baseTheme = "light"
 
         # adding flow layout
         self.ui.main_flowLayout = FlowLayout(self.ui.mainContents)
@@ -103,8 +89,10 @@ class MainWindow(QMainWindow):
         self.ui.color_orange_Bt.clicked.connect(lambda: self.change_colorscheme("orange"))
         self.ui.color_pink_Bt.clicked.connect(lambda: self.change_colorscheme("pink"))
         self.ui.color_blue_Bt.clicked.connect(lambda: self.change_colorscheme("blue"))
+        self.ui.darkModeComboBox.currentIndexChanged.connect(
+            lambda: self.change_colorscheme(self.ui.darkModeComboBox.currentText())
+        )
         # self.ui.darkModeBt.hide()
-        # Пересмотреть 3 серию
 
         # добавить всплывающую подсказку для кнопок
         self.ui.deletePrev.setToolTip("Удалить превью")
@@ -120,6 +108,8 @@ class MainWindow(QMainWindow):
         # self.t = threading.Thread(target=self.detect_theme)
         # self.t.daemon = True
         # self.t.start()
+
+        self.setStyles()
 
         # setting up DB
         self.dbUsers = DBUsers("Main.db")
@@ -138,8 +128,6 @@ class MainWindow(QMainWindow):
             self.ui.gotoLoginBt.hide()
             self.ui.stackedWidget_2.setCurrentIndex(1)
 
-        # styles
-        self.setStyles()
         self.retranslateUI()
 
 
@@ -147,7 +135,7 @@ class MainWindow(QMainWindow):
         self.current_user_login = self.ui.loginInput.text()
         # password = self.ui.passInput.text()
         # hashed_password = hashlib.sha256(password.encode()).hexdigest()
-        password = hashlib.sha256(self.ui.passInput.text().encode()).hexdigest()
+        password = self.ui.passInput.text()
         if not self.current_user_login or not password:
             message = QMessageBox()
             message.setWindowTitle("Ошибка")
@@ -156,6 +144,7 @@ class MainWindow(QMainWindow):
             message.setIcon(QMessageBox.Warning)
             message.exec()
             return
+        password = hashlib.sha256(password.encode()).hexdigest()
         self.dbUsers.insert_user(self.current_user_login, password)
         # get id
         self.current_user_id = self.dbUsers.cursor.lastrowid
@@ -191,34 +180,43 @@ class MainWindow(QMainWindow):
 
     def success_login(self):
         self.db = DB(f"{self.current_user_id}.db")
-        self.restore()
         self.ui.userBt.setText(self.current_user_login)
+        # set styles
+        is_dark = self.db.select("settings", "value", "name = 'is_dark'")[0][0]
+        if is_dark:
+            self.change_colorscheme("Темная")
+        else:
+            color = self.db.select("settings", "value", "name = 'color'")[0][0]
+            print(color)
+            if color:
+                self.change_colorscheme(color)
+        self.restore()
         self.ui.stackedWidget_2.setCurrentIndex(0)
 
     def skip_login(self):
         self.db = DB("Main.db")
+        self.is_guest = True
         self.restore()
         # hide favor and settings buttons
         self.ui.FavorsBtn.hide()
         self.ui.SettingsBtn.hide()
         self.ui.line.hide()
         self.ui.line_3.hide()
+        self.hide_add_for_guest()
         self.ui.userBt.setText("Гость")
         self.ui.stackedWidget_2.setCurrentIndex(0)
+
+    def hide_add_for_guest(self):
+        if self.is_guest:
+            if self.db.select("serial", "count(*)")[0][0] >= 3:
+                self.ui.AddBtn.hide()
+            else:
+                self.ui.AddBtn.show()
 
     def add_user_bt(self, user_id, user_login):
         user = UserBt(user_id, user_login)
         user.clicked.connect(lambda: self.user_clicked(user.id, user.login))
-        # self.ui.userListLayout.addWidget(user) add before last
-        # user.setStyleSheet(self.styles.styles["accent_button"])
-        # MainWindow has no attribute 'styles'
-        user.setStyleSheet(
-            " \
-            background-color: rgb(150, 255, 200); \
-            border-radius: 5px; \
-            padding: 10px; \
-            "
-        )
+        user.setStyleSheet(self.styles.styles["accent_button"])
         self.ui.userListLayout.insertWidget(self.ui.userListLayout.count()-1, user)
 
     def logout(self):
@@ -234,7 +232,17 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget_2.setCurrentIndex(2)
 
 
-    def change_colorscheme(self, color):
+    def change_colorscheme(self, color: str):
+        if (color == "Темная"):
+            # 1 if dark, 0 if light
+            self.db.update("settings", "value = 1", "name = 'is_dark'")
+            self.setStyles("black")
+            return
+        elif (color == "Светлая"):
+            self.db.update("settings", "value = 0", "name = 'is_dark'")
+            self.setStyles("purple")
+            return
+        self.db.update("settings", f"value = '{color}'", "name = 'color'")
         self.setStyles(color)
         icon = QIcon()
         icon.addFile(f"media/colors/purple{"_full" if color == "purple" else ""}.svg", QSize(), QIcon.Normal, QIcon.Off)
@@ -270,6 +278,11 @@ class MainWindow(QMainWindow):
         for component in self.findChildren(QComboBox):
             component.setStyleSheet(self.styles.styles["combo_box"])
         self.ui.noteTextEdit.setStyleSheet(self.styles.styles["text_edit"])    
+        # all widgets with ..Contents
+        for component in self.findChildren(QWidget):
+            if "Contents" in component.objectName():
+                component.setStyleSheet(self.styles.styles["contents"])
+        for component in self.findChildren(QHBoxLayout):
 
         # excepts
         for component in self.ui.usersListScrollArea.findChildren(QPushButton):
@@ -318,24 +331,6 @@ class MainWindow(QMainWindow):
             self.add_card(serial_info, 1)
         self.change_page(5)
 
-    # def back_clicked(self):
-    #     if len(self.move_history) == 0:
-    #         self.ui.stackedWidget.setCurrentIndex(0)
-    #         self.move_history.append(0)
-    #         self.ui.BackBtn.hide()
-    #         return
-    #     x = self.move_history.pop()
-    #
-    #     # if popped page is current page
-    #     if x == self.ui.stackedWidget.currentIndex():
-    #         x = self.move_history.pop()
-    #
-    #     # change page
-    #     self.ui.stackedWidget.setCurrentIndex(x)
-    #
-    #     # hide back button if stack is empty
-    #     if len(self.move_history) == 0:
-    #         self.ui.BackBtn.hide()
 
     def serial_clicked(self, serial_id):
         # clear layouts
@@ -498,6 +493,7 @@ class MainWindow(QMainWindow):
             )
         else:
             print("Directory not selected")
+        self.hide_add_for_guest()
 
     def add_episode(self, episode_id):
         # https://stackoverflow.com/questions/63656328
@@ -787,7 +783,7 @@ class MainWindow(QMainWindow):
         self.db.cursor.execute("SELECT * FROM serial")
         for serial_info in self.db.cursor.fetchall():
             self.add_card(serial_info)
-        self.change_page(0)
+        # self.change_page(0)
 
     def closeEvent(self, event):
         # close db connections if exist
