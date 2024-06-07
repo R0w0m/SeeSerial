@@ -42,7 +42,7 @@ from ui.LaunchUi import Ui_MainWindow
 
 
 class MainWindow(QMainWindow):
-    fix_position_signal = Signal(int, int, int)
+    fix_position_signal = Signal(int, int, int, bool)
     def __init__(self):
         super().__init__()
         self.ui = Ui_MainWindow()
@@ -93,7 +93,20 @@ class MainWindow(QMainWindow):
         self.ui.darkModeComboBox.currentIndexChanged.connect(
             lambda: self.change_colorscheme(self.ui.darkModeComboBox.currentText())
         )
-        # self.ui.darkModeBt.hide()
+        self.ui.fullScreenCheckBox.stateChanged.connect(
+            lambda: self.db.update(
+                "settings",
+                f"value = {self.ui.fullScreenCheckBox.isChecked()}",
+                "name = 'is_fullscreen'",
+            )
+        )
+        self.ui.autoPlayCheckBox.stateChanged.connect(
+            lambda: self.db.update(
+                "settings",
+                f"value = {self.ui.autoPlayCheckBox.isChecked()}",
+                "name = 'is_autoplay'",
+            )
+        )
 
         # добавить всплывающую подсказку для кнопок
         self.ui.deletePrev.setToolTip("Удалить превью")
@@ -180,17 +193,23 @@ class MainWindow(QMainWindow):
             message.exec()
 
     def success_login(self):
+        self.is_guest = False
         self.db = DB(f"{self.current_user_id}.db")
         self.ui.userBt.setText(self.current_user_login)
+        # get all settings
+        settings = self.db.select("settings", "name, value")
         # set styles
-        is_dark = self.db.select("settings", "value", "name = 'is_dark'")[0][0]
+        is_dark = settings[0][1]
+        self.ui.darkModeComboBox.setCurrentIndex(is_dark)
         if is_dark:
             self.change_colorscheme("Темная")
         else:
-            color = self.db.select("settings", "value", "name = 'color'")[0][0]
-            print(color)
+            color = settings[1][1]
             if color:
                 self.change_colorscheme(color)
+        # set full screen
+        self.ui.fullScreenCheckBox.setChecked(settings[2][1])
+        self.ui.autoPlayCheckBox.setChecked(settings[3][1])
         self.restore()
         self.ui.stackedWidget_2.setCurrentIndex(0)
 
@@ -202,7 +221,12 @@ class MainWindow(QMainWindow):
         self.ui.FavorsBtn.hide()
         self.ui.SettingsBtn.hide()
         self.ui.line.hide()
+        self.ui.line_2.hide()
         self.ui.line_3.hide()
+        # clear progress
+        serials = self.db.select("serial", "id")
+        for serial in serials:
+            self.clear_full_progress(serial[0], True)
         self.hide_add_for_guest()
         self.ui.userBt.setText("Гость")
         self.ui.stackedWidget_2.setCurrentIndex(0)
@@ -411,9 +435,9 @@ class MainWindow(QMainWindow):
         if self.player is not None:
             self.player.close()
             self.player = None
-        path, episode_id, pos, parent_id, parent_type = self.db.select(
+        path, episode_id, pos, pos_percent, parent_id, parent_type = self.db.select(
             "episode",
-            "path, id, position, parent_id, parent_type",
+            "path, id, position, pos_percent, parent_id, parent_type",
             f"id = {episode_id}",
         )[0]
         print(path, episode_id, pos, parent_id, parent_type)
@@ -425,11 +449,12 @@ class MainWindow(QMainWindow):
             dlg.exec()
             return
         # get setting full screen
-        full_screen = self.db.select("settings", "value", "name = 'full_screen'")[0][0]
-        self.player = Player(self, path, episode_id, pos, self.fix_position, (full_screen))
+        full_screen = self.db.select("settings", "value", "name = 'is_fullscreen'")[0][0]
+        # self.player = Player(self, path, episode_id, pos, self.fix_position, (full_screen, 1))
+        self.player = Player(self, path, episode_id, pos, pos_percent, (full_screen, 1))
         self.player.show()
 
-    def fix_position(self, episode_id, position, percent_pos):
+    def fix_position(self, episode_id, position, percent_pos, by_user):
         self.db.update(
             "episode",
             f"position = {position}, pos_percent = {percent_pos}",
@@ -441,6 +466,28 @@ class MainWindow(QMainWindow):
         # self.progress.setValue(percent_pos)
         # progressBar.setValue(position)
         print("Position fixed:", position)
+
+        if by_user:
+            return
+        # play next episode if autoplay is on
+        if self.db.select("settings", "value", "name = 'is_autoplay'")[0][0]:
+            parent_id, parent_type = self.db.select(
+                "episode", "parent_id, parent_type", f"id = {episode_id}"
+            )[0]
+            self.playlist = self.db.select(
+                "episode",
+                "id, name",
+                f"parent_id = {parent_id} and parent_type = {parent_type}",
+            )
+            self.playlist.sort(key=lambda x: x[1])
+            # find current episode in playlist and play next
+            self.playlist = [x[0] for x in self.playlist]
+            if episode_id in self.playlist:
+                index = self.playlist.index(episode_id)
+                if index + 1 < len(self.playlist):
+                    self.play(self.playlist[index + 1])
+
+
 
     def detect_theme(self):
         # https://stackoverflow.com/questions/20908370/styling-with-classes-in-pyside-python
@@ -564,6 +611,8 @@ class MainWindow(QMainWindow):
         card.favoriteBtn.clicked.connect(
             lambda: self.favorited(card.serial_id, card.favoriteBtn)
         )
+        if self.is_guest:
+            card.favoriteBtn.hide()
 
     def play_last(self, serial_id):
         # check seasons and episodes
@@ -579,7 +628,7 @@ class MainWindow(QMainWindow):
                 season_id = season[0]
                 episode_info = self.db.select(
                     "episode",
-                    "id, name, position",
+                    "id, name, pos_percent",
                     f"parent_id = {season_id} and parent_type = 1",
                 )
                 if episode_info:
@@ -600,17 +649,19 @@ class MainWindow(QMainWindow):
         else:
             episode_info = self.db.select(
                 "episode",
-                "id, name, position",
+                "id, name, pos_percent",
                 f"parent_id = {serial_id} and parent_type = 0",
             )
             if episode_info:
-                # sort episodes by name
                 episode_info.sort(key=lambda x: x[1])
-                # get last watched episode
+                previous_episode_id = episode_info[-1][0]
                 for episode in reversed(episode_info):
                     episode_id = episode[0] 
                     if episode[2] is not None:
+                        if episode[2] == 100:
+                            episode_id = previous_episode_id
                         break
+                    previous_episode_id = episode[0]
                 self.play(episode_id)
             else:
                 print("No episodes")
@@ -704,7 +755,7 @@ class MainWindow(QMainWindow):
         message.setIcon(QMessageBox.Information)
         message.exec()
 
-    def clear_full_progress(self, serial_id):
+    def clear_full_progress(self, serial_id, quiet=False):
         self.db.update(
             "episode",
             "position = NULL, pos_percent = NULL",
@@ -720,6 +771,8 @@ class MainWindow(QMainWindow):
                     "position = NULL, pos_percent = NULL",
                     f"parent_id = {season[0]} and parent_type = 1",
                 )
+        if quiet:
+            return
         message = QMessageBox()
         message.setWindowTitle("Удаление")
         message.setText("Прогресс успешно сброшен")

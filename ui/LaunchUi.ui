@@ -813,7 +813,7 @@ border: none;</string>
                    </spacer>
                   </item>
                   <item>
-                   <widget class="QCheckBox" name="checkBox">
+                   <widget class="QCheckBox" name="fullScreenCheckBox">
                     <property name="minimumSize">
                      <size>
                       <width>60</width>
@@ -849,7 +849,7 @@ border: none;</string>
                    </spacer>
                   </item>
                   <item>
-                   <widget class="QCheckBox" name="checkBox_2">
+                   <widget class="QCheckBox" name="autoPlayCheckBox">
                     <property name="minimumSize">
                      <size>
                       <width>60</width>

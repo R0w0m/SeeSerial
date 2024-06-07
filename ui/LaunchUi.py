@@ -445,12 +445,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_14)
 
-        self.checkBox = QCheckBox(self.settingsContents)
-        self.checkBox.setObjectName(u"checkBox")
-        self.checkBox.setMinimumSize(QSize(60, 0))
-        self.checkBox.setMaximumSize(QSize(60, 16777215))
+        self.fullScreenCheckBox = QCheckBox(self.settingsContents)
+        self.fullScreenCheckBox.setObjectName(u"fullScreenCheckBox")
+        self.fullScreenCheckBox.setMinimumSize(QSize(60, 0))
+        self.fullScreenCheckBox.setMaximumSize(QSize(60, 16777215))
 
-        self.horizontalLayout_2.addWidget(self.checkBox)
+        self.horizontalLayout_2.addWidget(self.fullScreenCheckBox)
 
 
         self.formLayout.setLayout(2, QFormLayout.FieldRole, self.horizontalLayout_2)
@@ -461,12 +461,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_8.addItem(self.horizontalSpacer_15)
 
-        self.checkBox_2 = QCheckBox(self.settingsContents)
-        self.checkBox_2.setObjectName(u"checkBox_2")
-        self.checkBox_2.setMinimumSize(QSize(60, 0))
-        self.checkBox_2.setMaximumSize(QSize(60, 16777215))
+        self.autoPlayCheckBox = QCheckBox(self.settingsContents)
+        self.autoPlayCheckBox.setObjectName(u"autoPlayCheckBox")
+        self.autoPlayCheckBox.setMinimumSize(QSize(60, 0))
+        self.autoPlayCheckBox.setMaximumSize(QSize(60, 16777215))
 
-        self.horizontalLayout_8.addWidget(self.checkBox_2)
+        self.horizontalLayout_8.addWidget(self.autoPlayCheckBox)
 
 
         self.formLayout.setLayout(3, QFormLayout.FieldRole, self.horizontalLayout_8)
@@ -960,8 +960,8 @@ class Ui_MainWindow(object):
         self.color_blue_Bt.setText("")
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u043a\u0440\u044b\u0432\u0430\u0442\u044c \u043d\u0430 \u043f\u043e\u043b\u043d\u044b\u0439 \u044d\u043a\u0440\u0430\u043d", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u0432\u043a\u043b\u044e\u0447\u0430\u0442\u044c \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0443\u044e \u0441\u0435\u0440\u0438\u044e", None))
-        self.checkBox.setText("")
-        self.checkBox_2.setText("")
+        self.fullScreenCheckBox.setText("")
+        self.autoPlayCheckBox.setText("")
         self.prevImage.setText("")
         self.chooseFileBut.setText("")
         self.deletePrev.setText("")

@@ -108,7 +108,7 @@ class Ui_MainWindow(object):
 "background-color: rgba(255, 255, 255, 0);\n"
 "background: rgba(255, 255, 255, 0);")
         icon1 = QIcon()
-        icon1.addFile(u"media/play_light.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"media/pause_light.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.playBut.setIcon(icon1)
 
         self.horizontalLayout_3.addWidget(self.playBut)
@@ -160,8 +160,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addWidget(self.controlWidget)
 
         MainWindow.setCentralWidget(self.centralwidget)
-        self.widget.raise_()
-        self.controlWidget.raise_()
 
         self.retranslateUi(MainWindow)
 

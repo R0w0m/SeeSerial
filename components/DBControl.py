@@ -81,8 +81,11 @@ class DBControl:
         )
         self.conn.commit()
 
-    def select(self, table_name, columns, where):
-        self.cursor.execute(f"SELECT {columns} FROM {table_name} WHERE {where}")
+    def select(self, table_name, columns, where=""):
+        if where == "":
+            self.cursor.execute(f"SELECT {columns} FROM {table_name}")
+        else:
+            self.cursor.execute(f"SELECT {columns} FROM {table_name} WHERE {where}")
         return self.cursor.fetchall()
 
     def update(self, table_name, val, where):

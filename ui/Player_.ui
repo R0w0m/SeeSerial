@@ -178,7 +178,7 @@ background: rgba(255, 255, 255, 0);</string>
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>media/play_light.svg</normaloff>media/play_light.svg</iconset>
+             <normaloff>media/pause_light.svg</normaloff>media/pause_light.svg</iconset>
            </property>
           </widget>
          </item>
@@ -265,8 +265,6 @@ background: rgba(255, 255, 255, 0);</string>
      </widget>
     </item>
    </layout>
-   <zorder>widget</zorder>
-   <zorder>controlWidget</zorder>
   </widget>
  </widget>
  <resources/>
